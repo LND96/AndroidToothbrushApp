@@ -7,12 +7,83 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/txtLastSevenDaysHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/txtLastSevenDaysHeader"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgToothIcon"
+        android:layout_width="58dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/txtLastSevenDaysHeader"
+        app:layout_constraintTop_toBottomOf="@+id/txtLastSevenDaysHeader"
+        app:srcCompat="@drawable/toothbrush_icon" />
+
+    <ImageView
+        android:id="@+id/imgHourGlass"
+        android:layout_width="58dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/imgToothIcon"
+        app:layout_constraintTop_toBottomOf="@+id/imgToothIcon"
+        app:srcCompat="@drawable/hourglass_icon" />
+
+    <ImageView
+        android:id="@+id/imgNumberToothbrushingResult"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgToothIcon"
+        app:layout_constraintStart_toEndOf="@+id/imgToothIcon"
+        app:layout_constraintTop_toTopOf="@+id/imgToothIcon"
+        app:srcCompat="@drawable/OK_icon" />
+
+    <ImageView
+        android:id="@+id/imgAvgTimeResult"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgHourGlass"
+        app:layout_constraintStart_toEndOf="@+id/imgHourGlass"
+        app:layout_constraintTop_toTopOf="@+id/imgHourGlass"
+        app:srcCompat="@drawable/not_ok_icon" />
+
+    <TextView
+        android:id="@+id/txtNumberToothbrushingResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgNumberToothbrushingResult"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgNumberToothbrushingResult"
+        app:layout_constraintTop_toTopOf="@+id/imgNumberToothbrushingResult"
+        tools:text="10 out of 14 tooth brushings completed" />
+
+    <TextView
+        android:id="@+id/txtAvgTimeResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgAvgTimeResult"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgAvgTimeResult"
+        app:layout_constraintTop_toTopOf="@+id/imgAvgTimeResult"
+        tools:text="Average toothbrushing time: 45 sec" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

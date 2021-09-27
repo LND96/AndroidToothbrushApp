@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ToothbrushApp</string>
+    <string name="txtLastSevenDaysHeader">Tooth brushing the last seven days:</string>
 </resources>

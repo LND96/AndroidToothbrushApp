@@ -1,7 +1,12 @@
 package dk.au.st7bac.toothbrushapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.ImageView;
@@ -10,6 +15,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,12 +36,14 @@ public class MainActivity extends AppCompatActivity {
     private int totalNumberToothbrushes = 14; // hardcoded værdi
     private int avgBrushTime = 45; // hardcoded værdi
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         setupUI();
+        startService();
     }
 
     private void setupUI() {
@@ -96,5 +108,24 @@ public class MainActivity extends AppCompatActivity {
 
         tableOverview.addView(rowHeader);
         tableOverview.addView(rowMorning);
+    }
+
+
+
+    private void startService() {
+        Intent notificationServiceIntent = new Intent(this, NotificationService.class);
+        startService(notificationServiceIntent);
+    }
+
+
+    private void stopService() {
+        Intent notificationServiceIntent = new Intent(this, NotificationService.class);
+        stopService(notificationServiceIntent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopService();
+        super.onDestroy();
     }
 }

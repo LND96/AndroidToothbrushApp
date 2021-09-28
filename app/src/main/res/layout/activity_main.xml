@@ -22,6 +22,7 @@
         android:layout_width="58dp"
         android:layout_height="85dp"
         android:layout_marginTop="32dp"
+        android:contentDescription="@string/toothbrushIcon"
         app:layout_constraintStart_toStartOf="@+id/txtLastSevenDaysHeader"
         app:layout_constraintTop_toBottomOf="@+id/txtLastSevenDaysHeader"
         app:srcCompat="@drawable/toothbrush_icon" />
@@ -31,6 +32,7 @@
         android:layout_width="58dp"
         android:layout_height="63dp"
         android:layout_marginTop="32dp"
+        android:contentDescription="@string/timeIcon"
         app:layout_constraintStart_toStartOf="@+id/imgToothIcon"
         app:layout_constraintTop_toBottomOf="@+id/imgToothIcon"
         app:srcCompat="@drawable/hourglass_icon" />
@@ -41,6 +43,7 @@
         android:layout_height="58dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
+        android:contentDescription="@string/notApprovedIcon"
         app:layout_constraintBottom_toBottomOf="@+id/imgHourGlass"
         app:layout_constraintStart_toEndOf="@+id/imgHourGlass"
         app:layout_constraintTop_toTopOf="@+id/imgHourGlass"
@@ -48,12 +51,14 @@
 
     <TextView
         android:id="@+id/txtToothbrushesCompleted"
-        android:layout_width="0dp"
-        android:layout_height="19dp"
+        android:layout_width="160dp"
+        android:layout_height="0dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:text="@string/toothBrushesCompleted"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgNumberToothbrushingResult"
         app:layout_constraintTop_toTopOf="@+id/imgNumberToothbrushingResult" />
 
@@ -72,10 +77,11 @@
         android:layout_height="58dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
+        android:contentDescription="@string/ticIcon"
+        android:src="@drawable/tic_icon"
         app:layout_constraintBottom_toBottomOf="@+id/imgToothIcon"
         app:layout_constraintStart_toEndOf="@+id/imgToothIcon"
-        app:layout_constraintTop_toTopOf="@+id/imgToothIcon"
-        android:src="@drawable/tic_icon" />
+        app:layout_constraintTop_toTopOf="@+id/imgToothIcon" />
 
     <TextView
         android:id="@+id/txtOutOf"
@@ -99,7 +105,7 @@
         tools:text="10" />
 
     <TextView
-        android:id="@+id/txtTotalNumberToothbrushing"
+        android:id="@+id/txtTotalNumberToothbrushes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -112,12 +118,14 @@
 
     <TextView
         android:id="@+id/txtAvgToothbrushTime"
-        android:layout_width="wrap_content"
+        android:layout_width="176dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:text="@string/AvgToothbrushTime"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgAvgTimeResult"
         app:layout_constraintTop_toTopOf="@+id/imgAvgTimeResult" />
 
@@ -131,5 +139,145 @@
         app:layout_constraintBottom_toBottomOf="@+id/txtAvgTimeResult"
         app:layout_constraintStart_toEndOf="@+id/txtAvgTimeResult"
         app:layout_constraintTop_toTopOf="@+id/txtAvgTimeResult" />
+
+    <TableLayout
+        android:id="@+id/tableOverview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgAvgTimeResult">
+
+        <!-- Table heading -->
+
+        <!-- <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/dark_turquoise">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test2"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test3"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test4"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test5"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test6"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test7"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+
+        </TableRow> -->
+
+        <!-- Table content -->
+        <!-- <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imgNumberToothbrushingResultDay1"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imgToothIcon"
+                app:layout_constraintStart_toEndOf="@+id/imgToothIcon"
+                app:layout_constraintTop_toTopOf="@+id/imgToothIcon"
+                android:src="@drawable/tic_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test2"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test3"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test4"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test5"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test6"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test7"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal" />
+
+        </TableRow> -->
+
+    </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

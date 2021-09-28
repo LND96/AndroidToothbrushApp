@@ -5,4 +5,8 @@
     <string name="toothBrushesCompleted">Toothbrushes completed:</string>
     <string name="AvgToothbrushTime">Average toothbrushing time:</string>
     <string name="Sec">sec</string>
+    <string name="toothbrushIcon">tooth brush icon</string>
+    <string name="ticIcon">tic mark icon</string>
+    <string name="timeIcon">time icon</string>
+    <string name="notApprovedIcon">not approved icon</string>
 </resources>

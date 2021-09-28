@@ -37,17 +37,6 @@
         app:srcCompat="@drawable/hourglass_icon" />
 
     <ImageView
-        android:id="@+id/imgNumberToothbrushingResult"
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgToothIcon"
-        app:layout_constraintStart_toEndOf="@+id/imgToothIcon"
-        app:layout_constraintTop_toTopOf="@+id/imgToothIcon"
-        app:srcCompat="@drawable/OK_icon" />
-
-    <ImageView
         android:id="@+id/imgAvgTimeResult"
         android:layout_width="58dp"
         android:layout_height="58dp"
@@ -85,5 +74,16 @@
         app:layout_constraintStart_toEndOf="@+id/imgAvgTimeResult"
         app:layout_constraintTop_toTopOf="@+id/imgAvgTimeResult"
         tools:text="Average toothbrushing time: 45 sec" />
+
+    <ImageView
+        android:id="@+id/imgNumberToothbrushingResult"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgToothIcon"
+        app:layout_constraintStart_toEndOf="@+id/imgToothIcon"
+        app:layout_constraintTop_toTopOf="@+id/imgToothIcon"
+        tools:srcCompat="@drawable/ok_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

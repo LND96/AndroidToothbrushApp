@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">ToothbrushApp</string>
-    <string name="txtLastSevenDaysHeader">Tooth brushing the last seven days:</string>
+    <string name="app_name" translatable="false">ToothbrushApp</string>
+    <string name="txtLastSevenDaysHeader">Toothbrushes the last seven days:</string>
+    <string name="OutOf">out of</string>
+    <string name="toothBrushesCompleted">Toothbrushes completed:</string>
+    <string name="AvgToothbrushTime">Average toothbrushing time:</string>
+    <string name="Sec">sec</string>
 </resources>

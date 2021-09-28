@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="txtLastSevenDaysHeader">Tandbørstninger de sidste syv dage:</string>
+    <string name="OutOf">ud af</string>
+    <string name="toothBrushesCompleted">Tandbørstninger gennemført:</string>
+    <string name="AvgToothbrushTime">Gennemsnitlig tandbørstetid:</string>
+    <string name="Sec">sek</string>
+</resources>

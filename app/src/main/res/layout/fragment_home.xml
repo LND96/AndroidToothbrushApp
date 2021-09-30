@@ -43,11 +43,10 @@
         android:layout_height="58dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:contentDescription="@string/notApprovedIcon"
         app:layout_constraintBottom_toBottomOf="@+id/imgHourGlass"
         app:layout_constraintStart_toEndOf="@+id/imgHourGlass"
         app:layout_constraintTop_toTopOf="@+id/imgHourGlass"
-        app:srcCompat="@drawable/not_ok_icon" />
+        tools:srcCompat="@drawable/not_ok_icon" />
 
     <TextView
         android:id="@+id/txtToothbrushesCompleted"
@@ -78,11 +77,10 @@
         android:layout_height="58dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:contentDescription="@string/ticIcon"
-        android:src="@drawable/tic_icon"
         app:layout_constraintBottom_toBottomOf="@+id/imgToothIcon"
         app:layout_constraintStart_toEndOf="@+id/imgToothIcon"
-        app:layout_constraintTop_toTopOf="@+id/imgToothIcon" />
+        app:layout_constraintTop_toTopOf="@+id/imgToothIcon"
+        tools:srcCompat="@drawable/ok_icon" />
 
     <TextView
         android:id="@+id/txtOutOf"

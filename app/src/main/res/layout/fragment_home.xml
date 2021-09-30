@@ -69,6 +69,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/txtAvgToothbrushTime"
         app:layout_constraintTop_toBottomOf="@+id/txtAvgToothbrushTime"
         tools:text="45" />
@@ -92,6 +93,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:text="@string/OutOf"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/txtNumberToothbrushesCompletedResult"
         app:layout_constraintStart_toEndOf="@+id/txtNumberToothbrushesCompletedResult"
         app:layout_constraintTop_toTopOf="@+id/txtNumberToothbrushesCompletedResult"
@@ -102,6 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/txtToothbrushesCompleted"
         app:layout_constraintTop_toBottomOf="@+id/txtToothbrushesCompleted"
         tools:text="10" />
@@ -112,6 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/txtOutOf"
         app:layout_constraintStart_toEndOf="@+id/txtOutOf"
         app:layout_constraintTop_toTopOf="@+id/txtOutOf"
@@ -138,6 +142,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:text="@string/Sec"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/txtAvgTimeResult"
         app:layout_constraintStart_toEndOf="@+id/txtAvgTimeResult"
         app:layout_constraintTop_toTopOf="@+id/txtAvgTimeResult" />
@@ -159,126 +164,25 @@
 
         <!-- Table heading -->
 
-        <!-- <TableRow
+        <TableRow
+            android:id="@+id/rowHeader"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/dark_turquoise">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test2"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test3"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test4"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test5"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test6"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test7"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-
-        </TableRow> -->
+        </TableRow>
 
         <!-- Table content -->
-        <!-- <TableRow
+        <TableRow
+            android:id="@+id/rowMorning"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+        </TableRow>
 
-            <ImageView
-                android:id="@+id/imgNumberToothbrushingResultDay1"
-                android:layout_width="58dp"
-                android:layout_height="58dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imgToothIcon"
-                app:layout_constraintStart_toEndOf="@+id/imgToothIcon"
-                app:layout_constraintTop_toTopOf="@+id/imgToothIcon"
-                android:src="@drawable/tic_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test2"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test3"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test4"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test5"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test6"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test7"
-                android:padding="8dp"
-                android:textColor="@color/white"
-                android:gravity="center_horizontal" />
-
-        </TableRow> -->
+        <TableRow
+            android:id="@+id/rowEvening"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </TableRow>
 
     </TableLayout>
 

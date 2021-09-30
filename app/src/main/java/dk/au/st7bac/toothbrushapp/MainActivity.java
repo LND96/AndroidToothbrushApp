@@ -2,6 +2,10 @@ package dk.au.st7bac.toothbrushapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,6 +26,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -96,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         for (TextView textView : textViewRowHeaderList)
         {
             textView = new TextView(this);
+            textView.setText("Test");
             textView.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
             textView.setGravity(Gravity.CENTER);
             rowHeader.addView(textView);
@@ -123,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
         tableOverview.addView(rowHeader);
         tableOverview.addView(rowMorning);
     }
-
 
 
     private void startService() {

@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         startService();
 
 
-        /**
         //Inspired by: "https://www.section.io/engineering-education/bottom-navigation-bar-in-android/"
         // bottomNavigationView
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this,R.id.fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(bottomNav, navController);
-         */
 
 
         //Inspired by: https://www.geeksforgeeks.org/navigation-drawer-in-android/ (edit text, it is compied)
@@ -152,6 +150,21 @@ public class MainActivity extends AppCompatActivity {
 
             row.addView(imageView);
         }
+    }
+
+    //https://www.geeksforgeeks.org/navigation-drawer-in-android/ (edit text!!!)
+    // override the onOptionsItemSelected()
+    // function to implement
+    // the item click listener callback
+    // to open and close the navigation
+    // drawer when the icon is clicked
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

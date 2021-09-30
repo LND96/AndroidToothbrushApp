@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +15,20 @@ import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import dk.au.st7bac.toothbrushapp.ViewModels.HomeViewModel;
+
 public class HomeFragment extends Fragment {
 
     // ui widgets
     private TableRow rowHeader, rowMorningBrush, rowMorningTime, rowEveningBrush, rowEveningTime;
     private TextView txtNumberToothbrushesCompletedResult, txtTotalNumberToothbrushes, txtAvgTimeResult;
-    private ImageView imgNumberToothbrushingResult, imgAvgTimeResult;
+    private ImageView imgNumberToothbrushesResult, imgAvgTimeResult;
 
     private int imgPadding = 15;
 
     // data
     private String[] headerStrings = {"Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"}; // hardcoded værdier
-    private boolean[] isToothbrushDoneMorning = {true, false, true, true, true, true, false}; // hardcoded værdier
+    private boolean[] isToothbrushDoneMorning; // = {true, false, true, true, true, true, false}; // hardcoded værdier
     private boolean[] isTimeOkMorning = {true, false, true, false, false, false, false}; // hardcoded værdier
     private boolean[] isToothbrushDoneEvening = {false, true, true, true, true, false, true}; // hardcoded værdier
     private boolean[] isTimeOkEvening = {false, false, true, false, false, false, false}; // hardcoded værdier
@@ -34,6 +38,9 @@ public class HomeFragment extends Fragment {
     private boolean isAvgNumberToothbrushesOk = true; // hardcoded værdi
     private boolean isAvgTimeOk = false; // hardcoded værdi
 
+    // view model
+    private HomeViewModel vm;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -42,10 +49,31 @@ public class HomeFragment extends Fragment {
         // inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false); // Hvorfor skal view bruges ved findViewById?
 
+
         // set up user interface
         setupUI(view);
 
+
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        isToothbrushDoneMorning = new boolean[7]; // hvad skal størrelsen være?!
+
+        vm = new ViewModelProvider(this).get(HomeViewModel.class);
+        vm.getToothbrushData().observe(getViewLifecycleOwner(), new Observer<boolean[]>() {
+            @Override
+            public void onChanged(boolean[] booleans) {
+                isToothbrushDoneMorning = booleans;
+                updateUI(view);
+            }
+        });
+
+
     }
 
     private void setupUI(View view) {
@@ -53,10 +81,8 @@ public class HomeFragment extends Fragment {
         txtNumberToothbrushesCompletedResult = view.findViewById(R.id.txtNumberToothbrushesCompletedResult);
         txtTotalNumberToothbrushes = view.findViewById(R.id.txtTotalNumberToothbrushes);
         txtAvgTimeResult = view.findViewById(R.id.txtAvgTimeResult);
-        imgNumberToothbrushingResult = view.findViewById(R.id.imgNumberToothbrushingResult);
+        imgNumberToothbrushesResult = view.findViewById(R.id.imgNumberToothbrushingResult);
         imgAvgTimeResult = view.findViewById(R.id.imgAvgTimeResult);
-
-        updateUI(view);
     }
 
     // updates UI with data
@@ -68,9 +94,9 @@ public class HomeFragment extends Fragment {
 
         // update images
         if (isAvgNumberToothbrushesOk){
-            imgNumberToothbrushingResult.setImageResource(R.drawable.ok_icon);
+            imgNumberToothbrushesResult.setImageResource(R.drawable.ok_icon);
         } else {
-            imgNumberToothbrushingResult.setImageResource(R.drawable.not_ok_icon);
+            imgNumberToothbrushesResult.setImageResource(R.drawable.not_ok_icon);
         }
         if (isAvgTimeOk){
             imgAvgTimeResult.setImageResource(R.drawable.ok_icon);

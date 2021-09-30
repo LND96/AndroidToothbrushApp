@@ -1,10 +1,12 @@
 package dk.au.st7bac.toothbrushapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -13,6 +15,12 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import java.util.Arrays;
 
 
@@ -30,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private int totalNumberToothbrushes = 14; // hardcoded værdi
     private int avgBrushTime = 45; // hardcoded værdi
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +46,21 @@ public class MainActivity extends AppCompatActivity {
         // sets up user interface
         setupUI();
         startService();
+
+
+        //Inspired by: "https://www.section.io/engineering-education/bottom-navigation-bar-in-android/"
+        // bottomNavigationView
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        //bottomNav.setOnItemSelectedListener(navListener);
+        //bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        //ID passes of different destinations
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment, R.id.detailsFragment).build();
+
+        //Initialize NavController
+        NavController navController = Navigation.findNavController(this,R.id.fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(bottomNav, navController);
     }
 
     private void setupUI() {

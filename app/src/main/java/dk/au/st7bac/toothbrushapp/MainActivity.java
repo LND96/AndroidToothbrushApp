@@ -1,13 +1,16 @@
 package dk.au.st7bac.toothbrushapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -44,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private int totalNumberToothbrushes = 14; // hardcoded værdi
     private int avgBrushTime = 45; // hardcoded værdi
 
-
+    //drawer navigation
+    public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
 
 
     @Override
@@ -56,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         startService();
 
 
+        /**
         //Inspired by: "https://www.section.io/engineering-education/bottom-navigation-bar-in-android/"
         // bottomNavigationView
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
@@ -69,6 +75,24 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this,R.id.fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(bottomNav, navController);
+         */
+
+
+        //Inspired by: https://www.geeksforgeeks.org/navigation-drawer-in-android/ (edit text, it is compied)
+
+        // drawer layout instance to toggle the menu icon to open
+        // drawer and back button to close drawer
+        drawerLayout = findViewById(R.id.my_drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
+
+        // pass the Open and Close toggle for the drawer layout listener
+        // to toggle the button
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        // to make the Navigation drawer icon always appear on the action bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     private void setupUI() {

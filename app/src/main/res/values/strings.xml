@@ -9,6 +9,9 @@
     <string name="ticIcon">tic mark icon</string>
     <string name="timeIcon">time icon</string>
     <string name="notApprovedIcon">not approved icon</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--toggle the open close button of the navigation drawer-->
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+
 </resources>

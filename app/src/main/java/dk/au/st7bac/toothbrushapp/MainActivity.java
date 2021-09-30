@@ -1,5 +1,6 @@
 package dk.au.st7bac.toothbrushapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavController;
@@ -13,6 +14,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -24,6 +26,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private int avgBrushTime = 45; // hardcoded værdi
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +54,21 @@ public class MainActivity extends AppCompatActivity {
 
         setupUI();
         startService();
+
+
+        //Inspired by: "https://www.section.io/engineering-education/bottom-navigation-bar-in-android/"
+        // bottomNavigationView
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        //bottomNav.setOnItemSelectedListener(navListener);
+        //bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        //ID passes of different destinations
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment, R.id.detailsFragment).build();
+
+        //Initialize NavController
+        NavController navController = Navigation.findNavController(this,R.id.fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(bottomNav, navController);
     }
 
     private void setupUI() {
@@ -114,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
         tableOverview.addView(rowHeader);
         tableOverview.addView(rowMorning);
     }
+
+
 
 
     private void startService() {

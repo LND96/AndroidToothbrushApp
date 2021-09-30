@@ -2,8 +2,13 @@ package dk.au.st7bac.toothbrushapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -27,13 +32,17 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     // ui widgets
-    private TableRow rowHeader, rowMorning, rowEvening;
+    private TableRow rowHeader, rowMorningBrush, rowMorningTime, rowEveningBrush, rowEveningTime;
     private TextView txtNumberToothbrushesCompletedResult, txtTotalNumberToothbrushes, txtAvgTimeResult;
 
+    private int imgPadding = 15;
+
     // data
-    private String[] headerStrings = {"Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"}; // hardcoded værdier
+    private String[] headerStrings = {"Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"}; // hardcoded værdier
     private boolean[] isToothbrushDoneMorning = {true, false, true, true, true, true, false}; // hardcoded værdier
+    private boolean[] isTimeOkMorning = {true, false, true, false, false, false, false}; // hardcoded værdier
     private boolean[] isToothbrushDoneEvening = {false, true, true, true, true, false, true}; // hardcoded værdier
+    private boolean[] isTimeOkEvening = {false, false, true, false, false, false, false}; // hardcoded værdier
     private int toothbrushesCompleted = 10; // hardcoded værdi
     private int totalNumberToothbrushes = 14; // hardcoded værdi
     private int avgBrushTime = 45; // hardcoded værdi
@@ -83,21 +92,23 @@ public class MainActivity extends AppCompatActivity {
     // adds data to table
     private void updateTable() {
         rowHeader = findViewById(R.id.rowHeader);
-        rowMorning = findViewById(R.id.rowMorning);
-        rowEvening = findViewById(R.id.rowEvening);
+        rowMorningBrush = findViewById(R.id.rowMorningBrush);
+        rowMorningTime = findViewById(R.id.rowMorningTime);
+        rowEveningBrush = findViewById(R.id.rowEveningBrush);
+        rowEveningTime = findViewById(R.id.rowEveningTime);
 
         for (int i = 0; i < headerStrings.length; i++)
         {
             TextView textView = new TextView(this); // create TextView
             textView.setText(headerStrings[i]); // set text in TextView to the i'th string
             textView.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1)); // make cells equal size
-            textView.setGravity(Gravity.CENTER); // center text
             rowHeader.addView(textView); // add TextView to row
         }
 
-        addImgToRow(rowMorning, isToothbrushDoneMorning);
-        addImgToRow(rowEvening, isToothbrushDoneEvening);
-
+        addImgToRow(rowMorningBrush, isToothbrushDoneMorning);
+        addImgToRow(rowMorningTime, isTimeOkMorning);
+        addImgToRow(rowEveningBrush, isToothbrushDoneEvening);
+        addImgToRow(rowEveningTime, isTimeOkEvening);
     }
 
     // adds images to table row
@@ -107,15 +118,15 @@ public class MainActivity extends AppCompatActivity {
         {
             ImageView imageView = new ImageView(this); // create ImageView
             imageView.setLayoutParams(new TableRow.LayoutParams(0, 80, 1)); // make cells equal size
-            imageView.setPadding(10, 10, 10, 10); // set padding around images
-            if (isDone[i])
+            imageView.setPadding(imgPadding, imgPadding, imgPadding, imgPadding); // set padding around images
+            if (isDone[i]) // set the right icon
             {
                 imageView.setImageResource(R.drawable.tic_icon);
             } else {
                 imageView.setImageResource(R.drawable.not_ok_icon);
             }
 
-            row.addView(imageView);
+            row.addView(imageView); // add ImageView to row
         }
     }
 

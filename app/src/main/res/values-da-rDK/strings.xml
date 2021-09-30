@@ -6,9 +6,7 @@
     <string name="AvgToothbrushTime">Gennemsnitlig tandbørstetid:</string>
     <string name="Sec">sek</string>
     <string name="toothbrushIcon">tandbørstningsikon</string>
-    <string name="ticIcon">fluebensikon</string>
     <string name="timeIcon">tidsikon</string>
-    <string name="notApprovedIcon">ikke-godkendtikon</string>
     <string name="Morning">Morgen</string>
     <string name="Evening">Aften</string>
 </resources>

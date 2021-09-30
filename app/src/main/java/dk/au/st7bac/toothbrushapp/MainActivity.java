@@ -52,21 +52,6 @@ import dk.au.st7bac.toothbrushapp.Fragments.SigninFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    // ui widgets
-    private TableRow rowHeader, rowMorningBrush, rowMorningTime, rowEveningBrush, rowEveningTime;
-    private TextView txtNumberToothbrushesCompletedResult, txtTotalNumberToothbrushes, txtAvgTimeResult;
-
-    private int imgPadding = 15;
-
-    // data
-    private String[] headerStrings = {"Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"}; // hardcoded værdier
-    private boolean[] isToothbrushDoneMorning = {true, false, true, true, true, true, false}; // hardcoded værdier
-    private boolean[] isTimeOkMorning = {true, false, true, false, false, false, false}; // hardcoded værdier
-    private boolean[] isToothbrushDoneEvening = {false, true, true, true, true, false, true}; // hardcoded værdier
-    private boolean[] isTimeOkEvening = {false, false, true, false, false, false, false}; // hardcoded værdier
-    private int toothbrushesCompleted = 10; // hardcoded værdi
-    private int totalNumberToothbrushes = 14; // hardcoded værdi
-    private int avgBrushTime = 45; // hardcoded værdi
 
 
     /*
@@ -89,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // sets up user interface
-        setupUI();
         startService();
 
 
@@ -161,63 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void setupUI() {
-        // finds UI elements
-        txtNumberToothbrushesCompletedResult = findViewById(R.id.txtNumberToothbrushesCompletedResult);
-        txtTotalNumberToothbrushes = findViewById(R.id.txtTotalNumberToothbrushes);
-        txtAvgTimeResult = findViewById(R.id.txtAvgTimeResult);
 
-        updateUI();
-    }
-
-    // updates UI with data
-    private void updateUI() { // denne må ikke kaldes før setupUI - hvordan tager vi højde for dette? Evt. med try catch rundt om i stedet
-        txtTotalNumberToothbrushes.setText(String.valueOf(totalNumberToothbrushes));
-        txtNumberToothbrushesCompletedResult.setText(String.valueOf(toothbrushesCompleted));
-        txtAvgTimeResult.setText(String.valueOf(avgBrushTime));
-        updateTable();
-    }
-
-    // adds data to table
-    private void updateTable() {
-        rowHeader = findViewById(R.id.rowHeader);
-        rowMorningBrush = findViewById(R.id.rowMorningBrush);
-        rowMorningTime = findViewById(R.id.rowMorningTime);
-        rowEveningBrush = findViewById(R.id.rowEveningBrush);
-        rowEveningTime = findViewById(R.id.rowEveningTime);
-
-        for (int i = 0; i < headerStrings.length; i++)
-        {
-            TextView textView = new TextView(this); // create TextView
-            textView.setText(headerStrings[i]); // set text in TextView to the i'th string
-            textView.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1)); // make cells equal size
-            rowHeader.addView(textView); // add TextView to row
-        }
-
-        addImgToRow(rowMorningBrush, isToothbrushDoneMorning);
-        addImgToRow(rowMorningTime, isTimeOkMorning);
-        addImgToRow(rowEveningBrush, isToothbrushDoneEvening);
-        addImgToRow(rowEveningTime, isTimeOkEvening);
-    }
-
-    // adds images to table row
-    private void addImgToRow(TableRow row, boolean[] isDone)
-    {
-        for (int i = 0; i < isDone.length; i++)
-        {
-            ImageView imageView = new ImageView(this); // create ImageView
-            imageView.setLayoutParams(new TableRow.LayoutParams(0, 80, 1)); // make cells equal size
-            imageView.setPadding(imgPadding, imgPadding, imgPadding, imgPadding); // set padding around images
-            if (isDone[i]) // set the right icon
-            {
-                imageView.setImageResource(R.drawable.tic_icon);
-            } else {
-                imageView.setImageResource(R.drawable.not_ok_icon);
-            }
-
-            row.addView(imageView); // add ImageView to row
-        }
-    }
 
 
     //https://www.geeksforgeeks.org/navigation-drawer-in-android/ (edit text!!!)

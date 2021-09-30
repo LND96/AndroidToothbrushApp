@@ -15,10 +15,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<TextView> textViewRowHeaderList;
     private ArrayList<ImageView> imgViewMorningList;
+    private ArrayList<String> stringRowHeaderList;
+    private String[] strings = {"Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"}; // hardcoded værdier
 
     private int toothbrushesCompleted = 10; // hardcoded værdi
     private int totalNumberToothbrushes = 14; // hardcoded værdi
@@ -86,13 +91,22 @@ public class MainActivity extends AppCompatActivity {
         imgViewMorningList.add(morning6);
         imgViewMorningList.add(morning7);
 
+        stringRowHeaderList = new ArrayList<>(Arrays.asList(strings));
+
         for (TextView textView : textViewRowHeaderList)
         {
             textView = new TextView(this);
-            textView.setText("Test");
             textView.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
             textView.setGravity(Gravity.CENTER);
             rowHeader.addView(textView);
+        }
+
+        for (int i = 0; i < 7; i++)
+        {
+            //TextView textView = new TextView(this);
+            //textView = textViewRowHeaderList.get(i);
+            textViewRowHeaderList.get(i).setText(stringRowHeaderList.get(i));
+            //textView.setText(stringRowHeaderList.get(i));
         }
 
         for (ImageView imageView : imgViewMorningList)

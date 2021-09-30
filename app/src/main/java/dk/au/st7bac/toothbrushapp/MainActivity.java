@@ -3,6 +3,7 @@ package dk.au.st7bac.toothbrushapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavController;
@@ -161,10 +162,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
+
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+
         return super.onOptionsItemSelected(item);
+
     }
 
 

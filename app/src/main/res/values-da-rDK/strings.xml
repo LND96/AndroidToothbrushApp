@@ -9,4 +9,6 @@
     <string name="ticIcon">fluebensikon</string>
     <string name="timeIcon">tidsikon</string>
     <string name="notApprovedIcon">ikke-godkendtikon</string>
+    <string name="Morning">Morgen</string>
+    <string name="Evening">Aften</string>
 </resources>

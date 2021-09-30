@@ -161,28 +161,105 @@
         app:layout_constraintTop_toBottomOf="@+id/imgAvgTimeResult">
 
         <!-- Table heading -->
-
         <TableRow
             android:id="@+id/rowHeader"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/dark_turquoise">
+            android:background="@color/dark_turquoise"
+            android:gravity="center">
+            <TextView android:layout_weight="1" />
         </TableRow>
 
         <!-- Table content -->
         <TableRow
-            android:id="@+id/rowMorning"
+            android:id="@+id/rowMorningBrush"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgViewMorningBrush"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/toothbrushIcon"
+                android:padding="3dp"
+                android:src="@drawable/toothbrush_icon" />
         </TableRow>
 
         <TableRow
-            android:id="@+id/rowEvening"
+            android:id="@+id/rowMorningTime"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgViewMorningTime"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/timeIcon"
+                android:padding="3dp"
+                android:src="@drawable/hourglass_icon" />
         </TableRow>
 
+        <TableRow
+            android:id="@+id/rowEveningBrush"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/light_gray">
+
+            <ImageView
+                android:id="@+id/imgViewEveningBrush"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/toothbrushIcon"
+                android:padding="3dp"
+                android:src="@drawable/toothbrush_icon" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/rowEveningTime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/light_gray">
+
+            <ImageView
+                android:id="@+id/imgViewEveningTime"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/timeIcon"
+                android:padding="3dp"
+                android:src="@drawable/hourglass_icon" />
+        </TableRow>
     </TableLayout>
+
+    <TextView
+        android:id="@+id/txtMorning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:rotation="-90"
+        android:text="@string/Morning"
+        app:layout_constraintEnd_toStartOf="@+id/tableOverview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tableOverview" />
+
+    <TextView
+        android:id="@+id/txtEvening"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rotation="-90"
+        android:text="@string/Evening"
+        app:layout_constraintBottom_toBottomOf="@+id/tableOverview"
+        app:layout_constraintEnd_toStartOf="@+id/tableOverview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMorning"
+        app:layout_constraintVertical_bias="0.633" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

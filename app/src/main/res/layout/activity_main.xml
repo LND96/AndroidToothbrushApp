@@ -13,12 +13,6 @@
 
 
 
-    <!-- navigation view which draws and shows the navigation drawer -->
-   <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/drawer_navigation_menu" />
 
 
 
@@ -51,6 +45,14 @@
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <!-- navigation view which draws and shows the navigation drawer -->
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/drawer_navigation_menu"
+        android:id="@+id/navigation_view"/>
 
 
 

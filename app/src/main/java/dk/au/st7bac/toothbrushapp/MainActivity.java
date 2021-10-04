@@ -50,19 +50,8 @@ import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
 import dk.au.st7bac.toothbrushapp.Fragments.SigninFragment;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-
-
-    /*
-    //drawer navigation
-    private DrawerLayout mDrawer;
-    private Toolbar toolbar;
-    private NavigationView nvDrawer;
-
-    private ActionBarDrawerToggle drawerToggle;
-
-     */
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
@@ -74,15 +63,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //start service
         startService();
 
+        //bottom navigation
+        bottomNavigation();
+
+        //drawer navigation
+        drawerNavigation();
+
+    }
 
 
+    public void bottomNavigation()
+    {
         //Inspired by: "https://www.section.io/engineering-education/bottom-navigation-bar-in-android/"
         // bottomNavigationView
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
-        //bottomNav.setOnItemSelectedListener(navListener);
-        //bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         //ID passes of different destinations
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment, R.id.detailsFragment).build();
@@ -92,9 +89,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(bottomNav, navController);
 
+    }
 
-
-
+    public void drawerNavigation()
+    {
         //Inspired by: https://www.geeksforgeeks.org/navigation-drawer-in-android/ (edit text, it is compied)
 
         // drawer layout instance to toggle the menu icon to open
@@ -110,39 +108,10 @@ public class MainActivity extends AppCompatActivity {
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
-        /*
-
-
-        //https://guides.codepath.com/android/fragment-navigation-drawer
-        // Set a Toolbar to replace the ActionBar.
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // Find our drawer view
-        mDrawer = (DrawerLayout) findViewById(R.id.my_drawer_layout);
-        drawerToggle = setupDrawerToggle();
-
-        //toggle to display hamburger icon
-        drawerToggle.setDrawerIndicatorEnabled(true);
-        drawerToggle.syncState();
-
-        // Find our drawer view
-        //nvDrawer = (NavigationView) findViewById(R.id.nvView);
-        // Setup drawer view
-        //setupDrawerContent(nvDrawer);
-
-        //Tie DrawerLayout events to the ActionBarToggle
-        mDrawer.addDrawerListener(drawerToggle);
-
-         */
-
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
     }
-
-
 
 
 
@@ -164,78 +133,27 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-     /*
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawer.openDrawer(GravityCompat.START);
-                return true;
+    //handle what happens when selecting an item in navigation drawer.
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.nav_settings)
+        {
+            Toast.makeText(this,"This is settings", Toast.LENGTH_SHORT).show();
+        }
+        if(id == R.id.nav_help)
+        {
+            Toast.makeText(this,"This is help", Toast.LENGTH_SHORT).show();
+        }
+        if(id == R.id.nav_Signout)
+        {
+            Toast.makeText(this,"This is signout", Toast.LENGTH_SHORT).show();
         }
 
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        selectDrawerItem(menuItem);
-                        return true;
-                    }
-                });
-    }
 
-    public void selectDrawerItem(MenuItem menuItem) {
-        // Create a new fragment and specify the fragment to show based on nav item clicked
-        Fragment fragment = null;
-        Class fragmentClass;
-        switch(menuItem.getItemId()) {
-            case R.id.nav_settings:
-                fragmentClass = SettingsFragment.class;
-                break;
-            case R.id.nav_help:
-                fragmentClass = HelpFragment.class;
-                break;
-            case R.id.nav_Signout:
-                fragmentClass = SigninFragment.class;
-                break;
-            default:
-                fragmentClass = HomeFragment.class;
-        }
-
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-        // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
-        // Set action bar title
-        setTitle(menuItem.getTitle());
-        // Close the navigation drawer
-        mDrawer.closeDrawers();
-    }
-
-    private ActionBarDrawerToggle setupDrawerToggle() {
-        // NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
-        // and will not render the hamburger icon without it.
-        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.nav_open,  R.string.nav_close);
-    }
-
-      */
-
-
-
-
+    //handle service
     private void startService() {
         Intent notificationServiceIntent = new Intent(this, NotificationService.class);
         startService(notificationServiceIntent);

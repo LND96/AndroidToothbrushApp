@@ -3,11 +3,15 @@ package dk.au.st7bac.toothbrushapp.Model;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import dk.au.st7bac.toothbrushapp.Services.WebApiService;
+
 public class Repository {
 
     public static Repository repository;
     private MutableLiveData<ToothbrushData> toothbrushDataLiveData; // bør være LiveData frem for MutableLiveData, men er her mutable så der kan hardcodes værdier
     private ToothbrushData testData;
+
+    private WebApiService webApiService;
 
     // Singleton pattern
     public static Repository getInstance() {
@@ -42,6 +46,17 @@ public class Repository {
     }
 
     public LiveData<ToothbrushData> getToothbrushDataLiveData() {
+        getApiData();
         return toothbrushDataLiveData;
+    }
+
+    ////// Web Api Service //////
+    private void getApiData() {
+        if (webApiService == null) {
+            webApiService = new WebApiService();
+        }
+
+        webApiService.getTbData();
+
     }
 }

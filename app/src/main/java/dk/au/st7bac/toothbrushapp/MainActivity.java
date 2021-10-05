@@ -133,23 +133,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+    // https://www.youtube.com/watch?v=5kmjCzQBieY
     //handle what happens when selecting an item in navigation drawer.
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.nav_settings)
-        {
-            Toast.makeText(this,"This is settings", Toast.LENGTH_SHORT).show();
-        }
-        if(id == R.id.nav_help)
-        {
-            Toast.makeText(this,"This is help", Toast.LENGTH_SHORT).show();
-        }
-        if(id == R.id.nav_Signout)
-        {
-            Toast.makeText(this,"This is signout", Toast.LENGTH_SHORT).show();
-        }
 
+        //erstat evt. dette med case...
+        if (id == R.id.nav_settings) {
+
+            Toast.makeText(this,"This is settings", Toast.LENGTH_SHORT).show();
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        if (id == R.id.nav_help) {
+            Toast.makeText(this,"This is help", Toast.LENGTH_SHORT).show();
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        if (id == R.id.nav_Signout){
+            Toast.makeText(this,"This is signout", Toast.LENGTH_SHORT).show();
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
         return false;
+
+
     }
 
 

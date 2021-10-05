@@ -1,4 +1,4 @@
-package dk.au.st7bac.toothbrushapp;
+package dk.au.st7bac.toothbrushapp.Fragments;
 
 import android.os.Bundle;
 
@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import dk.au.st7bac.toothbrushapp.Model.ToothbrushData;
 import dk.au.st7bac.toothbrushapp.ViewModels.HomeViewModel;
+
+import dk.au.st7bac.toothbrushapp.R;
 
 public class HomeFragment extends Fragment {
 

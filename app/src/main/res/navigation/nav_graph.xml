@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="dk.au.st7bac.toothbrushapp.HomeFragment"
+        android:name="dk.au.st7bac.toothbrushapp.Fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="dk.au.st7bac.toothbrushapp.DetailsFragment"
+        android:name="dk.au.st7bac.toothbrushapp.Fragments.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" />
 </navigation>

@@ -35,7 +35,7 @@
         android:contentDescription="@string/timeIcon"
         app:layout_constraintStart_toStartOf="@+id/imgToothIcon"
         app:layout_constraintTop_toBottomOf="@+id/imgToothIcon"
-        app:srcCompat="@drawable/hourglass_icon" />
+        app:srcCompat="@drawable/time_icon" />
 
     <ImageView
         android:id="@+id/imgAvgTimeResult"
@@ -198,7 +198,7 @@
                 android:layout_weight="1"
                 android:contentDescription="@string/timeIcon"
                 android:padding="3dp"
-                android:src="@drawable/hourglass_icon" />
+                android:src="@drawable/time_icon" />
         </TableRow>
 
         <TableRow
@@ -232,7 +232,7 @@
                 android:layout_weight="1"
                 android:contentDescription="@string/timeIcon"
                 android:padding="3dp"
-                android:src="@drawable/hourglass_icon" />
+                android:src="@drawable/time_icon" />
         </TableRow>
     </TableLayout>
 

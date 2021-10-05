@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import dk.au.st7bac.toothbrushapp.Model.ToothbrushData;
 import dk.au.st7bac.toothbrushapp.ViewModels.HomeViewModel;
 
 public class HomeFragment extends Fragment {
@@ -27,16 +28,16 @@ public class HomeFragment extends Fragment {
     private int imgPadding = 15;
 
     // data
-    private String[] headerStrings = {"Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"}; // hardcoded værdier
-    private boolean[] isToothbrushDoneMorning; // = {true, false, true, true, true, true, false}; // hardcoded værdier
-    private boolean[] isTimeOkMorning = {true, false, true, false, false, false, false}; // hardcoded værdier
-    private boolean[] isToothbrushDoneEvening = {false, true, true, true, true, false, true}; // hardcoded værdier
-    private boolean[] isTimeOkEvening = {false, false, true, false, false, false, false}; // hardcoded værdier
-    private int toothbrushesCompleted = 10; // hardcoded værdi
-    private int totalNumberToothbrushes = 14; // hardcoded værdi
-    private int avgBrushTime = 45; // hardcoded værdi
-    private boolean isAvgNumberToothbrushesOk = true; // hardcoded værdi
-    private boolean isAvgTimeOk = false; // hardcoded værdi
+    private String[] headerStrings; // = {"Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"}; // hardcoded værdier
+    private boolean[] isToothbrushDoneMorning;
+    private boolean[] isTimeOkMorning; // = {true, false, true, false, false, false, false}; // hardcoded værdier
+    private boolean[] isToothbrushDoneEvening; // = {false, true, true, true, true, false, true}; // hardcoded værdier
+    private boolean[] isTimeOkEvening; // = {false, false, true, false, false, false, false}; // hardcoded værdier
+    private int toothbrushesCompleted; // = 10; // hardcoded værdi
+    private int totalNumberToothbrushes; // = 14; // hardcoded værdi
+    private int avgBrushTime; // = 45; // hardcoded værdi
+    private boolean isAvgNumberToothbrushesOk; // = true; // hardcoded værdi
+    private boolean isAvgTimeOk; // = false; // hardcoded værdi
 
     // view model
     private HomeViewModel vm;
@@ -62,13 +63,23 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        isToothbrushDoneMorning = new boolean[7]; // hvad skal størrelsen være?!
+        //isToothbrushDoneMorning = new boolean[7]; // hvad skal størrelsen være?!
 
         vm = new ViewModelProvider(this).get(HomeViewModel.class);
-        vm.getToothbrushData().observe(getViewLifecycleOwner(), new Observer<boolean[]>() {
+        vm.getToothbrushData().observe(getViewLifecycleOwner(), new Observer<ToothbrushData>() {
             @Override
-            public void onChanged(boolean[] booleans) {
-                isToothbrushDoneMorning = booleans;
+            public void onChanged(ToothbrushData toothbrushData) {
+                headerStrings = toothbrushData.getHeaderStrings();
+                isToothbrushDoneMorning = toothbrushData.getIsToothbrushDoneMorning();
+                isTimeOkMorning = toothbrushData.getIsTimeOkMorning();
+                isToothbrushDoneEvening = toothbrushData.getIsToothbrushDoneEvening();
+                isTimeOkEvening = toothbrushData.getIsTimeOkEvening();
+                toothbrushesCompleted = toothbrushData.getToothbrushesCompleted();
+                totalNumberToothbrushes = toothbrushData.getTotalNumberToothbrushes();
+                avgBrushTime = toothbrushData.getAvgBrushTime();
+                isAvgNumberToothbrushesOk = toothbrushData.isAvgNumberToothbrushesOk();
+                isAvgTimeOk = toothbrushData.isAvgTimeOk();
+
                 updateUI(view);
             }
         });

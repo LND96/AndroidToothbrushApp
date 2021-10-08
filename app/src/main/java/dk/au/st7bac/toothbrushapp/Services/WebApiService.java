@@ -10,6 +10,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import dk.au.st7bac.toothbrushapp.Model.Repository;
 import dk.au.st7bac.toothbrushapp.Model.TbData;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
@@ -20,8 +28,10 @@ public class WebApiService {
 
     private RequestQueue queue;
 
-    public WebApiService() {
+    private Repository repository;
 
+    public WebApiService() {
+        repository = Repository.getInstance();
     }
 
     public void getTbData() {
@@ -54,16 +64,36 @@ public class WebApiService {
 
 
     private void parseJson(String json) {
-        /*
-        Gson gson = new GsonBuilder().create();
-        TbData tbData = gson.fromJson(json, TbData.class);
 
-        if (tbData != null) {
-            Log.d(TAG, "Fetched data");
-        } else {
-            Log.e(TAG, "Fetched data null");
+        ArrayList<TbData> tbDataList = new ArrayList<>();
+
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject sysIdObj = jsonArray.getJSONObject(i).getJSONObject("SysId");
+                String sysId = sysIdObj.getString("S");
+                JSONObject dateTimeObj = jsonArray.getJSONObject(i).getJSONObject("SystemDateTime");
+                String dateTime = dateTimeObj.getString("S");
+
+                JSONObject tmDataObj = jsonArray.getJSONObject(i).getJSONObject("TMData");
+                String S = tmDataObj.getString("S");
+                JSONObject sObj = new JSONObject(S);
+                String msgData = sObj.getString("MsgData");
+                JSONObject msgDataObj = new JSONObject(msgData);
+                int tbVal = msgDataObj.getInt("tbval");
+                double tbSecs = msgDataObj.getDouble("tbsecs");
+
+                TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs);
+
+                tbDataList.add(tbData);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace(); // skal der gøres noget andet ved exception?
         }
 
-         */
+        repository.setTbData(tbDataList); // hvad hvis listen er tom?
+
     }
 }

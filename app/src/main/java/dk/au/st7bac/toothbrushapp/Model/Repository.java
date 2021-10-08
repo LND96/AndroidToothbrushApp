@@ -1,7 +1,11 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import java.util.ArrayList;
 
 import dk.au.st7bac.toothbrushapp.Services.WebApiService;
 
@@ -58,5 +62,9 @@ public class Repository {
 
         webApiService.getTbData();
 
+    }
+
+    public void setTbData(ArrayList<TbData> tbDataList) {
+        Log.d("Repository tbDataList", "Test");
     }
 }

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import dk.au.st7bac.toothbrushapp.R;
 
-public class SigninFragment extends Fragment {
+public class SignInFragment extends Fragment {
 
     @Nullable
     @Override

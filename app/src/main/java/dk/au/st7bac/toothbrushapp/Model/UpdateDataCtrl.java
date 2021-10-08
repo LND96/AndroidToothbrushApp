@@ -7,25 +7,26 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 
-import dk.au.st7bac.toothbrushapp.Services.WebApiService;
+import dk.au.st7bac.toothbrushapp.Repositories.ApiRepo;
 
-public class Repository {
+public class UpdateDataCtrl {
 
-    public static Repository repository;
-    private MutableLiveData<TbStatus> toothbrushDataLiveData; // bør være LiveData frem for MutableLiveData, men er her mutable så der kan hardcodes værdier
+    public static UpdateDataCtrl updateDataCtrl;
+
+    private MutableLiveData<TbStatus> tbStatusLiveData; // bør være LiveData frem for MutableLiveData, men er her mutable så der kan hardcodes værdier
     private TbStatus testData;
 
-    private WebApiService webApiService;
+    private ApiRepo apiRepo;
 
-    // Singleton pattern
-    public static Repository getInstance() {
-        if (repository == null) {
-            repository = new Repository();
+    public static UpdateDataCtrl getInstance() { // Er det ok at bruge singleton her?
+        if (updateDataCtrl == null) {
+            updateDataCtrl = new UpdateDataCtrl();
         }
-        return repository;
+        return updateDataCtrl;
     }
 
-    private Repository() {
+
+    private UpdateDataCtrl() {
         setTestData();
     }
 
@@ -45,23 +46,21 @@ public class Repository {
         testData = new TbStatus(headerStrings, isToothbrushDoneMorning,
                 isTimeOkMorning, isToothbrushDoneEvening, isTimeOkEvening, toothbrushesCompleted,
                 totalNumberToothbrushes, avgBrushTime, isAvgNumberToothbrushesOk, isAvgTimeOk);
-        //boolean[] testData = {true, false, true, true, true, true, false};
-        toothbrushDataLiveData = new MutableLiveData<>(testData);
+        tbStatusLiveData = new MutableLiveData<>(testData);
     }
 
-    public LiveData<TbStatus> getToothbrushDataLiveData() {
+    public LiveData<TbStatus> getTbStatusLiveData() {
         getApiData();
-        return toothbrushDataLiveData;
+        return tbStatusLiveData;
     }
 
     ////// Web Api Service //////
     private void getApiData() {
-        if (webApiService == null) {
-            webApiService = new WebApiService();
+        if (apiRepo == null) {
+            apiRepo = new ApiRepo(this);
         }
 
-        webApiService.getTbData();
-
+        apiRepo.getTbData();
     }
 
     public void setTbData(ArrayList<TbData> tbDataList) {

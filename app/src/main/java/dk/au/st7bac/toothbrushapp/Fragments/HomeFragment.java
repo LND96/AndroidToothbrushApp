@@ -57,7 +57,6 @@ public class HomeFragment extends Fragment {
         setupUI(view);
 
 
-
         return view;
     }
 
@@ -65,28 +64,25 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //isToothbrushDoneMorning = new boolean[7]; // hvad skal størrelsen være?!
 
         vm = new ViewModelProvider(this).get(HomeViewModel.class);
-        vm.getToothbrushData().observe(getViewLifecycleOwner(), new Observer<TbStatus>() {
+        vm.getTbStatusData().observe(getViewLifecycleOwner(), new Observer<TbStatus>() {
             @Override
-            public void onChanged(TbStatus toothbrushData) {
-                headerStrings = toothbrushData.getHeaderStrings();
-                isToothbrushDoneMorning = toothbrushData.getIsToothbrushDoneMorning();
-                isTimeOkMorning = toothbrushData.getIsTimeOkMorning();
-                isToothbrushDoneEvening = toothbrushData.getIsToothbrushDoneEvening();
-                isTimeOkEvening = toothbrushData.getIsTimeOkEvening();
-                toothbrushesCompleted = toothbrushData.getToothbrushesCompleted();
-                totalNumberToothbrushes = toothbrushData.getTotalNumberToothbrushes();
-                avgBrushTime = toothbrushData.getAvgBrushTime();
-                isAvgNumberToothbrushesOk = toothbrushData.isAvgNumberToothbrushesOk();
-                isAvgTimeOk = toothbrushData.isAvgTimeOk();
+            public void onChanged(TbStatus tbStatus) {
+                headerStrings = tbStatus.getHeaderStrings();
+                isToothbrushDoneMorning = tbStatus.getIsToothbrushDoneMorning();
+                isTimeOkMorning = tbStatus.getIsTimeOkMorning();
+                isToothbrushDoneEvening = tbStatus.getIsToothbrushDoneEvening();
+                isTimeOkEvening = tbStatus.getIsTimeOkEvening();
+                toothbrushesCompleted = tbStatus.getToothbrushesCompleted();
+                totalNumberToothbrushes = tbStatus.getTotalNumberToothbrushes();
+                avgBrushTime = tbStatus.getAvgBrushTime();
+                isAvgNumberToothbrushesOk = tbStatus.isAvgNumberToothbrushesOk();
+                isAvgTimeOk = tbStatus.isAvgTimeOk();
 
                 updateUI(view);
             }
         });
-
-
     }
 
     private void setupUI(View view) {

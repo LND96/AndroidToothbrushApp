@@ -15,7 +15,7 @@
         android:theme="@style/Theme.ToothbrushApp"
         android:name=".ToothbrushApp">
         <service
-            android:name=".NotificationService"
+            android:name=".Services.NotificationService"
             android:enabled="true"
             android:exported="false"></service>
 

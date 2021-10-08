@@ -1,4 +1,4 @@
-package dk.au.st7bac.toothbrushapp;
+package dk.au.st7bac.toothbrushapp.Services;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -15,6 +15,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import dk.au.st7bac.toothbrushapp.R;
 
 // a started service runs forever, until it stops
 

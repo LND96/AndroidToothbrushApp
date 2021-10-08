@@ -1,9 +1,11 @@
 package dk.au.st7bac.toothbrushapp.ViewModels;
 
+import android.app.Application;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import dk.au.st7bac.toothbrushapp.Model.Repository;
+import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Model.TbStatus;
 
 // Inspired by MAD spring 21 course: class demo "Code Demo / walkthrough : using Room (and SharedPreferences)"
@@ -12,18 +14,15 @@ public class HomeViewModel extends ViewModel {
 
 
     private LiveData<boolean[]> isToothbrushDoneMorning;
-    private Repository repository;
+    private UpdateDataCtrl updateDataCtrl;
 
     public HomeViewModel() {
         super();
-        repository = Repository.getInstance();
+        updateDataCtrl = UpdateDataCtrl.getInstance();
     }
 
-    public LiveData<TbStatus> getToothbrushData()
+    public LiveData<TbStatus> getTbStatusData()
     {
-        return repository.getToothbrushDataLiveData();
+        return updateDataCtrl.getTbStatusLiveData();
     }
-
-
-
 }

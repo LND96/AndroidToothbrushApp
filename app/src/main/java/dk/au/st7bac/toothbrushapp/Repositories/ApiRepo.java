@@ -1,5 +1,4 @@
-package dk.au.st7bac.toothbrushapp.Services;
-import android.app.Application;
+package dk.au.st7bac.toothbrushapp.Repositories;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -8,8 +7,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,23 +14,23 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import dk.au.st7bac.toothbrushapp.Model.Repository;
+import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Model.TbData;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
 //test
 
 // DENNE KLASSE ER INSPIRERET AF MAD LEKTION 6
-public class WebApiService {
+public class ApiRepo {
 
     private static final String TAG = "WebApiService";
 
     private RequestQueue queue;
 
-    private Repository repository;
+    private UpdateDataCtrl updateDataCtrl;
 
-    public WebApiService() {
-        repository = Repository.getInstance();
+    public ApiRepo(UpdateDataCtrl updateDataCtrl) {
+        this.updateDataCtrl = updateDataCtrl;
     }
 
     public void getTbData() {
@@ -95,7 +92,7 @@ public class WebApiService {
             e.printStackTrace(); // skal der gøres noget andet ved exception?
         }
 
-        repository.setTbData(tbDataList); // hvad hvis listen er tom?
+        updateDataCtrl.setTbData(tbDataList); // hvad hvis listen er tom?
 
     }
 }

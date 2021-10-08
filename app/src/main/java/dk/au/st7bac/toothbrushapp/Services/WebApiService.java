@@ -12,6 +12,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
+//test
+
 // DENNE KLASSE ER INSPIRERET AF MAD LEKTION 6
 public class WebApiService {
 

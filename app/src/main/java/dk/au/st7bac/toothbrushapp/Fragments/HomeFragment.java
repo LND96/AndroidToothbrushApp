@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import dk.au.st7bac.toothbrushapp.Model.ToothbrushData;
+import dk.au.st7bac.toothbrushapp.Model.TbStatus;
 import dk.au.st7bac.toothbrushapp.ViewModels.HomeViewModel;
 
 import dk.au.st7bac.toothbrushapp.R;
@@ -68,9 +68,9 @@ public class HomeFragment extends Fragment {
         //isToothbrushDoneMorning = new boolean[7]; // hvad skal størrelsen være?!
 
         vm = new ViewModelProvider(this).get(HomeViewModel.class);
-        vm.getToothbrushData().observe(getViewLifecycleOwner(), new Observer<ToothbrushData>() {
+        vm.getToothbrushData().observe(getViewLifecycleOwner(), new Observer<TbStatus>() {
             @Override
-            public void onChanged(ToothbrushData toothbrushData) {
+            public void onChanged(TbStatus toothbrushData) {
                 headerStrings = toothbrushData.getHeaderStrings();
                 isToothbrushDoneMorning = toothbrushData.getIsToothbrushDoneMorning();
                 isTimeOkMorning = toothbrushData.getIsTimeOkMorning();

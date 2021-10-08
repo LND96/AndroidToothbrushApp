@@ -1,22 +1,22 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
-public class ToothbrushData {
-    private String[] headerStrings; // = {"Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"}; // hardcoded værdier
+public class TbStatus {
+    private String[] headerStrings;
     private boolean[] isToothbrushDoneMorning;
-    private boolean[] isTimeOkMorning; // = {true, false, true, false, false, false, false}; // hardcoded værdier
-    private boolean[] isToothbrushDoneEvening; // = {false, true, true, true, true, false, true}; // hardcoded værdier
-    private boolean[] isTimeOkEvening; // = {false, false, true, false, false, false, false}; // hardcoded værdier
-    private int toothbrushesCompleted; // = 10; // hardcoded værdi
-    private int totalNumberToothbrushes; // = 14; // hardcoded værdi
-    private int avgBrushTime; // = 45; // hardcoded værdi
-    private boolean isAvgNumberToothbrushesOk; // = true; // hardcoded værdi
-    private boolean isAvgTimeOk; // = false; // hardcoded værdi
+    private boolean[] isTimeOkMorning;
+    private boolean[] isToothbrushDoneEvening;
+    private boolean[] isTimeOkEvening;
+    private int toothbrushesCompleted;
+    private int totalNumberToothbrushes;
+    private int avgBrushTime;
+    private boolean isAvgNumberToothbrushesOk;
+    private boolean isAvgTimeOk;
 
-    public ToothbrushData(String[] headerStrings, boolean[] isToothbrushDoneMorning,
-                          boolean[] isTimeOkMorning, boolean[] isToothbrushDoneEvening,
-                          boolean[] isTimeOkEvening, int toothbrushesCompleted,
-                          int totalNumberToothbrushes, int avgBrushTime,
-                          boolean isAvgNumberToothbrushesOk, boolean isAvgTimeOk) {
+    public TbStatus(String[] headerStrings, boolean[] isToothbrushDoneMorning,
+                    boolean[] isTimeOkMorning, boolean[] isToothbrushDoneEvening,
+                    boolean[] isTimeOkEvening, int toothbrushesCompleted,
+                    int totalNumberToothbrushes, int avgBrushTime,
+                    boolean isAvgNumberToothbrushesOk, boolean isAvgTimeOk) {
         this.headerStrings = headerStrings;
         this.isToothbrushDoneMorning = isToothbrushDoneMorning;
         this.isTimeOkMorning = isTimeOkMorning;

@@ -83,8 +83,12 @@ public class ApiRepo {
                 JSONObject msgDataObj = new JSONObject(msgData);
                 int tbVal = msgDataObj.getInt("tbval");
                 double tbSecs = msgDataObj.getDouble("tbsecs");
+                String rawTelemetry = msgDataObj.getString("RawTelemetry");
+                int tbHb = msgDataObj.getInt("tbhb");
 
-                TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs);
+
+                TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs, rawTelemetry, tbHb);
+                Log.d(TAG, "rawRelemetry" + tbData.getRawTelemetry());
 
                 tbDataList.add(tbData);
             }

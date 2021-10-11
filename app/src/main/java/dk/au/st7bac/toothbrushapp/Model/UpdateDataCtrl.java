@@ -65,5 +65,8 @@ public class UpdateDataCtrl {
 
     public void setTbData(ArrayList<TbData> tbDataList) {
         Log.d("Repository tbDataList", "Test");
+
+        DataFilter dataFilter = new DataFilter();
+        dataFilter.FilterData(tbDataList);
     }
 }

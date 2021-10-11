@@ -95,17 +95,18 @@ public class ApiRepo {
                 JSONObject msgDataObj = new JSONObject(msgData);
                 int tbVal = msgDataObj.getInt("tbval");
                 double tbSecs = msgDataObj.getDouble("tbsecs");
+                String rawTelemetry = msgDataObj.getString("RawTelemetry");
+                int tbHb = msgDataObj.getInt("tbhb");
 
                 TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs, LocalDateTime.now()); // LocalDateTime kræver API level 26
+
+                TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs, rawTelemetry, tbHb);
+
 
                tbDataList.add(tbData);
             }
         } catch (JSONException e) {
             e.printStackTrace(); // skal der gøres noget andet ved exception?
-        }
-
-        for (TbData tbData : tbDataList){
-            Log.d(TAG, "date time: " + tbData.getDateTimeString());
         }
 
         updateDataCtrl.setTbData(tbDataList); // hvad hvis listen er tom?

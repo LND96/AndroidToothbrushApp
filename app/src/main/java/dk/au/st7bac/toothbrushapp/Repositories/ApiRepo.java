@@ -1,5 +1,8 @@
 package dk.au.st7bac.toothbrushapp.Repositories;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,7 +15,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Model.TbData;
@@ -84,12 +96,16 @@ public class ApiRepo {
                 int tbVal = msgDataObj.getInt("tbval");
                 double tbSecs = msgDataObj.getDouble("tbsecs");
 
-                TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs);
+                TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs, LocalDateTime.now()); // LocalDateTime kræver API level 26
 
-                tbDataList.add(tbData);
+               tbDataList.add(tbData);
             }
         } catch (JSONException e) {
             e.printStackTrace(); // skal der gøres noget andet ved exception?
+        }
+
+        for (TbData tbData : tbDataList){
+            Log.d(TAG, "date time: " + tbData.getDateTimeString());
         }
 
         updateDataCtrl.setTbData(tbDataList); // hvad hvis listen er tom?

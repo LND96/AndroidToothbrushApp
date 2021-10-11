@@ -98,10 +98,7 @@ public class ApiRepo {
                 String rawTelemetry = msgDataObj.getString("RawTelemetry");
                 int tbHb = msgDataObj.getInt("tbhb");
 
-                TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs, LocalDateTime.now()); // LocalDateTime kræver API level 26
-
-                TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs, rawTelemetry, tbHb);
-
+                TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs, rawTelemetry, tbHb, LocalDateTime.now()); // LocalDateTime kræver API level 26
 
                tbDataList.add(tbData);
             }

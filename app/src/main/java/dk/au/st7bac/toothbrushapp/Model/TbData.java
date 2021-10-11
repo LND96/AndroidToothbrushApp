@@ -17,8 +17,7 @@ public class TbData {
     private String rawTelemetry;
     private int tbHb;
 
-    public TbData(String sysId, String dateTime, int tbVal, double tbSecs, String rawTelemetry, int tbHb) {
-    public TbData(String sysId, String dateTimeString, int tbVal, double tbSecs, LocalDateTime dateTime) {
+    public TbData(String sysId, String dateTimeString, int tbVal, double tbSecs, String rawTelemetry, int tbHb, LocalDateTime dateTime) {
         this.sysId = sysId;
         this.dateTimeString = dateTimeString;
         this.tbVal = tbVal;
@@ -60,14 +59,6 @@ public class TbData {
         this.tbSecs = tbSecs;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
     public String getRawTelemetry() {
         return rawTelemetry;
     }
@@ -82,6 +73,14 @@ public class TbData {
 
     public double getTbHb() {
         return tbHb;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
 }

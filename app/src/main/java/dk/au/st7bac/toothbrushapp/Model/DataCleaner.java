@@ -20,10 +20,12 @@ import java.util.Date;
 public class DataCleaner {
 
     private static final String TAG = "DataCleaner";
-    private ArrayList<TbData> tbCleanDataList; // skal den initieres et sted?
+    private ArrayList<TbData> tbCleanDataList;
     
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public ArrayList<TbData> CleanData(ArrayList<TbData> tbDataList) throws ParseException {
+    public ArrayList<TbData> CleanData(ArrayList<TbData> tbDataList) {
+
+        tbCleanDataList = new ArrayList<>();
 
         for (TbData tbData : tbDataList) {
 
@@ -60,7 +62,7 @@ public class DataCleaner {
             if (i == 0) {
                 tbCleanDataList.add(tbDataList.get(i));
             } else {
-                if (!tbDataList.get(i).getDateTime().isAfter(tbDataList.get(i - 1).getDateTime().minusMinutes(10))) {
+                if (tbDataList.get(i).getDateTime().isAfter(tbDataList.get(i - 1).getDateTime().minusMinutes(10))) {
                     // if current measurement is less than 10 minutes before the next measurement,
                     // add the current toothbrush time to the next tooth brush time
                     tbDataList.get(i - 1).setTbSecs(tbDataList.get(i - 1).getTbSecs() + tbDataList.get(i).getTbSecs());
@@ -70,8 +72,7 @@ public class DataCleaner {
                     tbCleanDataList.add(tbDataList.get(i));
                 }
             }
-        }
-
+        } // Når vi bevæger os baglæns i listen, vil det betyde, at datapunkterne bliver lagt i tbCleanDataList i den modsatte rækkefølge end de kom ind, så det ældste målepunkt nu ligger på indeksplads 0 i listen
 
         return tbCleanDataList;
     }

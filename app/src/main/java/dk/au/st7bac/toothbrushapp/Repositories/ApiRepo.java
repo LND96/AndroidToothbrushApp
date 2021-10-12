@@ -47,7 +47,7 @@ public class ApiRepo {
 
     public void getTbData() {
         String baseUrl = "https://dmjljzkaec.execute-api.eu-west-1.amazonaws.com/default/tbapi/v1";
-        String url = baseUrl + "/system/tm/c4d1574b-d1ce-43da-84df-f54fe5e09ba9?since=20210922052144638405&limit=10"; // hardcoded værdi
+        String url = baseUrl + "/system/tm/c4d1574b-d1ce-43da-84df-f54fe5e09ba9?since=20211012&limit=40"; // hardcoded værdi
         sendRequestForTbData(url);
     }
 
@@ -59,7 +59,6 @@ public class ApiRepo {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) { // onResponse er synkroniseret til UI tråden, så vi må gerne opdatere UI her
-                Log.d(TAG, "onResponse" + response);
                 parseJson(response);
             }
         }, new Response.ErrorListener() {
@@ -106,7 +105,7 @@ public class ApiRepo {
             e.printStackTrace(); // skal der gøres noget andet ved exception?
         }
 
-        updateDataCtrl.setTbData(tbDataList); // hvad hvis listen er tom?
+        updateDataCtrl.setTbData(tbDataList);                      // hvad hvis listen er tom?
 
     }
 }

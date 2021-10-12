@@ -5,10 +5,6 @@ import java.util.List;
 
 public class DataFilter {
 
-
-    //input: dataliste - TbList
-    //output: retuner tandbørsteevents/ingen events...
-
     private ArrayList<TbData> tbFilterDataList;
     String rawTelemetry_last26 = "";
 
@@ -31,7 +27,13 @@ public class DataFilter {
                             .substring(TBDataList.get(i).getRawTelemetry().length()-26);
                     TBDataList.get(i).setRawTelemetry(rawTelemetry_last26);
 
-                    if (!TBDataList.get(i).getRawTelemetry().equals(TBDataList.get(i - 1).getRawTelemetry()) && i > 0)
+                    if (i==0)
+                    {
+                        //save element in tbFilterDataList (must be returned)
+                        tbFilterDataList.add(TBDataList.get(i));
+                    }
+
+                    else if (!TBDataList.get(i).getRawTelemetry().equals(TBDataList.get(i - 1).getRawTelemetry()) )
                     {
                         //if lower than 600 s
                         if (TBDataList.get(i).getTbSecs()<600)

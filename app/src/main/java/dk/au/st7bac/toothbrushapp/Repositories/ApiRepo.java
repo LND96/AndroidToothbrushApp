@@ -1,5 +1,8 @@
 package dk.au.st7bac.toothbrushapp.Repositories;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,7 +15,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Model.TbData;
@@ -35,7 +47,7 @@ public class ApiRepo {
 
     public void getTbData() {
         String baseUrl = "https://dmjljzkaec.execute-api.eu-west-1.amazonaws.com/default/tbapi/v1";
-        String url = baseUrl + "/system/tm/c4d1574b-d1ce-43da-84df-f54fe5e09ba9?since=20211012&limit=10"; // hardcoded værdi
+        String url = baseUrl + "/system/tm/c4d1574b-d1ce-43da-84df-f54fe5e09ba9?since=20211012&limit=40"; // hardcoded værdi
         sendRequestForTbData(url);
     }
 
@@ -47,7 +59,6 @@ public class ApiRepo {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) { // onResponse er synkroniseret til UI tråden, så vi må gerne opdatere UI her
-                Log.d(TAG, "onResponse" + response);
                 parseJson(response);
             }
         }, new Response.ErrorListener() {
@@ -86,17 +97,15 @@ public class ApiRepo {
                 String rawTelemetry = msgDataObj.getString("RawTelemetry");
                 int tbHb = msgDataObj.getInt("tbhb");
 
+                TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs, rawTelemetry, tbHb, LocalDateTime.now()); // LocalDateTime kræver API level 26
 
-                TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs, rawTelemetry, tbHb);
-                Log.d(TAG, "rawRelemetry" + tbData.getRawTelemetry());
-
-                tbDataList.add(tbData);
+               tbDataList.add(tbData);
             }
         } catch (JSONException e) {
             e.printStackTrace(); // skal der gøres noget andet ved exception?
         }
 
-        updateDataCtrl.setTbData(tbDataList);                                                     // hvad hvis listen er tom?
+        updateDataCtrl.setTbData(tbDataList);                      // hvad hvis listen er tom?
 
     }
 }

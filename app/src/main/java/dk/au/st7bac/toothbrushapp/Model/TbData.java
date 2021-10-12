@@ -1,8 +1,8 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 
 public class TbData {
@@ -10,19 +10,21 @@ public class TbData {
     // Der er lavet public gettere og settere for alle parametre, men overvej om set skal være private!
 
     private String sysId;
-    private String dateTime;
+    private String dateTimeString;
     private int tbVal;
     private double tbSecs;
+    private LocalDateTime dateTime;
     private String rawTelemetry;
     private int tbHb;
 
-    public TbData(String sysId, String dateTime, int tbVal, double tbSecs, String rawTelemetry, int tbHb) {
+    public TbData(String sysId, String dateTimeString, int tbVal, double tbSecs, String rawTelemetry, int tbHb, LocalDateTime dateTime) {
         this.sysId = sysId;
-        this.dateTime = dateTime;
+        this.dateTimeString = dateTimeString;
         this.tbVal = tbVal;
         this.tbSecs = tbSecs;
         this.rawTelemetry = rawTelemetry;
         this.tbHb = tbHb;
+        this.dateTime = dateTime;
     }
 
     public String getSysId() {
@@ -33,12 +35,12 @@ public class TbData {
         this.sysId = sysId;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getDateTimeString() {
+        return dateTimeString;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setDateTimeString(String dateTimeString) {
+        this.dateTimeString = dateTimeString;
     }
 
     public int getTbVal() {
@@ -71,6 +73,14 @@ public class TbData {
 
     public double getTbHb() {
         return tbHb;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
 }

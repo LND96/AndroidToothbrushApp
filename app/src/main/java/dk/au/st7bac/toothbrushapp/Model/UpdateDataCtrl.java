@@ -13,6 +13,9 @@ public class UpdateDataCtrl {
 
     public static UpdateDataCtrl updateDataCtrl;
 
+    private DataFilter dataFilter; // husk interface
+    private DataCleaner dataCleaner; // husk interface
+
     private MutableLiveData<TbStatus> tbStatusLiveData; // bør være LiveData frem for MutableLiveData, men er her mutable så der kan hardcodes værdier
     private TbStatus testData;
 
@@ -64,9 +67,12 @@ public class UpdateDataCtrl {
     }
 
     public void setTbData(ArrayList<TbData> tbDataList) {
-        Log.d("Repository tbDataList", "Test");
 
-        DataFilter dataFilter = new DataFilter();
-        dataFilter.FilterData(tbDataList);
+        dataFilter = new DataFilter(); // bør ikke oprettes her, men i constructoreren med injection
+        tbDataList = dataFilter.FilterData(tbDataList);
+
+
+        dataCleaner = new DataCleaner();                                 // bør ikke oprettes her, men i constructoreren med injection
+        tbDataList = dataCleaner.CleanData(tbDataList); // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
     }
 }

@@ -2,12 +2,17 @@ package dk.au.st7bac.toothbrushapp.Model;
 
 
 import java.time.LocalDateTime;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 import java.util.Date;
 
-
+@Entity
 public class TbData {
 
     // Der er lavet public gettere og settere for alle parametre, men overvej om set skal være private!
+
+    @PrimaryKey (autoGenerate = true)
+    private int id; // er der andet der kan bruges som id?
 
     private String sysId;
     private String dateTimeString;
@@ -25,6 +30,10 @@ public class TbData {
         this.rawTelemetry = rawTelemetry;
         this.tbHb = tbHb;
         this.dateTime = dateTime;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getSysId() {

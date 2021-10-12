@@ -36,18 +36,15 @@ public class UpdateDataCtrl {
     // METODE TIL AT TESTE MVVM
     private void setTestData() {
         String[] headerStrings = {"Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"}; // hardcoded værdier
-        boolean[] isToothbrushDoneMorning = {true, false, true, true, true, true, false}; // hardcoded værdier
-        boolean[] isTimeOkMorning = {true, false, true, false, false, false, false}; // hardcoded værdier
-        boolean[] isToothbrushDoneEvening = {false, true, true, true, true, false, true}; // hardcoded værdier
-        boolean[] isTimeOkEvening = {true, false, true, false, false, false, false}; // hardcoded værdier
+        boolean[] isTbDone = {true, false, false, true, true, true, true, true, true, true, true, false, false, true}; // hardcoded værdier
+        boolean[] isTimeOk = {true, false, false, false, true, false, false, true, false, false, false, false, false, false}; // hardcoded værdier
         int toothbrushesCompleted = 10; // hardcoded værdi
         int totalNumberToothbrushes = 14; // hardcoded værdi
         int avgBrushTime = 46; // hardcoded værdi
         boolean isAvgNumberToothbrushesOk = true; // hardcoded værdi
         boolean isAvgTimeOk = false; // hardcoded værdi
 
-        testData = new TbStatus(headerStrings, isToothbrushDoneMorning,
-                isTimeOkMorning, isToothbrushDoneEvening, isTimeOkEvening, toothbrushesCompleted,
+        testData = new TbStatus(headerStrings, isTbDone, isTimeOk, toothbrushesCompleted,
                 totalNumberToothbrushes, avgBrushTime, isAvgNumberToothbrushesOk, isAvgTimeOk);
         tbStatusLiveData = new MutableLiveData<>(testData);
     }

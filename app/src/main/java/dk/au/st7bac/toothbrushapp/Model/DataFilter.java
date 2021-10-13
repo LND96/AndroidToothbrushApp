@@ -1,12 +1,12 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DataFilter {
 
     private ArrayList<TbData> tbFilterDataList;
-    String rawTelemetry_last26 = "";
+    String prev_rawTelemetry_last26 = "";
+    String curr_rawTelemetry_last26 = "";
 
     public ArrayList<TbData> FilterData(ArrayList<TbData> TBDataList)
     {
@@ -22,10 +22,11 @@ public class DataFilter {
 
                 if (TBDataList.get(i).getTbSecs()>10)
                 {
+                    prev_rawTelemetry_last26 = curr_rawTelemetry_last26;
                     //https://howtodoinjava.com/java/string/get-last-4-characters/
-                    rawTelemetry_last26 = TBDataList.get(i).getRawTelemetry()
+                    curr_rawTelemetry_last26 = TBDataList.get(i).getRawTelemetry()
                             .substring(TBDataList.get(i).getRawTelemetry().length()-26);
-                    TBDataList.get(i).setRawTelemetry(rawTelemetry_last26);
+                    //TBDataList.get(i).setRawTelemetry(curr_rawTelemetry_last26);
 
                     if (i==0)
                     {
@@ -33,7 +34,7 @@ public class DataFilter {
                         tbFilterDataList.add(TBDataList.get(i));
                     }
 
-                    else if (!TBDataList.get(i).getRawTelemetry().equals(TBDataList.get(i - 1).getRawTelemetry()) )
+                    else if (!curr_rawTelemetry_last26.equals(prev_rawTelemetry_last26) )
                     {
                         //if lower than 600 s
                         if (TBDataList.get(i).getTbSecs()<600)
@@ -48,7 +49,4 @@ public class DataFilter {
 
         return tbFilterDataList;
     }
-
-
-
 }

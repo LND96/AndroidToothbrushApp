@@ -2,8 +2,12 @@ package dk.au.st7bac.toothbrushapp.Model;
 
 
 import java.time.LocalDateTime;
+
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import java.util.Date;
 
 @Entity
@@ -11,18 +15,26 @@ public class TbData {
 
     // Der er lavet public gettere og settere for alle parametre, men overvej om set skal være private!
 
-    @PrimaryKey (autoGenerate = true)
-    private int id; // er der andet der kan bruges som id?
+    //private int id; // er der andet der kan bruges som id?
 
     private String sysId;
     private String dateTimeString;
     private int tbVal;
     private double tbSecs;
-    private LocalDateTime dateTime;
-    private String rawTelemetry;
-    private int tbHb;
 
-    public TbData(String sysId, String dateTimeString, int tbVal, double tbSecs, String rawTelemetry, int tbHb, LocalDateTime dateTime) {
+    @TypeConverters(Converters.class)
+    private LocalDateTime dateTime;
+
+    @PrimaryKey
+    @NonNull
+    private String rawTelemetry;
+
+
+
+    private int tbHb;
+    private String epoch;
+
+    public TbData(String sysId, String dateTimeString, int tbVal, double tbSecs, String rawTelemetry, int tbHb, LocalDateTime dateTime, String epoch) {
         this.sysId = sysId;
         this.dateTimeString = dateTimeString;
         this.tbVal = tbVal;
@@ -30,11 +42,19 @@ public class TbData {
         this.rawTelemetry = rawTelemetry;
         this.tbHb = tbHb;
         this.dateTime = dateTime;
+        this.epoch = epoch;
+    }
+
+    /*
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
         return id;
     }
+
+     */
 
     public String getSysId() {
         return sysId;
@@ -76,12 +96,12 @@ public class TbData {
         this.rawTelemetry = rawTelemetry;
     }
 
-    public void setTbHb(int tbHb) {
-        this.tbHb = tbHb;
+    public int getTbHb() {
+        return tbHb;
     }
 
-    public double getTbHb() {
-        return tbHb;
+    public void setTbHb(int tbHb) {
+        this.tbHb = tbHb;
     }
 
     public LocalDateTime getDateTime() {
@@ -90,6 +110,14 @@ public class TbData {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public String getEpoch() {
+        return epoch;
+    }
+
+    public void setEpoch(String epoch) {
+        this.epoch = epoch;
     }
 
 }

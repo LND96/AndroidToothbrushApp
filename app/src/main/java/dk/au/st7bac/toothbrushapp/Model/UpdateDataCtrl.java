@@ -7,10 +7,21 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import dk.au.st7bac.toothbrushapp.Repositories.ApiRepo;
+import dk.au.st7bac.toothbrushapp.Repositories.DbRepo;
+import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
 public class UpdateDataCtrl {
 
@@ -24,7 +35,13 @@ public class UpdateDataCtrl {
     private TbStatus testData;
 
     private ApiRepo apiRepo;
+    private DbRepo dbRepo;
 
+    //private ArrayList<TbData> tbDataList;
+
+    private ExecutorService executor; // for asynch processing
+
+    // singleton pattern
     public static UpdateDataCtrl getInstance() { // Er det ok at bruge singleton her?
         if (updateDataCtrl == null) {
             updateDataCtrl = new UpdateDataCtrl();
@@ -32,10 +49,92 @@ public class UpdateDataCtrl {
         return updateDataCtrl;
     }
 
-
+    // private constructor
     private UpdateDataCtrl() {
+        dataFilter = new DataFilter(); // constructor injection?
+        dataCleaner = new DataCleaner(); // constructor injection?
         setTestData();
+        dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
+        executor = Executors.newSingleThreadExecutor();
     }
+
+    // method for returning updated tb data
+    public LiveData<TbStatus> getTbStatusLiveData() {
+        // get data from api
+        getApiData();
+
+
+        return tbStatusLiveData;
+    }
+
+    ////// Api repo //////
+    private void getApiData() {
+        if (apiRepo == null) {
+            apiRepo = new ApiRepo(this);
+        }
+
+        apiRepo.getTbData();
+    }
+
+    //
+    public void updateTbData(ArrayList<TbData> tbDataList) {
+
+        tbDataList = dataFilter.FilterData(tbDataList);
+        tbDataList = dataCleaner.CleanData(tbDataList); // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
+
+        addData(tbDataList);
+
+
+        List test = getAllTbData();
+        List tet2 = getTbDataInInterval();
+    }
+
+
+    ////// Db repo //////
+
+    private void addData(ArrayList<TbData> tbDataList) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dbRepo.tbDao().addTbDataList(tbDataList);
+            }
+        });
+    }
+
+    private List<TbData> getAllTbData() {
+        Future<List<TbData>> tbDataList = executor.submit(new Callable<List<TbData>>() {
+            @Override
+            public List<TbData> call() {
+                return dbRepo.tbDao().getAllTbData();
+            }
+        });
+
+        try {
+            return tbDataList.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private List<TbData> getTbDataInInterval() {
+        Future<List<TbData>> tbDataList = executor.submit(new Callable<List<TbData>>() {
+            @Override
+            public List<TbData> call() {
+                return dbRepo.tbDao().getTbDataInInterval();
+            }
+        });
+
+        try {
+            return tbDataList.get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
     // METODE TIL AT TESTE MVVM
     private void setTestData() {
@@ -51,33 +150,10 @@ public class UpdateDataCtrl {
         testData = new TbStatus(headerStrings, isTbDone, isTimeOk, toothbrushesCompleted,
                 totalNumberToothbrushes, avgBrushTime, isAvgNumberToothbrushesOk, isAvgTimeOk);
         tbStatusLiveData = new MutableLiveData<>(testData);
-    }
 
-    public LiveData<TbStatus> getTbStatusLiveData() {
-        getApiData();
-        return tbStatusLiveData;
-    }
-
-    ////// Web Api Service //////
-    private void getApiData() {
-        if (apiRepo == null) {
-            apiRepo = new ApiRepo(this);
-        }
-
-        apiRepo.getTbData();
     }
 
     public void setTbData(ArrayList<TbData> tbDataList) {
-
-        ArrayList<LocalDate> dateList = new ArrayList<>();
-
-        LocalDate today = LocalDate.now();
-        dateList.add(today);
-
-        for (int i = 0; i < 6; i++) {
-            dateList.add(today.minusDays(i+1));
-        }
-
 
 
         dataFilter = new DataFilter(); // bør ikke oprettes her, men i constructoreren med injection

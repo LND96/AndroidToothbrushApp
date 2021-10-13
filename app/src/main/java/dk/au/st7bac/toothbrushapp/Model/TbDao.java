@@ -8,16 +8,21 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Dao
 public interface TbDao {
 
     // get all data
     @Query("SELECT * FROM tbdata")
-    LiveData<ArrayList<TbData>> getAll();
+    List<TbData> getAllTbData(); // Skal det være livedata eller en anden slags liste?
+
+    // kilde: https://stackoverflow.com/questions/62215105/android-room-retrive-rows-for-30-days
+    @Query("SELECT * FROM tbdata WHERE epoch >= strftime('%s', dateTime('now', '-1 day'))")
+    List<TbData> getTbDataInInterval();
 
     // add list of data to database
-    @Insert // skal der være en onConflict?
+    @Insert(onConflict = OnConflictStrategy.REPLACE) // skal der være en onConflict?
     void addTbDataList(ArrayList<TbData> tbDataArrayList);
 
     // delete a particular data point based on the primary key

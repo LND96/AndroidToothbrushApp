@@ -9,8 +9,10 @@ import androidx.annotation.RequiresApi;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,29 +31,9 @@ public class DataCleaner {
 
         for (TbData tbData : tbDataList) {
 
-            // get date time
-            String dateString = tbData.getDateTimeString();
-            // select relevant characters
-            String dateSubString = dateString.substring(0, dateString.length() - 8); // Virker, men hvis pludselig dateString ændrer format (f.eks. hvis år kun skrives som YY) vil det ikke virke længere
-
-            // convert to date time object
-            // kilde: https://stackoverflow.com/questions/49598863/adding-time-in-hours-to-a-date-object-in-java
-            LocalDateTime dateTime = LocalDateTime
-                    .parse(dateSubString, DateTimeFormatter.ofPattern("yyyyMMddHHmm"))
-                    .plusHours(2); // LocalDateTime kræver Android 8.0 (API level 26) eller nyere så har ændret det i gradle filen
-
-
-
-            // Virker ikke endnu...
-            /*
-            ZoneOffset offset = OffsetDateTime.now().getOffset(); // kilde: https://stackoverflow.com/questions/42468753/java-8-zoneoffset-how-to-get-current-system-utc-offset
-
-            // kilde: https://stackoverflow.com/questions/49598863/adding-time-in-hours-to-a-date-object-in-java
-            LocalDateTime localDateTime = LocalDateTime
-                    .parse(dateSubString, DateTimeFormatter.ofPattern("yyyyMMddHHmm")); // LocalDateTime kræver Android 8.0 (API level 26) eller nyere så har ændret det i gradle filen
-
-            ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, offset);
-             */
+            // kilde: https://stackoverflow.com/questions/35183146/how-can-i-create-a-java-8-localdate-from-a-long-epoch-time-in-milliseconds
+            // kilde: https://stackoverflow.com/questions/9936648/how-to-convert-string-to-long/24309678
+            LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(tbData.getEpoch())), ZoneId.systemDefault());
 
             // set new date time
             tbData.setDateTime(dateTime);

@@ -2,6 +2,7 @@ package dk.au.st7bac.toothbrushapp.Model;
 
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,40 +15,33 @@ public class Processor {
 
     private ArrayList<TbData> tbProcessorList;
 
-    private double numTbThreshold = 0.8; //80 % is ok
-    private int timeTbThreshold = 90; //90 sec is ok
+    private final int timeTbThreshold = 90; //90 sec is ok
 
-    private LocalTime morningToEveningTime = LocalTime.parse("11:59:00.000");
-    private LocalTime eveningToMorningTime = LocalTime.parse("00:00:00.000");
-
-    private ArrayList<LocalDate> dateList = new ArrayList<>();
+    private final LocalTime morningToEveningTime = LocalTime.parse("11:59:00.000");
+    private final LocalTime eveningToMorningTime = LocalTime.parse("00:00:00.000");
 
 
-    public ArrayList<TbData> ProcessData(ArrayList<TbData> TBDataList, int days, int tbEachDay)
+    public TbStatus ProcessData(ArrayList<TbData> TBDataList, int days, int tbEachDay)
     {
-        int tbDays = tbDays(TBDataList);
+        int numTbCompleted = tbDays(TBDataList);
 
-        isAvgNumTbOk(tbDays, days, tbEachDay);
+        int totalNumberTb = days * tbEachDay;
+        boolean isAvgNumTbOK = isAvgNumTbOk(numTbCompleted, totalNumberTb);
 
-        int avgTime = avgTime(TBDataList);
+        int avgBrushTime = avgTime(TBDataList);
 
-        isAvgTimeTbOK(avgTime);
+        boolean isAVgTimeTbOK = isAvgTimeTbOK(avgBrushTime);
 
-        isMorningAndEveningOk(TBDataList, days, tbEachDay);
+        ArrayList<LocalDate> dateList = createDateList(days);
+        boolean[] isTbDone = isMorningAndEveningOk(TBDataList, days, tbEachDay, dateList);
 
-        isMorningAndEveningTimeOk(TBDataList, days, tbEachDay);
+        boolean[] isTimeOk = isMorningAndEveningTimeOk(TBDataList, days, tbEachDay, dateList);
 
+        String[] headerStrings = new String[]{"Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"}; // hardcoded værdier - hvor skal denne liste genereres?
 
-        //gemme alle resultaterne i et TBstatus objekt - dette mangler!
-        return tbProcessorList;
-
-        String[] headerStrings = {"Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"}; // hardcoded værdier
-        TbStatus tbStatus = new TbStatus(headerStrings, );
-
-        testData = new TbStatus(headerStrings, isToothbrushDoneMorning,
-                isTimeOkMorning, isToothbrushDoneEvening, isTimeOkEvening, toothbrushesCompleted,
-                totalNumberToothbrushes, avgBrushTime, isAvgNumberToothbrushesOk, isAvgTimeOk);
-
+        //save all results in tbStatus object
+        TbStatus tbStatus = new TbStatus(headerStrings, isTbDone, isTimeOk, numTbCompleted, totalNumberTb, avgBrushTime, isAvgNumTbOK, isAVgTimeTbOK);
+        return tbStatus;
 
     }
 
@@ -58,15 +52,16 @@ public class Processor {
     }
 
     //Calculate if average numbers of tb is ok
-    public boolean isAvgNumTbOk(int tbDays, int days, int tbEachDay)
+    public boolean isAvgNumTbOk(int numTbCompleted, int totalNumberTb)
     {
-        double AvgNumTb = tbDays / (days * tbEachDay + 0.0);
+        double AvgNumTb = numTbCompleted / totalNumberTb;
+        double numTbThreshold = 0.8; //80 % is ok
 
         //return true if average numbers of Tb is higher than threshold, else return false.
         return AvgNumTb > numTbThreshold;
     }
 
-    //calculate average time
+    //Calculate average time
     private int avgTime(ArrayList<TbData> TBDataList) {
         double sumTime = 0;
         for (int i = 0; i < TBDataList.size(); i++) {
@@ -76,20 +71,18 @@ public class Processor {
         return (int) (sumTime/TBDataList.size());
     }
 
-    //calculate if average time of tb is ok
-    private boolean isAvgTimeTbOK(int avgTime)
+    //Calculate if average time of tb is ok
+    private boolean isAvgTimeTbOK(int avgBrushTime)
     {
         //return true if avgTime is higher than threshold, else return false.
-        return avgTime > timeTbThreshold;
+        return avgBrushTime > timeTbThreshold;
     }
 
+    //create list with the last x days.
+    private ArrayList<LocalDate> createDateList(int days) {
 
+        ArrayList<LocalDate> dateList = new ArrayList<>();
 
-    //update morningAndEveningOK (true if there is a tb event.)
-    private ArrayList<Boolean> isMorningAndEveningOk(ArrayList<TbData> TBDataList, int days, int tbEachDay)
-    {
-
-        //create list with the last x days. - dette kan evt. blive lagt i en metode for sig...
         LocalDate today = LocalDate.now();
         dateList.add(today);
 
@@ -97,11 +90,13 @@ public class Processor {
             dateList.add(today.minusDays(l+1));
         }
 
-        //kan disse lister initieres smartere? uden at lave et for loop..
-        ArrayList<Boolean> morningAndEveningOK = new ArrayList<>();
-        for (int k = 0; k < days*2; k++) {
-            morningAndEveningOK.add(false);
-        }
+        return dateList;
+    }
+    //Update morningAndEveningOK (true if there is a tb event.)
+    private boolean[] isMorningAndEveningOk(ArrayList<TbData> TBDataList, int days, int tbEachDay, ArrayList<LocalDate> dateList)
+    {
+
+        boolean[] morningAndEveningOK = new boolean[days*2];
 
         if (tbEachDay == 2)
         {
@@ -121,28 +116,12 @@ public class Processor {
 
                             //https://stackoverflow.com/questions/4352885/how-do-i-update-the-element-at-a-certain-position-in-an-arraylist
                             //x' element in list is updated with true (morning)
-                            morningAndEveningOK.set(2*j, true);
-
-                            /*
-                            //Update morningAndEveningTimeOK list with true if the time of each tb is accepted.
-                            if (TBDataList.get(i).getTbSecs() > timeTbThreshold ) {
-                                morningAndEveningTimeOK.set(2*j, true);
-                            }
-
-                             */
+                            Array.setBoolean(morningAndEveningOK, 2*j, true);
 
 
                         } else {
                             //x' element in list is updated with true (evening)
-                            morningAndEveningOK.set((2*j)+1, true);
-
-                            /*
-                            //Update morningAndEveningTimeOK list with true if the time of each tb is accepted.
-                            if (TBDataList.get(i).getTbSecs() > timeTbThreshold ) {
-                                morningAndEveningTimeOK.set((2*j)+1, true);
-                            }
-
-                             */
+                            Array.setBoolean(morningAndEveningOK, (2*j)+1, true);
                         }
                     }
                 }
@@ -155,22 +134,10 @@ public class Processor {
     }
 
     //update morningAndEveningTimeOK (true if time for the tb event is ok)
-    private ArrayList<Boolean> isMorningAndEveningTimeOk(ArrayList<TbData> TBDataList, int days, int tbEachDay) {
+    private boolean[] isMorningAndEveningTimeOk(ArrayList<TbData> TBDataList, int days, int tbEachDay, ArrayList<LocalDate> dateList) {
 
-        //create list with the last x days. - dette kan evt. blive lagt i en metode for sig...
-        LocalDate today = LocalDate.now();
-        dateList.add(today);
-
-        for (int l = 0; l < days - 1; l++) {
-            dateList.add(today.minusDays(l + 1));
-        }
-
-        //kan listen initieres smartere?
         //create list with x elements
-        ArrayList<Boolean> morningAndEveningTimeOK = new ArrayList<>();
-        for (int k = 0; k < days * 2; k++) {
-            morningAndEveningTimeOK.add(false);
-        }
+        boolean[] morningAndEveningTimeOK = new boolean[days*2];
 
         if (tbEachDay == 2) {
             for (int i = 0; i < TBDataList.size(); i++) {
@@ -184,7 +151,8 @@ public class Processor {
 
                             //Update morningAndEveningTimeOK list with true if the time of each tb is accepted.
                             if (TBDataList.get(i).getTbSecs() > timeTbThreshold) {
-                                morningAndEveningTimeOK.set(2 * j, true);
+
+                                Array.setBoolean(morningAndEveningTimeOK, 2*j, true);
                             }
 
 
@@ -192,7 +160,7 @@ public class Processor {
 
                             //Update morningAndEveningTimeOK list with true if the time of each tb is accepted.
                             if (TBDataList.get(i).getTbSecs() > timeTbThreshold) {
-                                morningAndEveningTimeOK.set((2 * j) + 1, true);
+                                Array.setBoolean(morningAndEveningTimeOK, (2*j)+1, true);
                             }
                         }
                     }

@@ -88,7 +88,7 @@ public class UpdateDataCtrl {
         tbDataList = dataCleaner.CleanData(tbDataList); // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
 
         processor = new Processor();
-        tbDataList = processor.ProcessData(tbDataList, 7, 2); //OBS Hard codede værdier
+        processor.ProcessData(tbDataList, 7, 2); //OBS Hard codede værdier
 
 
 

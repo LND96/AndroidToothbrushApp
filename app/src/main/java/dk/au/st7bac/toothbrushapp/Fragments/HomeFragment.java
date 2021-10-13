@@ -30,16 +30,15 @@ public class HomeFragment extends Fragment {
     private int imgPadding = 15;
 
     // data
-    private String[] headerStrings; // = {"Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"}; // hardcoded værdier
-    private boolean[] isToothbrushDoneMorning;
-    private boolean[] isTimeOkMorning; // = {true, false, true, false, false, false, false}; // hardcoded værdier
-    private boolean[] isToothbrushDoneEvening; // = {false, true, true, true, true, false, true}; // hardcoded værdier
-    private boolean[] isTimeOkEvening; // = {false, false, true, false, false, false, false}; // hardcoded værdier
-    private int toothbrushesCompleted; // = 10; // hardcoded værdi
-    private int totalNumberToothbrushes; // = 14; // hardcoded værdi
-    private int avgBrushTime; // = 45; // hardcoded værdi
-    private boolean isAvgNumberToothbrushesOk; // = true; // hardcoded værdi
-    private boolean isAvgTimeOk; // = false; // hardcoded værdi
+    private String[] headerStrings;
+    private boolean[] isTbDone;
+    private boolean[] isTimeOk;
+    private int numTbCompleted;
+    private int totalNumTb;
+    private int avgTbTime;
+    private boolean isAvgNumTbOk;
+    private boolean isAvgTimeOk;
+
 
     // view model
     private HomeViewModel vm;
@@ -70,14 +69,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(TbStatus tbStatus) {
                 headerStrings = tbStatus.getHeaderStrings();
-                isToothbrushDoneMorning = tbStatus.getIsToothbrushDoneMorning();
-                isTimeOkMorning = tbStatus.getIsTimeOkMorning();
-                isToothbrushDoneEvening = tbStatus.getIsToothbrushDoneEvening();
-                isTimeOkEvening = tbStatus.getIsTimeOkEvening();
-                toothbrushesCompleted = tbStatus.getToothbrushesCompleted();
-                totalNumberToothbrushes = tbStatus.getTotalNumberToothbrushes();
-                avgBrushTime = tbStatus.getAvgBrushTime();
-                isAvgNumberToothbrushesOk = tbStatus.isAvgNumberToothbrushesOk();
+                isTbDone = tbStatus.getIsTbDone();
+                isTimeOk = tbStatus.getIsTimeOk();
+                numTbCompleted = tbStatus.getNumTbCompleted();
+                totalNumTb = tbStatus.getTotalNumTb();
+                avgTbTime = tbStatus.getAvgTbTime();
+                isAvgNumTbOk = tbStatus.isAvgNumTbOk();
                 isAvgTimeOk = tbStatus.isAvgTimeOk();
 
                 updateUI(view);
@@ -97,12 +94,12 @@ public class HomeFragment extends Fragment {
     // updates UI with data
     private void updateUI(View view) { // denne må ikke kaldes før setupUI - hvordan tager vi højde for dette? Evt. med try catch rundt om i stedet
         // update text views
-        txtTotalNumberToothbrushes.setText(String.valueOf(totalNumberToothbrushes));
-        txtNumberToothbrushesCompletedResult.setText(String.valueOf(toothbrushesCompleted));
-        txtAvgTimeResult.setText(String.valueOf(avgBrushTime));
+        txtTotalNumberToothbrushes.setText(String.valueOf(totalNumTb));
+        txtNumberToothbrushesCompletedResult.setText(String.valueOf(numTbCompleted));
+        txtAvgTimeResult.setText(String.valueOf(avgTbTime));
 
         // update images
-        if (isAvgNumberToothbrushesOk){
+        if (isAvgNumTbOk){
             imgNumberToothbrushesResult.setImageResource(R.drawable.ok_icon);
         } else {
             imgNumberToothbrushesResult.setImageResource(R.drawable.not_ok_icon);
@@ -133,27 +130,31 @@ public class HomeFragment extends Fragment {
             rowHeader.addView(textView); // add TextView to row
         }
 
-        addImgToRow(rowMorningBrush, isToothbrushDoneMorning);
-        addImgToRow(rowMorningTime, isTimeOkMorning);
-        addImgToRow(rowEveningBrush, isToothbrushDoneEvening);
-        addImgToRow(rowEveningTime, isTimeOkEvening);
+
+        for (int i = 0; i < isTbDone.length; i++) {
+            if (i % 2 == 0) {
+                addImgToRow(rowMorningBrush, isTbDone[i]);
+                addImgToRow(rowMorningTime, isTimeOk[i]);
+            } else {
+                addImgToRow(rowEveningBrush, isTbDone[i]);
+                addImgToRow(rowEveningTime, isTimeOk[i]);
+            }
+        }
     }
 
     // adds images to table row
-    private void addImgToRow(TableRow row, boolean[] isDone)
-    {
-        for (boolean b : isDone) {
-            ImageView imageView = new ImageView(getActivity()); // create ImageView
-            imageView.setLayoutParams(new TableRow.LayoutParams(0, 80, 1)); // make cells equal size
-            imageView.setPadding(imgPadding, imgPadding, imgPadding, imgPadding); // set padding around images
-            if (b) // set the right icon
-            {
-                imageView.setImageResource(R.drawable.ok_icon);
-            } else {
-                imageView.setImageResource(R.drawable.not_ok_icon);
-            }
-
-            row.addView(imageView); // add ImageView to row
+    private void addImgToRow(TableRow row, boolean isOk) {
+        ImageView imageView = new ImageView(getActivity()); // create ImageView
+        imageView.setLayoutParams(new TableRow.LayoutParams(0, 80, 1)); // make cells equal size
+        imageView.setPadding(imgPadding, imgPadding, imgPadding, imgPadding); // set padding around images
+        if (isOk) // set the right icon
+        {
+            imageView.setImageResource(R.drawable.ok_icon);
+        } else {
+            imageView.setImageResource(R.drawable.not_ok_icon);
         }
+
+        row.addView(imageView); // add ImageView to row
     }
+
 }

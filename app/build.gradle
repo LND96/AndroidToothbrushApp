@@ -37,6 +37,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.navigation:navigation-runtime:2.3.5'
+    implementation 'androidx.room:room-runtime:2.3.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.android.volley:volley:1.2.1'
     testImplementation 'junit:junit:4.+'

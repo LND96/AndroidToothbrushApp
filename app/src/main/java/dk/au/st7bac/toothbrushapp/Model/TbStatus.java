@@ -2,30 +2,24 @@ package dk.au.st7bac.toothbrushapp.Model;
 
 public class TbStatus {
     private String[] headerStrings;
-    private boolean[] isToothbrushDoneMorning;
-    private boolean[] isTimeOkMorning;
-    private boolean[] isToothbrushDoneEvening;
-    private boolean[] isTimeOkEvening;
-    private int toothbrushesCompleted;
-    private int totalNumberToothbrushes;
-    private int avgBrushTime;
-    private boolean isAvgNumberToothbrushesOk;
+    private boolean[] isTbDone;
+    private boolean[] isTimeOk;
+    private int numTbCompleted;
+    private int totalNumTb;
+    private int avgTbTime;
+    private boolean isAvgNumTbOk;
     private boolean isAvgTimeOk;
 
-    public TbStatus(String[] headerStrings, boolean[] isToothbrushDoneMorning,
-                    boolean[] isTimeOkMorning, boolean[] isToothbrushDoneEvening,
-                    boolean[] isTimeOkEvening, int toothbrushesCompleted,
-                    int totalNumberToothbrushes, int avgBrushTime,
-                    boolean isAvgNumberToothbrushesOk, boolean isAvgTimeOk) {
+    public TbStatus(String[] headerStrings, boolean[] isTbDone, boolean[] isTimeOk,
+                    int numTbCompleted, int totalNumTb, int avgTbTime, boolean isAvgNumTbOk,
+                    boolean isAvgTimeOk) {
         this.headerStrings = headerStrings;
-        this.isToothbrushDoneMorning = isToothbrushDoneMorning;
-        this.isTimeOkMorning = isTimeOkMorning;
-        this.isToothbrushDoneEvening = isToothbrushDoneEvening;
-        this.isTimeOkEvening = isTimeOkEvening;
-        this.toothbrushesCompleted = toothbrushesCompleted;
-        this.totalNumberToothbrushes = totalNumberToothbrushes;
-        this.avgBrushTime = avgBrushTime;
-        this.isAvgNumberToothbrushesOk = isAvgNumberToothbrushesOk;
+        this.isTbDone = isTbDone;
+        this.isTimeOk = isTimeOk;
+        this.numTbCompleted = numTbCompleted;
+        this.totalNumTb = totalNumTb;
+        this.avgTbTime = avgTbTime;
+        this.isAvgNumTbOk = isAvgNumTbOk;
         this.isAvgTimeOk = isAvgTimeOk;
     }
 
@@ -37,68 +31,52 @@ public class TbStatus {
         this.headerStrings = headerStrings;
     }
 
-    public boolean[] getIsToothbrushDoneMorning() {
-        return isToothbrushDoneMorning;
+    public boolean[] getIsTbDone() {
+        return isTbDone;
     }
 
-    public void setIsToothbrushDoneMorning(boolean[] isToothbrushDoneMorning) {
-        this.isToothbrushDoneMorning = isToothbrushDoneMorning;
+    public void setIsTbDone(boolean[] isTbDone) {
+        this.isTbDone = isTbDone;
     }
 
-    public boolean[] getIsTimeOkMorning() {
-        return isTimeOkMorning;
+    public boolean[] getIsTimeOk() {
+        return isTimeOk;
     }
 
-    public void setIsTimeOkMorning(boolean[] isTimeOkMorning) {
-        this.isTimeOkMorning = isTimeOkMorning;
+    public void setIsTimeOk(boolean[] isTimeOk) {
+        this.isTimeOk = isTimeOk;
     }
 
-    public boolean[] getIsToothbrushDoneEvening() {
-        return isToothbrushDoneEvening;
+    public int getNumTbCompleted() {
+        return numTbCompleted;
     }
 
-    public void setIsToothbrushDoneEvening(boolean[] isToothbrushDoneEvening) {
-        this.isToothbrushDoneEvening = isToothbrushDoneEvening;
+    public void setNumTbCompleted(int numTbCompleted) {
+        this.numTbCompleted = numTbCompleted;
     }
 
-    public boolean[] getIsTimeOkEvening() {
-        return isTimeOkEvening;
+    public int getTotalNumTb() {
+        return totalNumTb;
     }
 
-    public void setIsTimeOkEvening(boolean[] isTimeOkEvening) {
-        this.isTimeOkEvening = isTimeOkEvening;
+    public void setTotalNumTb(int totalNumTb) {
+        this.totalNumTb = totalNumTb;
     }
 
-    public int getToothbrushesCompleted() {
-        return toothbrushesCompleted;
+    public int getAvgTbTime() {
+        return avgTbTime;
     }
 
-    public void setToothbrushesCompleted(int toothbrushesCompleted) {
-        this.toothbrushesCompleted = toothbrushesCompleted;
+    public void setAvgTbTime(int avgTbTime) {
+        this.avgTbTime = avgTbTime;
     }
 
-    public int getTotalNumberToothbrushes() {
-        return totalNumberToothbrushes;
+    public boolean isAvgNumTbOk() {
+        return isAvgNumTbOk;
     }
 
-    public void setTotalNumberToothbrushes(int totalNumberToothbrushes) {
-        this.totalNumberToothbrushes = totalNumberToothbrushes;
-    }
-
-    public int getAvgBrushTime() {
-        return avgBrushTime;
-    }
-
-    public void setAvgBrushTime(int avgBrushTime) {
-        this.avgBrushTime = avgBrushTime;
-    }
-
-    public boolean isAvgNumberToothbrushesOk() {
-        return isAvgNumberToothbrushesOk;
-    }
-
-    public void setAvgNumberToothbrushesOk(boolean avgNumberToothbrushesOk) {
-        isAvgNumberToothbrushesOk = avgNumberToothbrushesOk;
+    public void setAvgNumTbOk(boolean avgNumTbOk) {
+        isAvgNumTbOk = avgNumTbOk;
     }
 
     public boolean isAvgTimeOk() {
@@ -108,6 +86,4 @@ public class TbStatus {
     public void setAvgTimeOk(boolean avgTimeOk) {
         isAvgTimeOk = avgTimeOk;
     }
-
-
 }

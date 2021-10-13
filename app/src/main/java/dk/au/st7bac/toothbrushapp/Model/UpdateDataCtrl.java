@@ -5,7 +5,10 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import dk.au.st7bac.toothbrushapp.Repositories.ApiRepo;
 
@@ -15,6 +18,7 @@ public class UpdateDataCtrl {
 
     private DataFilter dataFilter; // husk interface
     private DataCleaner dataCleaner; // husk interface
+    private Processor processor; //husk interface
 
     private MutableLiveData<TbStatus> tbStatusLiveData; // bør være LiveData frem for MutableLiveData, men er her mutable så der kan hardcodes værdier
     private TbStatus testData;
@@ -68,11 +72,28 @@ public class UpdateDataCtrl {
 
     public void setTbData(ArrayList<TbData> tbDataList) {
 
+        ArrayList<LocalDate> dateList = new ArrayList<>();
+
+        LocalDate today = LocalDate.now();
+        dateList.add(today);
+
+        for (int i = 0; i < 6; i++) {
+            dateList.add(today.minusDays(i+1));
+        }
+
+
+
         dataFilter = new DataFilter(); // bør ikke oprettes her, men i constructoreren med injection
         tbDataList = dataFilter.FilterData(tbDataList);
 
 
         dataCleaner = new DataCleaner();                                 // bør ikke oprettes her, men i constructoreren med injection
         tbDataList = dataCleaner.CleanData(tbDataList); // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
+
+        processor = new Processor();
+        tbDataList = processor.ProcessData(tbDataList, 7, 2); //OBS Hard codede værdier
+
+
+
     }
 }

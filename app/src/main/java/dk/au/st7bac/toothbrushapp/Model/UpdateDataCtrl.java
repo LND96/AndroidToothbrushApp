@@ -3,7 +3,12 @@ package dk.au.st7bac.toothbrushapp.Model;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -21,6 +26,7 @@ public class UpdateDataCtrl {
 
     private DataFilter dataFilter; // husk interface
     private DataCleaner dataCleaner; // husk interface
+    private Processor processor; //husk interface
 
     private MutableLiveData<TbStatus> tbStatusLiveData; // bør være LiveData frem for MutableLiveData, men er her mutable så der kan hardcodes værdier
     private TbStatus testData;
@@ -80,7 +86,6 @@ public class UpdateDataCtrl {
         // get data from database
         List test = getAllDbTbData();
         List test2 = getDbTbDataInInterval();
-
     }
 
 
@@ -144,6 +149,23 @@ public class UpdateDataCtrl {
         testData = new TbStatus(headerStrings, isTbDone, isTimeOk, toothbrushesCompleted,
                 totalNumberToothbrushes, avgBrushTime, isAvgNumberToothbrushesOk, isAvgTimeOk);
         tbStatusLiveData = new MutableLiveData<>(testData);
+
+    }
+
+    public void setTbData(ArrayList<TbData> tbDataList) {
+
+
+        dataFilter = new DataFilter(); // bør ikke oprettes her, men i constructoreren med injection
+        tbDataList = dataFilter.FilterData(tbDataList);
+
+
+        dataCleaner = new DataCleaner();                                 // bør ikke oprettes her, men i constructoreren med injection
+        tbDataList = dataCleaner.CleanData(tbDataList); // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
+
+        processor = new Processor();
+        processor.ProcessData(tbDataList, 7, 2); //OBS Hard codede værdier
+
+
 
     }
 }

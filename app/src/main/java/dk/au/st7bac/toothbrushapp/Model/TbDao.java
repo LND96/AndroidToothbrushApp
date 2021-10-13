@@ -18,7 +18,8 @@ public interface TbDao {
     List<TbData> getAllTbData(); // Skal det være livedata eller en anden slags liste?
 
     // kilde: https://stackoverflow.com/questions/62215105/android-room-retrive-rows-for-30-days
-    @Query("SELECT * FROM tbdata WHERE epoch >= strftime('%s', dateTime('now', '-1 day'))")
+    //@Query("SELECT * FROM tbdata WHERE epoch >= strftime('%s', dateTime('now', '-',:days,'day'))")
+    @Query("SELECT * FROM tbdata WHERE epoch >= strftime('%s', dateTime('now', '-1 day'))") // Hardcoded at det er fra den sidste dag
     List<TbData> getTbDataInInterval();
 
     // add list of data to database

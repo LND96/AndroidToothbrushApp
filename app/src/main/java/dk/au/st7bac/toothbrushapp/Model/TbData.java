@@ -18,7 +18,6 @@ public class TbData {
     //private int id; // er der andet der kan bruges som id?
 
     private String sysId;
-    private String dateTimeString;
     private int tbVal;
     private double tbSecs;
 
@@ -30,13 +29,11 @@ public class TbData {
     private String rawTelemetry;
 
 
-
     private int tbHb;
-    private String epoch;
+    private int epoch;
 
-    public TbData(String sysId, String dateTimeString, int tbVal, double tbSecs, String rawTelemetry, int tbHb, LocalDateTime dateTime, String epoch) {
+    public TbData(String sysId, int tbVal, double tbSecs, String rawTelemetry, int tbHb, LocalDateTime dateTime, int epoch) {
         this.sysId = sysId;
-        this.dateTimeString = dateTimeString;
         this.tbVal = tbVal;
         this.tbSecs = tbSecs;
         this.rawTelemetry = rawTelemetry;
@@ -45,31 +42,12 @@ public class TbData {
         this.epoch = epoch;
     }
 
-    /*
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-     */
-
     public String getSysId() {
         return sysId;
     }
 
     public void setSysId(String sysId) {
         this.sysId = sysId;
-    }
-
-    public String getDateTimeString() {
-        return dateTimeString;
-    }
-
-    public void setDateTimeString(String dateTimeString) {
-        this.dateTimeString = dateTimeString;
     }
 
     public int getTbVal() {
@@ -112,11 +90,11 @@ public class TbData {
         this.dateTime = dateTime;
     }
 
-    public String getEpoch() {
+    public int getEpoch() {
         return epoch;
     }
 
-    public void setEpoch(String epoch) {
+    public void setEpoch(int epoch) {
         this.epoch = epoch;
     }
 

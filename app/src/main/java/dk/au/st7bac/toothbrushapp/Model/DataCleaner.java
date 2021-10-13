@@ -1,5 +1,6 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
+import android.content.IntentFilter;
 import android.os.Build;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -33,12 +34,17 @@ public class DataCleaner {
 
             // kilde: https://stackoverflow.com/questions/35183146/how-can-i-create-a-java-8-localdate-from-a-long-epoch-time-in-milliseconds
             // kilde: https://stackoverflow.com/questions/9936648/how-to-convert-string-to-long/24309678
-            LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(tbData.getEpoch())), ZoneId.systemDefault());
+            String hexValue = tbData.getRawTelemetry().substring(4, 12);
+            int deciValue = Integer.parseInt(hexValue, 16);
+
+            LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(deciValue), ZoneId.systemDefault());
 
             // set new date time
+            tbData.setEpoch(deciValue);
             tbData.setDateTime(dateTime);
         }
 
+        // checking if two or more measurements are within 10 minutes
         for (int i = tbDataList.size() - 1; i >= 0; i--) {
 
             if (i == 0) {

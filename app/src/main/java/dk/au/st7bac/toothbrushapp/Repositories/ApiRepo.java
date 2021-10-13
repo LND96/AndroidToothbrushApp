@@ -73,10 +73,6 @@ public class ApiRepo {
 
                 JSONObject sysIdObj = jsonArray.getJSONObject(i).getJSONObject("SysId");
                 String sysId = sysIdObj.getString("S");
-                JSONObject dateTimeObj = jsonArray.getJSONObject(i).getJSONObject("SystemDateTime");
-                String dateTime = dateTimeObj.getString("S");
-                JSONObject ttlEpoch = jsonArray.getJSONObject(i).getJSONObject("TTLEpoch");
-                String epoch = ttlEpoch.getString("N");
 
                 JSONObject tmDataObj = jsonArray.getJSONObject(i).getJSONObject("TMData");
                 String S = tmDataObj.getString("S");
@@ -89,7 +85,7 @@ public class ApiRepo {
                 int tbHb = msgDataObj.getInt("tbhb");
 
 
-                TbData tbData = new TbData(sysId, dateTime, tbVal, tbSecs, rawTelemetry, tbHb, LocalDateTime.now(), epoch); // LocalDateTime kræver API level 26
+                TbData tbData = new TbData(sysId, tbVal, tbSecs, rawTelemetry, tbHb, LocalDateTime.now(), 0); // LocalDateTime kræver API level 26
 
                tbDataList.add(tbData);
             }

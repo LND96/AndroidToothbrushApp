@@ -1,17 +1,12 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -72,23 +67,26 @@ public class UpdateDataCtrl {
         apiRepo.getTbData();
     }
 
-    // 
+    //
     public void updateTbData(ArrayList<TbData> tbDataList) {
 
+        // filter and clean data
         tbDataList = dataFilter.FilterData(tbDataList);
         tbDataList = dataCleaner.CleanData(tbDataList); // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
 
-        addData(tbDataList);
+        // add data to database
+        addDataToDb(tbDataList);
 
+        // get data from database
+        List test = getAllDbTbData();
+        List test2 = getDbTbDataInInterval();
 
-        List test = getAllTbData();
-        List tet2 = getTbDataInInterval();
     }
 
 
     ////// Db repo //////
 
-    private void addData(ArrayList<TbData> tbDataList) {
+    private void addDataToDb(ArrayList<TbData> tbDataList) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -97,7 +95,7 @@ public class UpdateDataCtrl {
         });
     }
 
-    private List<TbData> getAllTbData() {
+    private List<TbData> getAllDbTbData() {
         Future<List<TbData>> tbDataList = executor.submit(new Callable<List<TbData>>() {
             @Override
             public List<TbData> call() {
@@ -114,7 +112,7 @@ public class UpdateDataCtrl {
         return null;
     }
 
-    private List<TbData> getTbDataInInterval() {
+    private List<TbData> getDbTbDataInInterval() {
         Future<List<TbData>> tbDataList = executor.submit(new Callable<List<TbData>>() {
             @Override
             public List<TbData> call() {

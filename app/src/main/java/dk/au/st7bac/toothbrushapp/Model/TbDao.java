@@ -23,7 +23,7 @@ public interface TbDao {
     List<TbData> getTbDataInInterval();
 
     // add list of data to database
-    @Insert(onConflict = OnConflictStrategy.REPLACE) // skal der være en onConflict?
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addTbDataList(ArrayList<TbData> tbDataArrayList);
 
     // delete a particular data point based on the primary key

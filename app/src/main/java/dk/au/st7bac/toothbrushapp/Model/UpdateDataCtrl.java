@@ -50,6 +50,7 @@ public class UpdateDataCtrl {
     private UpdateDataCtrl() {
         dataFilter = new DataFilter(); // constructor injection?
         dataCleaner = new DataCleaner(); // constructor injection?
+        processor = new Processor(); // constructor injection?
         setTestData();
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();
@@ -86,6 +87,9 @@ public class UpdateDataCtrl {
         // get data from database
         List test = getAllDbTbData();
         List test2 = getDbTbDataInInterval();
+
+
+        processor.ProcessData(tbDataList, 7, 2); //OBS Hard codede værdier
     }
 
 
@@ -149,23 +153,6 @@ public class UpdateDataCtrl {
         testData = new TbStatus(headerStrings, isTbDone, isTimeOk, toothbrushesCompleted,
                 totalNumberToothbrushes, avgBrushTime, isAvgNumberToothbrushesOk, isAvgTimeOk);
         tbStatusLiveData = new MutableLiveData<>(testData);
-
-    }
-
-    public void setTbData(ArrayList<TbData> tbDataList) {
-
-
-        dataFilter = new DataFilter(); // bør ikke oprettes her, men i constructoreren med injection
-        tbDataList = dataFilter.FilterData(tbDataList);
-
-
-        dataCleaner = new DataCleaner();                                 // bør ikke oprettes her, men i constructoreren med injection
-        tbDataList = dataCleaner.CleanData(tbDataList); // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
-
-        processor = new Processor();
-        processor.ProcessData(tbDataList, 7, 2); //OBS Hard codede værdier
-
-
 
     }
 }

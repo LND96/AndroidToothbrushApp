@@ -3,6 +3,7 @@ package dk.au.st7bac.toothbrushapp.Model;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -28,7 +29,16 @@ public class UpdateDataCtrl {
     private ApiRepo apiRepo;
     private DbRepo dbRepo;
 
-    //private ArrayList<TbData> tbDataList;
+    // skal alle disse data sættes ved contructor injection i controlleren?
+    private double offset = 6.0; // hardware offset
+    private int minMeasurementDuration = 10; // minimum time in secs that a measurement should last to be considered as a tooth brushing
+    private int maxMeasurementDuration = 600; // maximum time in secs that a measurement should last to be considered as a tooth brushing
+    private int minAccTbTime = 90; // minimum time in secs that a tooth brushing should last to be accepted
+    private LocalTime morningToEveningTime = LocalTime.parse("11:59"); // time of day where morning transitions to evening
+    private LocalTime eveningToMorningTime = LocalTime.parse("00:00"); // time of day where evening transitions to morning
+    private int days = 7; // dage vi kigger tilbage i tiden - hvoran forklarer vi det?
+    private int tbEachDay = 2; // wanted number of tooth brushes each day
+    private double numTbThres = 0.8; // threshold value for minimum number of tooth brushes compared to ideal number of tooth brushes
 
     private ExecutorService executor; // for asynch processing
 
@@ -42,9 +52,9 @@ public class UpdateDataCtrl {
 
     // private constructor
     private UpdateDataCtrl() {
-        dataFilter = new DataFilter(); // constructor injection?
+        dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration); // constructor injection?
         dataCleaner = new DataCleaner(); // constructor injection?
-        processor = new DataProcessor(); // constructor injection?
+        processor = new DataProcessor(minAccTbTime, days, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres); // constructor injection?
         setTestData();
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();
@@ -84,7 +94,7 @@ public class UpdateDataCtrl {
         List test2 = getDbTbDataInInterval();
 
 
-        processor.ProcessData(tbDataList, 7, 2); //OBS Hard codede værdier
+        processor.ProcessData(tbDataList);
     }
 
 

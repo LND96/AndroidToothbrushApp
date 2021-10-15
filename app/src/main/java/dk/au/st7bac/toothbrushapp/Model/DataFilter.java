@@ -8,40 +8,49 @@ public class DataFilter {
     private List<TbData> tbFilterDataList;
     String prev_rawTelemetry_last26 = "";
     String curr_rawTelemetry_last26 = "";
+    private double offset;
+    private int minTime;
+    private int maxTime;
 
-    public List<TbData> FilterData(List<TbData> TBDataList)
+    public DataFilter(double offset, int minTime, int maxTime) {
+        this.offset = offset;
+        this.minTime = minTime;
+        this.maxTime = maxTime;
+    }
+
+    public List<TbData> FilterData(List<TbData> TbDataList)
     {
-
         //Need to initiate list, if no data pass the criteria.
-        List<TbData> tbFilterDataList = new ArrayList<>();
+        tbFilterDataList = new ArrayList<>();
 
-        for (int i = 0; i < TBDataList.size(); ++i) {
+        for (int i = 0; i < TbDataList.size(); ++i) {
 
-            if (TBDataList.get(i).getTbVal() == 0 && TBDataList.get(i).getTbHb() == 0)
+            if (TbDataList.get(i).getTbVal() == 0 && TbDataList.get(i).getTbHb() == 0)
             {
-                TBDataList.get(i).setTbSecs(TBDataList.get(i).getTbSecs()-6);
+                // subtract offset from measurement and set time
+                TbDataList.get(i).setTbSecs(TbDataList.get(i).getTbSecs() - offset); // har ændret fra 6 til offset
 
-                if (TBDataList.get(i).getTbSecs()>10)
+                // only measurements above minTime are considered as a toothbrushing
+                if (TbDataList.get(i).getTbSecs() > minTime) // har ændret fra 10 til minTime
                 {
                     prev_rawTelemetry_last26 = curr_rawTelemetry_last26;
                     //https://howtodoinjava.com/java/string/get-last-4-characters/
-                    curr_rawTelemetry_last26 = TBDataList.get(i).getRawTelemetry()
-                            .substring(TBDataList.get(i).getRawTelemetry().length()-26);
-                    //TBDataList.get(i).setRawTelemetry(curr_rawTelemetry_last26);
+                    curr_rawTelemetry_last26 = TbDataList.get(i).getRawTelemetry()
+                            .substring(TbDataList.get(i).getRawTelemetry().length()-26);
+                    //TbDataList.get(i).setRawTelemetry(curr_rawTelemetry_last26);
 
                     if (i==0)
                     {
                         //save element in tbFilterDataList (must be returned)
-                        tbFilterDataList.add(TBDataList.get(i));
+                        tbFilterDataList.add(TbDataList.get(i));
                     }
-
-                    else if (!curr_rawTelemetry_last26.equals(prev_rawTelemetry_last26) )
+                    else if (!curr_rawTelemetry_last26.equals(prev_rawTelemetry_last26)) // checks if the previous measurement is identical to the current measurement
                     {
                         //if lower than 600 s
-                        if (TBDataList.get(i).getTbSecs()<600)
+                        if (TbDataList.get(i).getTbSecs() < maxTime) // har ændret fra 600 til maxTime
                         {
                             //save element in tbFilterDataList (must be returned)
-                            tbFilterDataList.add(TBDataList.get(i));
+                            tbFilterDataList.add(TbDataList.get(i));
                         }
                     }
                 }

@@ -3,6 +3,8 @@ package dk.au.st7bac.toothbrushapp.Model;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -19,15 +21,15 @@ public class UpdateDataCtrl {
 
     public static UpdateDataCtrl updateDataCtrl;
 
-    private DataFilter dataFilter; // husk interface
-    private DataCleaner dataCleaner; // husk interface
-    private DataProcessor processor; //husk interface
+    private final DataFilter dataFilter; // husk interface
+    private final DataCleaner dataCleaner; // husk interface
+    private final DataProcessor processor; //husk interface
 
     private MutableLiveData<TbStatus> tbStatusLiveData; // bør være LiveData frem for MutableLiveData, men er her mutable så der kan hardcodes værdier
     private TbStatus testData;
 
     private ApiRepo apiRepo;
-    private DbRepo dbRepo;
+    private final DbRepo dbRepo;
 
     // skal alle disse data sættes ved contructor injection i controlleren?
     private double offset = 6.0; // hardware offset
@@ -39,8 +41,9 @@ public class UpdateDataCtrl {
     private int days = 7; // dage vi kigger tilbage i tiden - hvoran forklarer vi det?
     private int tbEachDay = 2; // wanted number of tooth brushes each day
     private double numTbThres = 0.8; // threshold value for minimum number of tooth brushes compared to ideal number of tooth brushes
+    private LocalDate lastDayCalInterval = LocalDate.now(); // the last day of the time interval the calculations are made over
 
-    private ExecutorService executor; // for asynch processing
+    private final ExecutorService executor; // for asynch processing
 
     // singleton pattern
     public static UpdateDataCtrl getInstance() { // Er det ok at bruge singleton her?
@@ -54,7 +57,7 @@ public class UpdateDataCtrl {
     private UpdateDataCtrl() {
         dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration); // constructor injection?
         dataCleaner = new DataCleaner(); // constructor injection?
-        processor = new DataProcessor(minAccTbTime, days, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres); // constructor injection?
+        processor = new DataProcessor(minAccTbTime, days, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres, lastDayCalInterval); // constructor injection?
         setTestData();
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();

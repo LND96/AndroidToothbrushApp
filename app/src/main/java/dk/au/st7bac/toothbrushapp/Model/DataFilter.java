@@ -5,12 +5,11 @@ import java.util.List;
 
 public class DataFilter {
 
-    private List<TbData> tbFilterDataList;
     String prev_rawTelemetry_last26 = "";
     String curr_rawTelemetry_last26 = "";
-    private double offset;
-    private int minTime;
-    private int maxTime;
+    private final double offset;
+    private final int minTime;
+    private final int maxTime;
 
     public DataFilter(double offset, int minTime, int maxTime) {
         this.offset = offset;
@@ -20,8 +19,7 @@ public class DataFilter {
 
     public List<TbData> FilterData(List<TbData> TbDataList)
     {
-        //Need to initiate list, if no data pass the criteria.
-        tbFilterDataList = new ArrayList<>();
+        List<TbData> tbFilterDataList = new ArrayList<>();
 
         for (int i = 0; i < TbDataList.size(); ++i) {
 

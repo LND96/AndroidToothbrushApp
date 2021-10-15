@@ -15,12 +15,12 @@ public interface TbDao {
 
     // get all data
     @Query("SELECT * FROM tbdata")
-    List<TbData> getAllTbData(); // Skal det være livedata eller en anden slags liste?
+    List<TbData> getAllTbData();
 
-    // kilde: https://stackoverflow.com/questions/62215105/android-room-retrive-rows-for-30-days
-    //@Query("SELECT * FROM tbdata WHERE epoch >= strftime('%s', dateTime('now', '-',:days,'day'))")
-    @Query("SELECT * FROM tbdata WHERE epoch >= strftime('%s', dateTime('now', '-1 day'))") // Hardcoded at det er fra den sidste dag
-    List<TbData> getTbDataInInterval();
+    // get data in given interval
+    //@Query("SELECT * FROM tbdata WHERE epoch >= :lowerLimit AND epoch <= :higherLimit")
+    @Query("SELECT * FROM tbdata WHERE :lowerLimit <= epoch <= :higherLimit")
+    List<TbData> getTbDataInInterval(long lowerLimit, long higherLimit);
 
     // add list of data to database
     @Insert(onConflict = OnConflictStrategy.REPLACE)

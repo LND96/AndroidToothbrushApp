@@ -110,7 +110,7 @@ public class DataProcessor {
         for (int i = 0; i < days; i++) {
             LocalDate date = lastDayOfInterval.minusDays(i);
             dateList.add(date);
-            Array.set(dayOfWeekStrings, i, date.getDayOfWeek().toString());
+            Array.set(dayOfWeekStrings, i, date.toString());
         }
 
         return dateList;

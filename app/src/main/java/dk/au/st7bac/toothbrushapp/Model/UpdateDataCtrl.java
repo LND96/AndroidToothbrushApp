@@ -1,11 +1,14 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -26,7 +29,7 @@ public class UpdateDataCtrl {
     private final DataProcessor processor; //husk interface
 
     private MutableLiveData<TbStatus> tbStatusLiveData; // bør være LiveData frem for MutableLiveData, men er her mutable så der kan hardcodes værdier
-    private TbStatus testData;
+    private TbStatus tbStatus;
 
     private ApiRepo apiRepo;
     private final DbRepo dbRepo;
@@ -38,10 +41,10 @@ public class UpdateDataCtrl {
     private int minAccTbTime = 90; // minimum time in secs that a tooth brushing should last to be accepted
     private LocalTime morningToEveningTime = LocalTime.parse("11:59"); // time of day where morning transitions to evening
     private LocalTime eveningToMorningTime = LocalTime.parse("00:00"); // time of day where evening transitions to morning
-    private int days = 7; // dage vi kigger tilbage i tiden - hvoran forklarer vi det?
+    private int numIntervalDays = 7; // number of days in interval
     private int tbEachDay = 2; // wanted number of tooth brushes each day
     private double numTbThres = 0.8; // threshold value for minimum number of tooth brushes compared to ideal number of tooth brushes
-    private LocalDate lastDayCalInterval = LocalDate.now(); // the last day of the time interval the calculations are made over
+    private LocalDate lastDayInInterval = LocalDate.now(); // the last day of the time interval the calculations are made over
 
     private final ExecutorService executor; // for asynch processing
 
@@ -57,19 +60,23 @@ public class UpdateDataCtrl {
     private UpdateDataCtrl() {
         dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration); // constructor injection?
         dataCleaner = new DataCleaner(); // constructor injection?
-        processor = new DataProcessor(minAccTbTime, days, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres, lastDayCalInterval); // constructor injection?
-        setTestData();
+        processor = new DataProcessor(minAccTbTime, numIntervalDays, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres, lastDayInInterval); // constructor injection?
+        //setTestData();
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();
+        tbStatusLiveData = new MutableLiveData<>();
     }
 
     // method for returning updated tb data
     public LiveData<TbStatus> getTbStatusLiveData() {
         // get data from api
-        getApiData();
-
+        //initUpdateTbData();
 
         return tbStatusLiveData;
+    }
+
+    public void initUpdateTbData() {
+        getApiData();
     }
 
     ////// Api repo //////
@@ -93,11 +100,11 @@ public class UpdateDataCtrl {
 
 
         // get data from database
-        List test = getAllDbTbData();
-        List test2 = getDbTbDataInInterval();
+        tbDataList = getDbTbDataInInterval();
 
+        tbStatus = processor.ProcessData(tbDataList);
 
-        processor.ProcessData(tbDataList);
+        tbStatusLiveData.setValue(tbStatus);
     }
 
 
@@ -131,9 +138,15 @@ public class UpdateDataCtrl {
 
     private List<TbData> getDbTbDataInInterval() {
         Future<List<TbData>> tbDataList = executor.submit(new Callable<List<TbData>>() {
+
             @Override
             public List<TbData> call() {
-                return dbRepo.tbDao().getTbDataInInterval();
+                //LocalDateTime lastDateTimeInterval = lastDayInInterval.atStartOfDay();
+                LocalDateTime lastDateTimeInterval = lastDayInInterval.atTime(LocalTime.now()); // her er tiden for den pågældende dato, sat til det nuværende tidspunkt
+                ZoneId zoneId = ZoneId.systemDefault();
+                long epochHigherLimit = lastDateTimeInterval.atZone(zoneId).toEpochSecond();
+                long epochLowerLimit = lastDateTimeInterval.minusDays(numIntervalDays).atZone(zoneId).toEpochSecond();
+                return dbRepo.tbDao().getTbDataInInterval(epochLowerLimit, epochHigherLimit);
             }
         });
 
@@ -144,23 +157,5 @@ public class UpdateDataCtrl {
         }
 
         return null;
-    }
-
-
-    // METODE TIL AT TESTE MVVM
-    private void setTestData() {
-        String[] headerStrings = {"Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"}; // hardcoded værdier
-        boolean[] isTbDone = {true, false, false, true, true, true, true, true, true, true, true, false, false, true}; // hardcoded værdier
-        boolean[] isTimeOk = {true, false, false, false, true, false, false, true, false, false, false, false, false, false}; // hardcoded værdier
-        int toothbrushesCompleted = 10; // hardcoded værdi
-        int totalNumberToothbrushes = 14; // hardcoded værdi
-        int avgBrushTime = 46; // hardcoded værdi
-        boolean isAvgNumberToothbrushesOk = true; // hardcoded værdi
-        boolean isAvgTimeOk = false; // hardcoded værdi
-
-        testData = new TbStatus(headerStrings, isTbDone, isTimeOk, toothbrushesCompleted,
-                totalNumberToothbrushes, avgBrushTime, isAvgNumberToothbrushesOk, isAvgTimeOk);
-        tbStatusLiveData = new MutableLiveData<>(testData);
-
     }
 }

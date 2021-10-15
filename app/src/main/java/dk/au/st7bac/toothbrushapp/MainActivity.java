@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.NotificationService;
 
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+    private UpdateDataCtrl updateDataCtrl;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -37,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        updateDataCtrl = UpdateDataCtrl.getInstance();
+        updateDataCtrl.initUpdateTbData();
 
         //start service
         startService();

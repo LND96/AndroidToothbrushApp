@@ -1,36 +1,47 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
-import android.util.Log;
-
 import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class DataProcessor {
 
     private List<TbData> tbProcessorList;
 
-    private final int timeTbThreshold = 90; //90 sec is ok // bør sættes ved constructor injection
+    private int timeTbThreshold;
+    private int days;
+    private int tbEachDay;
+    private LocalTime morningToEveningTime;
+    private LocalTime eveningToMorningTime;
+    private double numTbThreshold;
 
-    private final LocalTime morningToEveningTime = LocalTime.parse("11:59:00.000");
-    private final LocalTime eveningToMorningTime = LocalTime.parse("00:00:00.000");
 
+    public DataProcessor(int timeTbThreshold, int days, int tbEachDay, LocalTime morningToEveningTime, LocalTime eveningToMorningTime, double numTbThreshold) {
+        this.timeTbThreshold = timeTbThreshold;
+        this.days = days;
+        this.tbEachDay = tbEachDay;
+        this.morningToEveningTime = morningToEveningTime;
+        this.eveningToMorningTime = eveningToMorningTime;
+        this.numTbThreshold = numTbThreshold;
+    }
 
-    public TbStatus ProcessData(List<TbData> TBDataList, int days, int tbEachDay)
+    public TbStatus ProcessData(List<TbData> TBDataList)
     {
-        int numTbCompleted = tbDays(TBDataList);
+        // calculate number of tooth brushes
+        int numTbCompleted = calcNumOfTb(TBDataList);
 
+        // calculate ideal number of tooth brushes
         int totalNumberTb = days * tbEachDay;
-        boolean isAvgNumTbOK = isAvgNumTbOk(numTbCompleted, totalNumberTb);
 
-        int avgBrushTime = avgTime(TBDataList);
+        // calculate if number of tooth brushes is ok
+        boolean isNumTbOK = isNumTbOk(numTbCompleted, totalNumberTb);
 
-        boolean isAVgTimeTbOK = isAvgTimeTbOK(avgBrushTime);
+        // calculate average tb time
+        int avgTbTime = calcAvgTime(TBDataList);
+
+        boolean isAVgTimeTbOK = isAvgTimeTbOK(avgTbTime);
 
         List<LocalDate> dateList = createDateList(days);
         boolean[] isTbDone = isMorningAndEveningOk(TBDataList, days, tbEachDay, dateList);
@@ -40,35 +51,39 @@ public class DataProcessor {
         String[] headerStrings = new String[]{"Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"}; // hardcoded værdier - hvor skal denne liste genereres?
 
         //save all results in tbStatus object
-        TbStatus tbStatus = new TbStatus(headerStrings, isTbDone, isTimeOk, numTbCompleted, totalNumberTb, avgBrushTime, isAvgNumTbOK, isAVgTimeTbOK);
+        TbStatus tbStatus = new TbStatus(headerStrings, isTbDone, isTimeOk, numTbCompleted, totalNumberTb, avgTbTime, isNumTbOK, isAVgTimeTbOK);
         return tbStatus;
 
     }
 
     //Calculate #tb (length of TBDataList)
-    public int tbDays (List<TbData> TBDataList)
+    public int calcNumOfTb(List<TbData> TBDataList)
     {
         return TBDataList.size();
     }
 
-    //Calculate if average numbers of tb is ok
-    public boolean isAvgNumTbOk(int numTbCompleted, int totalNumberTb)
+    //Calculate if numbers of tb is ok
+    public boolean isNumTbOk(int numTbCompleted, int totalNumberTb)
     {
-        double AvgNumTb = numTbCompleted / totalNumberTb;
-        double numTbThreshold = 0.8; //80 % is ok
+        // calculate fraction of completed tb compared to ideal number of tb
+        double fracTb = numTbCompleted / (totalNumberTb + 0.0);
 
-        //return true if average numbers of Tb is higher than threshold, else return false.
-        return AvgNumTb > numTbThreshold;
+        //return true if fraction of tb's is higher than threshold, else return false.
+        return fracTb > numTbThreshold;
     }
 
     //Calculate average time
-    private int avgTime(List<TbData> TBDataList) {
-        double sumTime = 0;
+    private int calcAvgTime(List<TbData> TBDataList) {
+        int sumTime = 0;
         for (int i = 0; i < TBDataList.size(); i++) {
             sumTime += TBDataList.get(i).getTbSecs();
         }
 
-        return (int) (sumTime/TBDataList.size());
+        if (TBDataList.size() == 0) {
+            return 0;
+        } else {
+            return (int) (sumTime/TBDataList.size());
+        }
     }
 
     //Calculate if average time of tb is ok
@@ -106,8 +121,6 @@ public class DataProcessor {
                 {
                     //https://howtodoinjava.com/java/date-time/localdate-localdatetime-conversions/
 
-                    Log.d("datalist_date", TBDataList.get(i).getDateTime().toLocalDate().toString() + "datelist_date" + dateList.get(j));
-                    Log.d("dates ", "" + (TBDataList.get(i).getDateTime().toLocalDate().isEqual(dateList.get(j)) ));
 
                     if (TBDataList.get(i).getDateTime().toLocalDate().isEqual(dateList.get(j))) {
 

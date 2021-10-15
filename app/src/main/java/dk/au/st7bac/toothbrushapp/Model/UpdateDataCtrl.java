@@ -3,12 +3,6 @@ package dk.au.st7bac.toothbrushapp.Model;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -26,7 +20,7 @@ public class UpdateDataCtrl {
 
     private DataFilter dataFilter; // husk interface
     private DataCleaner dataCleaner; // husk interface
-    private Processor processor; //husk interface
+    private DataProcessor processor; //husk interface
 
     private MutableLiveData<TbStatus> tbStatusLiveData; // bør være LiveData frem for MutableLiveData, men er her mutable så der kan hardcodes værdier
     private TbStatus testData;
@@ -50,7 +44,7 @@ public class UpdateDataCtrl {
     private UpdateDataCtrl() {
         dataFilter = new DataFilter(); // constructor injection?
         dataCleaner = new DataCleaner(); // constructor injection?
-        processor = new Processor(); // constructor injection?
+        processor = new DataProcessor(); // constructor injection?
         setTestData();
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();

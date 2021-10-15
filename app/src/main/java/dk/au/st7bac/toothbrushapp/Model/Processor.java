@@ -13,15 +13,15 @@ import java.util.List;
 
 public class Processor {
 
-    private ArrayList<TbData> tbProcessorList;
+    private List<TbData> tbProcessorList;
 
-    private final int timeTbThreshold = 90; //90 sec is ok
+    private final int timeTbThreshold = 90; //90 sec is ok // bør sættes ved constructor injection
 
     private final LocalTime morningToEveningTime = LocalTime.parse("11:59:00.000");
     private final LocalTime eveningToMorningTime = LocalTime.parse("00:00:00.000");
 
 
-    public TbStatus ProcessData(ArrayList<TbData> TBDataList, int days, int tbEachDay)
+    public TbStatus ProcessData(List<TbData> TBDataList, int days, int tbEachDay)
     {
         int numTbCompleted = tbDays(TBDataList);
 
@@ -32,7 +32,7 @@ public class Processor {
 
         boolean isAVgTimeTbOK = isAvgTimeTbOK(avgBrushTime);
 
-        ArrayList<LocalDate> dateList = createDateList(days);
+        List<LocalDate> dateList = createDateList(days);
         boolean[] isTbDone = isMorningAndEveningOk(TBDataList, days, tbEachDay, dateList);
 
         boolean[] isTimeOk = isMorningAndEveningTimeOk(TBDataList, days, tbEachDay, dateList);
@@ -46,7 +46,7 @@ public class Processor {
     }
 
     //Calculate #tb (length of TBDataList)
-    public int tbDays (ArrayList<TbData> TBDataList)
+    public int tbDays (List<TbData> TBDataList)
     {
         return TBDataList.size();
     }
@@ -62,7 +62,7 @@ public class Processor {
     }
 
     //Calculate average time
-    private int avgTime(ArrayList<TbData> TBDataList) {
+    private int avgTime(List<TbData> TBDataList) {
         double sumTime = 0;
         for (int i = 0; i < TBDataList.size(); i++) {
             sumTime += TBDataList.get(i).getTbSecs();
@@ -79,9 +79,9 @@ public class Processor {
     }
 
     //create list with the last x days.
-    private ArrayList<LocalDate> createDateList(int days) {
+    private List<LocalDate> createDateList(int days) {
 
-        ArrayList<LocalDate> dateList = new ArrayList<>();
+        List<LocalDate> dateList = new ArrayList<>();
 
         LocalDate today = LocalDate.now();
         dateList.add(today);
@@ -93,7 +93,7 @@ public class Processor {
         return dateList;
     }
     //Update morningAndEveningOK (true if there is a tb event.)
-    private boolean[] isMorningAndEveningOk(ArrayList<TbData> TBDataList, int days, int tbEachDay, ArrayList<LocalDate> dateList)
+    private boolean[] isMorningAndEveningOk(List<TbData> TBDataList, int days, int tbEachDay, List<LocalDate> dateList)
     {
 
         boolean[] morningAndEveningOK = new boolean[days*2];
@@ -134,7 +134,7 @@ public class Processor {
     }
 
     //update morningAndEveningTimeOK (true if time for the tb event is ok)
-    private boolean[] isMorningAndEveningTimeOk(ArrayList<TbData> TBDataList, int days, int tbEachDay, ArrayList<LocalDate> dateList) {
+    private boolean[] isMorningAndEveningTimeOk(List<TbData> TBDataList, int days, int tbEachDay, List<LocalDate> dateList) {
 
         //create list with x elements
         boolean[] morningAndEveningTimeOK = new boolean[days*2];

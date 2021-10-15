@@ -75,7 +75,7 @@ public class UpdateDataCtrl {
     }
 
     //
-    public void updateTbData(ArrayList<TbData> tbDataList) {
+    public void updateTbData(List<TbData> tbDataList) {
 
         // filter and clean data
         tbDataList = dataFilter.FilterData(tbDataList);
@@ -83,6 +83,7 @@ public class UpdateDataCtrl {
 
         // add data to database
         addDataToDb(tbDataList);
+
 
         // get data from database
         List test = getAllDbTbData();
@@ -95,7 +96,7 @@ public class UpdateDataCtrl {
 
     ////// Db repo //////
 
-    private void addDataToDb(ArrayList<TbData> tbDataList) {
+    private void addDataToDb(List<TbData> tbDataList) {
         executor.execute(new Runnable() {
             @Override
             public void run() {

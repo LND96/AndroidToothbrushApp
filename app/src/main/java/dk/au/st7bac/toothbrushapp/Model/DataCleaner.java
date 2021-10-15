@@ -24,12 +24,11 @@ import java.util.List;
 public class DataCleaner {
 
     private static final String TAG = "DataCleaner";
-    private List<TbData> tbCleanDataList;
-    
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public List<TbData> CleanData(List<TbData> tbDataList) {
 
-        tbCleanDataList = new ArrayList<>();
+        List<TbData> tbCleanDataList = new ArrayList<>();
 
         //set correct epoch and dateTime value
         for (TbData tbData : tbDataList) {

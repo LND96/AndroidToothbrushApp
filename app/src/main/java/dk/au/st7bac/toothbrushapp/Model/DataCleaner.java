@@ -31,12 +31,13 @@ public class DataCleaner {
 
         tbCleanDataList = new ArrayList<>();
 
+        //set correct epoch and dateTime value
         for (TbData tbData : tbDataList) {
 
             // kilde: https://stackoverflow.com/questions/35183146/how-can-i-create-a-java-8-localdate-from-a-long-epoch-time-in-milliseconds
             // kilde: https://stackoverflow.com/questions/9936648/how-to-convert-string-to-long/24309678
             String hexValue = tbData.getRawTelemetry().substring(4, 12);
-            int deciValue = Integer.parseInt(hexValue, 16);
+            int deciValue = Integer.parseInt(hexValue, 16); //convert to decimal
 
             LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(deciValue), ZoneId.systemDefault());
 

@@ -36,7 +36,7 @@ public class ApiRepo {
 
     public void getTbData() {
         String baseUrl = "https://dmjljzkaec.execute-api.eu-west-1.amazonaws.com/default/tbapi/v1";
-        String url = baseUrl + "/system/tm/c4d1574b-d1ce-43da-84df-f54fe5e09ba9?since=20211012&limit=40"; // hardcoded værdi
+        String url = baseUrl + "/system/tm/c4d1574b-d1ce-43da-84df-f54fe5e09ba9?since=20211015&limit=4"; // hardcoded værdi
         sendRequestForTbData(url);
     }
 

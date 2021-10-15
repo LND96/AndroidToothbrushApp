@@ -89,7 +89,7 @@ public class UpdateDataCtrl {
         List test2 = getDbTbDataInInterval();
 
 
-        processor.ProcessData(tbDataList, 7, 2); //OBS Hard codede værdier
+        processor.ProcessData(tbDataList, 7, 2); //OBS Hard codede værdier - disse værdier skal brugeren kunne sætte...
     }
 
 

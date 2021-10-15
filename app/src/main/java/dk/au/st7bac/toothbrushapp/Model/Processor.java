@@ -98,6 +98,7 @@ public class Processor {
 
         boolean[] morningAndEveningOK = new boolean[days*2];
 
+        //Hvad hvis det ikke er 2 dage, men 3 dage?...
         if (tbEachDay == 2)
         {
             for (int i = 0; i < TBDataList.size(); i++) {

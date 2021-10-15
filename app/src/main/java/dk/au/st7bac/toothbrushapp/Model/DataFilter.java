@@ -1,18 +1,19 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DataFilter {
 
-    private ArrayList<TbData> tbFilterDataList;
+    private List<TbData> tbFilterDataList;
     String prev_rawTelemetry_last26 = "";
     String curr_rawTelemetry_last26 = "";
 
-    public ArrayList<TbData> FilterData(ArrayList<TbData> TBDataList)
+    public List<TbData> FilterData(List<TbData> TBDataList)
     {
 
         //Need to initiate list, if no data pass the criteria.
-        ArrayList<TbData> tbFilterDataList = new ArrayList<>();
+        List<TbData> tbFilterDataList = new ArrayList<>();
 
         for (int i = 0; i < TBDataList.size(); ++i) {
 

@@ -19,14 +19,15 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DataCleaner {
 
     private static final String TAG = "DataCleaner";
-    private ArrayList<TbData> tbCleanDataList;
+    private List<TbData> tbCleanDataList;
     
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public ArrayList<TbData> CleanData(ArrayList<TbData> tbDataList) {
+    public List<TbData> CleanData(List<TbData> tbDataList) {
 
         tbCleanDataList = new ArrayList<>();
 

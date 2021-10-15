@@ -24,7 +24,7 @@ public interface TbDao {
 
     // add list of data to database
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addTbDataList(ArrayList<TbData> tbDataArrayList);
+    void addTbDataList(List<TbData> tbDataList);
 
     // delete a particular data point based on the primary key
     @Delete
@@ -32,7 +32,7 @@ public interface TbDao {
 
     // delete all data in the list
     @Delete
-    void deleteList(ArrayList<TbData> tbDataArrayList);
+    void deleteList(List<TbData> tbDataList);
 
     // delete all data in database
     @Query("DELETE FROM tbdata")

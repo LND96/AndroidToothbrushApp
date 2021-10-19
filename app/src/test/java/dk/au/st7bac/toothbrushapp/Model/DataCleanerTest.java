@@ -16,12 +16,12 @@ class DataCleanerTest {
         // arrange
         Method testMethod = DataCleaner.class.getDeclaredMethod("setDateTime", List.class);
         testMethod.setAccessible(true);
-        DataCleaner _uut = new DataCleaner();
+        DataCleaner uut = new DataCleaner();
         List<TbData> testData = new ArrayList<>();
         testData.add(new TbData("", 0, 20.0, "[nr:616D7A62", 0, LocalDateTime.now(), 0));
 
         // act
-        List<TbData> resultData = (List<TbData>) testMethod.invoke(_uut, testData);
+        List<TbData> resultData = (List<TbData>) testMethod.invoke(uut, testData);
 
         // assert
         assertEquals(1634564706, resultData.get(0).getEpoch());
@@ -32,12 +32,12 @@ class DataCleanerTest {
         // arrange
         Method testMethod = DataCleaner.class.getDeclaredMethod("setDateTime", List.class);
         testMethod.setAccessible(true);
-        DataCleaner _uut = new DataCleaner();
+        DataCleaner uut = new DataCleaner();
         List<TbData> testData = new ArrayList<>();
         testData.add(new TbData("", 0, 20.0, "[nr:616D7A62", 0, LocalDateTime.now(), 0));
 
         // act
-        List<TbData> resultData = (List<TbData>) testMethod.invoke(_uut, testData);
+        List<TbData> resultData = (List<TbData>) testMethod.invoke(uut, testData);
 
         // assert
         LocalDateTime expectedDate = LocalDateTime.of(2021, 10, 18, 15, 45, 6); // når vi overgår til vintertid vil denne test fejle - hvordan tager jeg højde for tidsforskel i local date time
@@ -51,10 +51,10 @@ class DataCleanerTest {
         for (int i = 0; i < 5; i++) {
             testData.add(new TbData("", 0, 20.0, "[nr:616D72FF", 0, LocalDateTime.now(), 0));
         }
-        DataCleaner _uut = new DataCleaner();
+        DataCleaner uut = new DataCleaner();
 
         // act
-        List<TbData> resultData = _uut.cleanData(testData);
+        List<TbData> resultData = uut.cleanData(testData);
 
         // assert
         assertEquals(1, resultData.size());
@@ -67,10 +67,10 @@ class DataCleanerTest {
         testData.add(new TbData("", 0, 20.0, "[nr:616D7A62", 0, LocalDateTime.now(), 0));
         testData.add(new TbData("", 0, 20.0, "[nr:616D72FF", 0, LocalDateTime.now(), 0));
 
-        DataCleaner _uut = new DataCleaner();
+        DataCleaner uut = new DataCleaner();
 
         // act
-        List<TbData> resultData = _uut.cleanData(testData);
+        List<TbData> resultData = uut.cleanData(testData);
 
         // assert
         assertEquals(2, resultData.size());

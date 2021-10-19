@@ -48,6 +48,7 @@ public class UpdateDataCtrl {
 
     private final ExecutorService executor; // for asynch processing
 
+
     /*
     public UpdateDataCtrl() {
         dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration); // constructor injection?
@@ -60,7 +61,6 @@ public class UpdateDataCtrl {
     }
 
      */
-
 
     // singleton pattern
     public static UpdateDataCtrl getInstance() { // Er det ok at bruge singleton her?
@@ -80,7 +80,6 @@ public class UpdateDataCtrl {
         executor = Executors.newSingleThreadExecutor();
         tbStatusLiveData = new MutableLiveData<>();
     }
-
 
 
     // method for returning updated tb data

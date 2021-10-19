@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //AppContainer appContainer = ((ToothbrushApp) getApplication()).appContainer;
         updateDataCtrl = UpdateDataCtrl.getInstance();
         //updateDataCtrl = new UpdateDataCtrl();
         updateDataCtrl.initUpdateTbData();

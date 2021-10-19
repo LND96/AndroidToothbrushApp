@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import dk.au.st7bac.toothbrushapp.Model.TbStatus;
 import dk.au.st7bac.toothbrushapp.ViewModels.HomeViewModel;
 
@@ -38,7 +39,6 @@ public class HomeFragment extends Fragment {
     private int avgTbTime;
     private boolean isAvgNumTbOk;
     private boolean isAvgTimeOk;
-
 
     // view model
     private HomeViewModel vm;

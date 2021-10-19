@@ -1,49 +1,49 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
-import android.content.IntentFilter;
 import android.os.Build;
-import android.text.format.DateUtils;
-import android.util.Log;
-
 import androidx.annotation.RequiresApi;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DataCleaner {
 
-    private static final String TAG = "DataCleaner";
-
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public List<TbData> CleanData(List<TbData> tbDataList) {
+    public List<TbData> cleanData(List<TbData> tbDataList) {
 
-        List<TbData> tbCleanDataList = new ArrayList<>();
+        tbDataList = setDateTime(tbDataList);
 
+        tbDataList = checkMeasurements(tbDataList);
+
+        return tbDataList;
+    }
+
+    private List<TbData> setDateTime(List<TbData> tbDataList) {
         //set correct epoch and dateTime value
         for (TbData tbData : tbDataList) {
 
             // kilde: https://stackoverflow.com/questions/35183146/how-can-i-create-a-java-8-localdate-from-a-long-epoch-time-in-milliseconds
             // kilde: https://stackoverflow.com/questions/9936648/how-to-convert-string-to-long/24309678
+            // get hex value from rawTelemetry
             String hexValue = tbData.getRawTelemetry().substring(4, 12);
-            int deciValue = Integer.parseInt(hexValue, 16); //convert to decimal
 
+            // convert to decimal value corresponding to epoch value
+            int deciValue = Integer.parseInt(hexValue, 16);
+
+            // convert epoch value to local date time
             LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(deciValue), ZoneId.systemDefault());
 
-            // set new date time
+            // set epoch value and new date time
             tbData.setEpoch(deciValue);
             tbData.setDateTime(dateTime);
         }
+        return tbDataList;
+    }
+
+    private List<TbData> checkMeasurements(List<TbData> tbDataList) {
+        List<TbData> tbCleanDataList = new ArrayList<>();
 
         // checking if two or more measurements are within 10 minutes
         for (int i = tbDataList.size() - 1; i >= 0; i--) {

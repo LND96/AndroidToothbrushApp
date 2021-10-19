@@ -17,7 +17,7 @@ public class DataFilter {
         this.maxTime = maxTime;
     }
 
-    public List<TbData> FilterData(List<TbData> TbDataList)
+    public List<TbData> filterData(List<TbData> TbDataList)
     {
         List<TbData> tbFilterDataList = new ArrayList<>();
 

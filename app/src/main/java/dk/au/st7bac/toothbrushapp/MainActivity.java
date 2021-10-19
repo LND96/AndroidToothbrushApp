@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         updateDataCtrl = UpdateDataCtrl.getInstance();
+        //updateDataCtrl = new UpdateDataCtrl();
         updateDataCtrl.initUpdateTbData();
 
         //start service

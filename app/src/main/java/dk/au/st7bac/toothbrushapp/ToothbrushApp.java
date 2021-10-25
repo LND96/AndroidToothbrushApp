@@ -17,4 +17,6 @@ public class ToothbrushApp extends Application {
     public static Context getAppContext() {
         return instance.getApplicationContext();
     }
+
+    public AppContainer appContainer = new AppContainer();
 }

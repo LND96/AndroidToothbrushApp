@@ -3,6 +3,7 @@ package dk.au.st7bac.toothbrushapp.Model;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class DataProcessor {
 
     private boolean[] morningAndEveningOK;
     private boolean[] morningAndEveningTimeOK;
-    private String[] dayOfWeekStrings;
+    private String[] dateStrings;
 
 
     public DataProcessor(int timeTbThreshold, int days, int tbEachDay, LocalTime morningToEveningTime, LocalTime eveningToMorningTime, double numTbThreshold, LocalDate lastDayOfInterval) {
@@ -30,7 +31,7 @@ public class DataProcessor {
         this.lastDayOfInterval = lastDayOfInterval;
     }
 
-    public TbStatus ProcessData(List<TbData> TbDataList)
+    public TbStatus processData(List<TbData> TbDataList)
     {
         // calculate number of tooth brushes
         int numTbCompleted = calcNumOfTb(TbDataList);
@@ -48,7 +49,7 @@ public class DataProcessor {
         boolean isAVgTimeTbOK = isAvgTimeTbOK(avgTbTime);
 
         // create list for days of week
-        dayOfWeekStrings = new String[days];
+        dateStrings = new String[days];
 
         // create list of dates in interval
         List<LocalDate> dateList = createDateList(days);
@@ -61,7 +62,7 @@ public class DataProcessor {
         isMorningAndEveningTbOk(TbDataList, tbEachDay, dateList);
 
         //save all results in tbStatus object
-        return new TbStatus(dayOfWeekStrings, morningAndEveningOK, morningAndEveningTimeOK, numTbCompleted, totalNumberTb, avgTbTime, isNumTbOK, isAVgTimeTbOK);
+        return new TbStatus(dateStrings, morningAndEveningOK, morningAndEveningTimeOK, numTbCompleted, totalNumberTb, avgTbTime, isNumTbOK, isAVgTimeTbOK);
 
     }
 
@@ -110,7 +111,7 @@ public class DataProcessor {
         for (int i = 0; i < days; i++) {
             LocalDate date = lastDayOfInterval.minusDays(i);
             dateList.add(date);
-            Array.set(dayOfWeekStrings, i, date.toString());
+            Array.set(dateStrings, i, date.format(DateTimeFormatter.ofPattern("dd/MM")));
         }
 
         return dateList;

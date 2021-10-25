@@ -1,7 +1,5 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -9,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -26,10 +25,9 @@ public class UpdateDataCtrl {
 
     private final DataFilter dataFilter; // husk interface
     private final DataCleaner dataCleaner; // husk interface
-    private final DataProcessor processor; //husk interface
+    private final DataProcessor dataProcessor; //husk interface
 
-    private MutableLiveData<TbStatus> tbStatusLiveData; // bør være LiveData frem for MutableLiveData, men er her mutable så der kan hardcodes værdier
-    private TbStatus tbStatus;
+    private MutableLiveData<TbStatus> tbStatusLiveData;
 
     private ApiRepo apiRepo;
     private final DbRepo dbRepo;
@@ -42,11 +40,27 @@ public class UpdateDataCtrl {
     private LocalTime morningToEveningTime = LocalTime.parse("11:59"); // time of day where morning transitions to evening
     private LocalTime eveningToMorningTime = LocalTime.parse("00:00"); // time of day where evening transitions to morning
     private int numIntervalDays = 7; // number of days in interval
-    private int tbEachDay = 2; // wanted number of tooth brushes each day
+    private int tbEachDay = 2; // ideal number of tooth brushes each day
     private double numTbThres = 0.8; // threshold value for minimum number of tooth brushes compared to ideal number of tooth brushes
     private LocalDate lastDayInInterval = LocalDate.now(); // the last day of the time interval the calculations are made over
+    private long lowerEpochIntervalLimit;
+    private long higherEpochIntervalLimit;
 
     private final ExecutorService executor; // for asynch processing
+
+
+    /*
+    public UpdateDataCtrl() {
+        dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration); // constructor injection?
+        dataCleaner = new DataCleaner(); // constructor injection?
+        dataProcessor = new DataProcessor(minAccTbTime, numIntervalDays, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres, lastDayInInterval); // constructor injection?
+        //setTestData();
+        dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
+        executor = Executors.newSingleThreadExecutor();
+        tbStatusLiveData = new MutableLiveData<>();
+    }
+
+     */
 
     // singleton pattern
     public static UpdateDataCtrl getInstance() { // Er det ok at bruge singleton her?
@@ -60,12 +74,13 @@ public class UpdateDataCtrl {
     private UpdateDataCtrl() {
         dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration); // constructor injection?
         dataCleaner = new DataCleaner(); // constructor injection?
-        processor = new DataProcessor(minAccTbTime, numIntervalDays, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres, lastDayInInterval); // constructor injection?
+        dataProcessor = new DataProcessor(minAccTbTime, numIntervalDays, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres, lastDayInInterval); // constructor injection?
         //setTestData();
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();
         tbStatusLiveData = new MutableLiveData<>();
     }
+
 
     // method for returning updated tb data
     public LiveData<TbStatus> getTbStatusLiveData() {
@@ -92,8 +107,8 @@ public class UpdateDataCtrl {
     public void updateTbData(List<TbData> tbDataList) {
 
         // filter and clean data
-        tbDataList = dataFilter.FilterData(tbDataList);
-        tbDataList = dataCleaner.CleanData(tbDataList); // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
+        tbDataList = dataFilter.filterData(tbDataList);
+        tbDataList = dataCleaner.cleanData(tbDataList);                                       // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
 
         // add data to database
         addDataToDb(tbDataList);
@@ -102,7 +117,7 @@ public class UpdateDataCtrl {
         // get data from database
         tbDataList = getDbTbDataInInterval();
 
-        tbStatus = processor.ProcessData(tbDataList);
+        TbStatus tbStatus = dataProcessor.processData(tbDataList);
 
         tbStatusLiveData.setValue(tbStatus);
     }
@@ -137,16 +152,13 @@ public class UpdateDataCtrl {
     }
 
     private List<TbData> getDbTbDataInInterval() {
+        findEpochInterval();
+
         Future<List<TbData>> tbDataList = executor.submit(new Callable<List<TbData>>() {
 
             @Override
             public List<TbData> call() {
-                //LocalDateTime lastDateTimeInterval = lastDayInInterval.atStartOfDay();
-                LocalDateTime lastDateTimeInterval = lastDayInInterval.atTime(LocalTime.now()); // her er tiden for den pågældende dato, sat til det nuværende tidspunkt
-                ZoneId zoneId = ZoneId.systemDefault();
-                long epochHigherLimit = lastDateTimeInterval.atZone(zoneId).toEpochSecond();
-                long epochLowerLimit = lastDateTimeInterval.minusDays(numIntervalDays).atZone(zoneId).toEpochSecond();
-                return dbRepo.tbDao().getTbDataInInterval(epochLowerLimit, epochHigherLimit);
+                return dbRepo.tbDao().getTbDataInInterval(lowerEpochIntervalLimit, higherEpochIntervalLimit);
             }
         });
 
@@ -157,5 +169,24 @@ public class UpdateDataCtrl {
         }
 
         return null;
+    }
+
+    private void findEpochInterval() {
+        // find system zone id
+        ZoneId zoneId = ZoneId.systemDefault();
+
+        // find utc +0 zone id
+        ZoneId utcZoneId = ZoneId.of("Greenwich");
+
+        // find first day in interval at midnight
+        ZonedDateTime firstDateTimeInterval = lastDayInInterval.minusDays(numIntervalDays).atStartOfDay().atZone(utcZoneId);
+
+        // find last day in interval at current time
+        LocalDateTime lastDateTimeInterval = lastDayInInterval.atTime(LocalTime.now());
+
+        // save results
+        lowerEpochIntervalLimit = firstDateTimeInterval.toEpochSecond();
+        higherEpochIntervalLimit = lastDateTimeInterval.atZone(zoneId).toEpochSecond();
+
     }
 }

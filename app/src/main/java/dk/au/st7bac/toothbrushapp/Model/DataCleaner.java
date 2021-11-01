@@ -10,6 +10,12 @@ import java.util.List;
 
 public class DataCleaner {
 
+    private int timeBetweenMeasurements;
+
+    public DataCleaner(int timeBetweenMeasurements) {
+        this.timeBetweenMeasurements = timeBetweenMeasurements;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public List<TbData> cleanData(List<TbData> tbDataList) {
 
@@ -51,12 +57,12 @@ public class DataCleaner {
             if (i == 0) {
                 tbCleanDataList.add(tbDataList.get(i));
             } else {
-                if (tbDataList.get(i).getDateTime().isAfter(tbDataList.get(i - 1).getDateTime().minusMinutes(10))) {
-                    // if current measurement is less than 10 minutes before the next measurement,
+                if (tbDataList.get(i).getDateTime().isAfter(tbDataList.get(i - 1).getDateTime().minusMinutes(timeBetweenMeasurements))) {
+                    // if current measurement is less than x minutes before the next measurement,
                     // add the current toothbrush time to the next tooth brush time
                     tbDataList.get(i - 1).setTbSecs(tbDataList.get(i - 1).getTbSecs() + tbDataList.get(i).getTbSecs());
                 } else {
-                    // if current measurement is more than 10 minutes before the next measurement,
+                    // if current measurement is more than x minutes before the next measurement,
                     // consider it as a separate measurement, and add it to the clean data list
                     tbCleanDataList.add(tbDataList.get(i));
                 }

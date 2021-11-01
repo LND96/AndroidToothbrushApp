@@ -19,7 +19,6 @@ public interface TbDao {
 
     // get data in given interval
     @Query("SELECT * FROM tbdata WHERE epoch >= :lowerLimit AND epoch <= :higherLimit")
-    //@Query("SELECT * FROM tbdata WHERE :lowerLimit <= epoch <= :higherLimit")
     List<TbData> getTbDataInInterval(long lowerLimit, long higherLimit);
 
     // add list of data to database

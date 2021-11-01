@@ -43,6 +43,7 @@ public class UpdateDataCtrl {
     private int tbEachDay = 2; // ideal number of tooth brushes each day
     private double numTbThres = 0.8; // threshold value for minimum number of tooth brushes compared to ideal number of tooth brushes
     private LocalDate lastDayInInterval = LocalDate.now(); // the last day of the time interval the calculations are made over
+    private int timeBetweenMeasurements = 10; // maximum time in minutes between two measurements for them to be counted as one
     private long lowerEpochIntervalLimit;
     private long higherEpochIntervalLimit;
 
@@ -73,7 +74,7 @@ public class UpdateDataCtrl {
     // private constructor
     private UpdateDataCtrl() {
         dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration); // constructor injection?
-        dataCleaner = new DataCleaner(); // constructor injection?
+        dataCleaner = new DataCleaner(timeBetweenMeasurements); // constructor injection?
         dataProcessor = new DataProcessor(minAccTbTime, numIntervalDays, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres, lastDayInInterval); // constructor injection?
         //setTestData();
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());

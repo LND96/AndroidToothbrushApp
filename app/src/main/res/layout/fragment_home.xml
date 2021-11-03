@@ -8,9 +8,11 @@
 
     <TextView
         android:id="@+id/txtLastSevenDaysHeader"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:text="@string/txtLastSevenDaysHeader"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +23,7 @@
         android:id="@+id/imgToothIcon"
         android:layout_width="58dp"
         android:layout_height="85dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="@string/toothbrushIcon"
         app:layout_constraintStart_toStartOf="@+id/txtLastSevenDaysHeader"
         app:layout_constraintTop_toBottomOf="@+id/txtLastSevenDaysHeader"
@@ -31,7 +33,7 @@
         android:id="@+id/imgHourGlass"
         android:layout_width="58dp"
         android:layout_height="63dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="@string/timeIcon"
         app:layout_constraintStart_toStartOf="@+id/imgToothIcon"
         app:layout_constraintTop_toBottomOf="@+id/imgToothIcon"
@@ -50,14 +52,11 @@
 
     <TextView
         android:id="@+id/txtToothbrushesCompleted"
-        android:layout_width="160dp"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
         android:text="@string/toothBrushesCompleted"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtLastSevenDaysHeader"
         app:layout_constraintStart_toEndOf="@+id/imgNumberToothbrushingResult"
         app:layout_constraintTop_toTopOf="@+id/imgNumberToothbrushingResult" />
 
@@ -120,14 +119,11 @@
 
     <TextView
         android:id="@+id/txtAvgToothbrushTime"
-        android:layout_width="176dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
         android:text="@string/AvgToothbrushTime"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtLastSevenDaysHeader"
         app:layout_constraintStart_toEndOf="@+id/imgAvgTimeResult"
         app:layout_constraintTop_toTopOf="@+id/imgAvgTimeResult" />
 
@@ -148,10 +144,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -165,6 +159,7 @@
             android:layout_height="match_parent"
             android:background="@color/dark_turquoise"
             android:gravity="center">
+
             <TextView android:layout_weight="1" />
         </TableRow>
 
@@ -178,7 +173,7 @@
             <ImageView
                 android:id="@+id/imgViewMorningBrush"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/toothbrushIcon"
                 android:padding="3dp"
@@ -194,7 +189,7 @@
             <ImageView
                 android:id="@+id/imgViewMorningTime"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="28dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/timeIcon"
                 android:padding="3dp"
@@ -211,7 +206,7 @@
             <ImageView
                 android:id="@+id/imgViewEveningBrush"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/toothbrushIcon"
                 android:padding="3dp"
@@ -228,7 +223,7 @@
             <ImageView
                 android:id="@+id/imgViewEveningTime"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="28dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/timeIcon"
                 android:padding="3dp"

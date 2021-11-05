@@ -30,7 +30,7 @@ public class DataFilter implements IDataFilter {
                 // subtract offset from measurement and set time
                 TbDataList.get(i).setTbSecs(TbDataList.get(i).getTbSecs() - offset);
 
-                // only measurements above minTime are considered as a toothbrushing
+                // only measurements above minTime are considered as a toothbrush-event
                 if (TbDataList.get(i).getTbSecs() > minTime)
                 {
                     prev_rawTelemetry_last26 = curr_rawTelemetry_last26;

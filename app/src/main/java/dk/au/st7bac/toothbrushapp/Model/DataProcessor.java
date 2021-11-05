@@ -122,7 +122,7 @@ public class DataProcessor implements IDataProcessor {
     //Update morningAndEveningOK and morningAndEveningTimeOK (true if there is a tb event and time is ok)
     private void isMorningAndEveningTbOk(List<TbData> TBDataList, int tbEachDay, List<LocalDate> dateList)
     {
-        //Hvad hvis det ikke er 2 dage, men 3 dage?...
+        //Not implemented if there is more or less than 2 tb each day
         if (tbEachDay == 2)
         {
             for (int i = 0; i < TBDataList.size(); i++) {
@@ -138,7 +138,7 @@ public class DataProcessor implements IDataProcessor {
 
                             //https://stackoverflow.com/questions/4352885/how-do-i-update-the-element-at-a-certain-position-in-an-arraylist
                             //x' element in boolean array is updated to true (morning)
-                            Array.setBoolean(morningAndEveningOK, 2*j, true); // test at den plads som værdien bliver lagt på i denne liste passer med den rigtige dato
+                            Array.setBoolean(morningAndEveningOK, 2*j, true);                                                        // test at den plads som værdien bliver lagt på i denne liste passer med den rigtige dato
 
                             //Update morningAndEveningTimeOK list with true if the time of tb is accepted
                             if (TBDataList.get(i).getTbSecs() > timeTbThreshold) {

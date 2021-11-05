@@ -117,8 +117,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-
     //https://www.geeksforgeeks.org/navigation-drawer-in-android/ (edit text!!!)
     // override the onOptionsItemSelected()
     // function to implement

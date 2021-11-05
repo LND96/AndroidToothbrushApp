@@ -7,7 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataProcessor {
+import dk.au.st7bac.toothbrushapp.Interfaces.IDataProcessor;
+
+public class DataProcessor implements IDataProcessor {
     private final int timeTbThreshold;
     private final int days;
     private final int tbEachDay;
@@ -156,48 +158,6 @@ public class DataProcessor {
             }
         }
     }
-
-    /*
-    //update morningAndEveningTimeOK (true if time for the tb event is ok)
-    private boolean[] isMorningAndEveningTimeOk(List<TbData> TBDataList, int days, int tbEachDay, List<LocalDate> dateList) {
-
-        //create list with x elements
-        boolean[] morningAndEveningTimeOK = new boolean[days*2];
-
-        if (tbEachDay == 2) {
-            for (int i = 0; i < TBDataList.size(); i++) {
-                for (int j = 0; j < dateList.size(); j++) {
-                    //https://howtodoinjava.com/java/date-time/localdate-localdatetime-conversions/
-
-                    if (TBDataList.get(i).getDateTime().toLocalDate() == dateList.get(j)) {
-                        //Morning
-                        if (eveningToMorningTime.isBefore(TBDataList.get(i).getDateTime().toLocalTime()) &&
-                                morningToEveningTime.isAfter(TBDataList.get(i).getDateTime().toLocalTime())) {
-
-                            //Update morningAndEveningTimeOK list with true if the time of each tb is accepted.
-                            if (TBDataList.get(i).getTbSecs() > timeTbThreshold) {
-
-                                Array.setBoolean(morningAndEveningTimeOK, 2*j, true);
-                            }
-
-
-                        } else {
-
-                            //Update morningAndEveningTimeOK list with true if the time of each tb is accepted.
-                            if (TBDataList.get(i).getTbSecs() > timeTbThreshold) {
-                                Array.setBoolean(morningAndEveningTimeOK, (2*j)+1, true);
-                            }
-                        }
-                    }
-                }
-
-            }
-
-        }
-        return morningAndEveningTimeOK;
-    }
-
-     */
 }
 
 

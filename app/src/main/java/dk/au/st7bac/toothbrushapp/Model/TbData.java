@@ -46,16 +46,8 @@ public class TbData {
         return sysId;
     }
 
-    public void setSysId(String sysId) {
-        this.sysId = sysId;
-    }
-
     public int getTbVal() {
         return tbVal;
-    }
-
-    public void setTbVal(int tbVal) {
-        this.tbVal = tbVal;
     }
 
     public double getTbSecs() {
@@ -63,23 +55,19 @@ public class TbData {
     }
 
     public void setTbSecs(double tbSecs) {
-        this.tbSecs = tbSecs;
+        if (tbSecs >= 0.0) {
+            this.tbSecs = tbSecs;
+        } else {
+            this.tbSecs = 0.0;
+        }
     }
 
     public String getRawTelemetry() {
         return rawTelemetry;
     }
 
-    public void setRawTelemetry(String rawTelemetry) {
-        this.rawTelemetry = rawTelemetry;
-    }
-
     public int getTbHb() {
         return tbHb;
-    }
-
-    public void setTbHb(int tbHb) {
-        this.tbHb = tbHb;
     }
 
     public LocalDateTime getDateTime() {

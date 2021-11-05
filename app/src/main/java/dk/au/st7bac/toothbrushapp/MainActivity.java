@@ -12,6 +12,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,16 +25,20 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Calendar;
+
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.NotificationService;
 
-
+// kilde til alarm manager: https://developer.android.com/training/scheduling/alarms#java
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
-    private UpdateDataCtrl updateDataCtrl;
+    //private UpdateDataCtrl updateDataCtrl;
+    private AlarmManager alarmMgr;
+    private PendingIntent pendingIntent;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -40,10 +47,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //AppContainer appContainer = ((ToothbrushApp) getApplication()).appContainer;
-        updateDataCtrl = UpdateDataCtrl.getInstance();
         //updateDataCtrl = new UpdateDataCtrl();
-        updateDataCtrl.initUpdateTbData();
+        //updateDataCtrl.initUpdateTbData();
 
         //start service
         startService();
@@ -53,6 +58,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //drawer navigation
         drawerNavigation();
+
+        //alarm manager for update tb data on specific time
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 14);
+
+        alarmMgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getApplicationContext(), UpdateDataCtrl.class);
+        int requestCode = 0;
+        pendingIntent = PendingIntent.getService(getApplicationContext(), requestCode, intent, PendingIntent.FLAG_NO_CREATE);
+
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
 
     }
 

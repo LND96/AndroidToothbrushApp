@@ -15,15 +15,19 @@ import dk.au.st7bac.toothbrushapp.Model.TbStatus;
 // and "Demo: Multiple fragments in UI using ViewModels and a Repository class - bonus: background service, singleton pattern example and overriding Application object to get app Context"
 public class HomeViewModel extends ViewModel {
 
-    private final UpdateDataCtrl updateDataCtrl;
+    private UpdateDataCtrl updateDataCtrl;
 
     public HomeViewModel() {
         super();
-        updateDataCtrl = UpdateDataCtrl.getInstance();
+        //updateDataCtrl = UpdateDataCtrl.getInstance();
     }
 
     public LiveData<TbStatus> getTbStatusData()
     {
         return updateDataCtrl.getTbStatusLiveData();
+    }
+
+    public void setController(UpdateDataCtrl updateDataCtrl) {
+        this.updateDataCtrl = updateDataCtrl;
     }
 }

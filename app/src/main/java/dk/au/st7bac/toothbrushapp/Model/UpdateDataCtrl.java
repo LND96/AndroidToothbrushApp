@@ -15,6 +15,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import dk.au.st7bac.toothbrushapp.Interfaces.IDataCleaner;
+import dk.au.st7bac.toothbrushapp.Interfaces.IDataFilter;
+import dk.au.st7bac.toothbrushapp.Interfaces.IDataProcessor;
 import dk.au.st7bac.toothbrushapp.Repositories.ApiRepo;
 import dk.au.st7bac.toothbrushapp.Repositories.DbRepo;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
@@ -23,45 +26,55 @@ public class UpdateDataCtrl {
 
     public static UpdateDataCtrl updateDataCtrl;
 
-    private final DataFilter dataFilter; // husk interface
-    private final DataCleaner dataCleaner; // husk interface
-    private final DataProcessor dataProcessor; //husk interface
+    //private final DataFilter dataFilter; // husk interface
+    //private final DataCleaner dataCleaner; // husk interface
+    //private final DataProcessor dataProcessor; //husk interface
+
+    private IDataFilter dataFilter;
+    private IDataCleaner dataCleaner;
+    private IDataProcessor dataProcessor;
 
     private MutableLiveData<TbStatus> tbStatusLiveData;
 
     private ApiRepo apiRepo;
     private final DbRepo dbRepo;
 
+    /*
     // skal alle disse data sættes ved contructor injection i controlleren?
     private double offset = 6.0; // hardware offset
     private int minMeasurementDuration = 10; // minimum time in secs that a measurement should last to be considered as a tooth brushing
     private int maxMeasurementDuration = 600; // maximum time in secs that a measurement should last to be considered as a tooth brushing
-    private int minAccTbTime = 90; // minimum time in secs that a tooth brushing should last to be accepted
+    private int minAccpTbTime = 90; // minimum time in secs that a tooth brushing should last to be accepted
     private LocalTime morningToEveningTime = LocalTime.parse("11:59"); // time of day where morning transitions to evening
     private LocalTime eveningToMorningTime = LocalTime.parse("00:00"); // time of day where evening transitions to morning
-    private int numIntervalDays = 7; // number of days in interval
+
     private int tbEachDay = 2; // ideal number of tooth brushes each day
     private double numTbThres = 0.8; // threshold value for minimum number of tooth brushes compared to ideal number of tooth brushes
+
+    private int timeBetweenMeasurements = 10; // maximum time in minutes between two measurements for them to be counted as one
+
+     */
+    private int numIntervalDays = 7; // number of days in interval
     private LocalDate lastDayInInterval = LocalDate.now(); // the last day of the time interval the calculations are made over
     private long lowerEpochIntervalLimit;
     private long higherEpochIntervalLimit;
 
+
     private final ExecutorService executor; // for asynch processing
 
 
-    /*
-    public UpdateDataCtrl() {
-        dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration); // constructor injection?
-        dataCleaner = new DataCleaner(); // constructor injection?
-        dataProcessor = new DataProcessor(minAccTbTime, numIntervalDays, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres, lastDayInInterval); // constructor injection?
-        //setTestData();
+
+    public UpdateDataCtrl(IDataFilter dataFilter, IDataCleaner dataCleaner, IDataProcessor dataProcessor) {
+        this.dataFilter = dataFilter;
+        this.dataCleaner = dataCleaner;
+        this.dataProcessor = dataProcessor;
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();
         tbStatusLiveData = new MutableLiveData<>();
     }
 
-     */
 
+    /*
     // singleton pattern
     public static UpdateDataCtrl getInstance() { // Er det ok at bruge singleton her?
         if (updateDataCtrl == null) {
@@ -73,13 +86,14 @@ public class UpdateDataCtrl {
     // private constructor
     private UpdateDataCtrl() {
         dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration); // constructor injection?
-        dataCleaner = new DataCleaner(); // constructor injection?
-        dataProcessor = new DataProcessor(minAccTbTime, numIntervalDays, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres, lastDayInInterval); // constructor injection?
+        dataCleaner = new DataCleaner(timeBetweenMeasurements); // constructor injection?
+        dataProcessor = new DataProcessor(minAccpTbTime, numIntervalDays, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres, lastDayInInterval); // constructor injection?
         //setTestData();
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();
         tbStatusLiveData = new MutableLiveData<>();
     }
+     */
 
 
     // method for returning updated tb data
@@ -108,7 +122,7 @@ public class UpdateDataCtrl {
 
         // filter and clean data
         tbDataList = dataFilter.filterData(tbDataList);
-        tbDataList = dataCleaner.cleanData(tbDataList);                                       // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
+        tbDataList = dataCleaner.cleanData(tbDataList);     // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
 
         // add data to database
         addDataToDb(tbDataList);
@@ -171,7 +185,7 @@ public class UpdateDataCtrl {
         return null;
     }
 
-    private void findEpochInterval() {
+    private void findEpochInterval() { // skal denne metode evt. lægges ud i en klasse?
         // find system zone id
         ZoneId zoneId = ZoneId.systemDefault();
 

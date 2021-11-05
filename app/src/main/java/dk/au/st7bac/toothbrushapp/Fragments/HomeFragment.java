@@ -15,8 +15,18 @@ import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import dagger.hilt.android.AndroidEntryPoint;
+import dk.au.st7bac.toothbrushapp.Interfaces.IDataCleaner;
+import dk.au.st7bac.toothbrushapp.Interfaces.IDataFilter;
+import dk.au.st7bac.toothbrushapp.Interfaces.IDataProcessor;
+import dk.au.st7bac.toothbrushapp.Model.DataCleaner;
+import dk.au.st7bac.toothbrushapp.Model.DataFilter;
+import dk.au.st7bac.toothbrushapp.Model.DataProcessor;
 import dk.au.st7bac.toothbrushapp.Model.TbStatus;
+import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.ViewModels.HomeViewModel;
 
 import dk.au.st7bac.toothbrushapp.R;
@@ -40,8 +50,27 @@ public class HomeFragment extends Fragment {
     private boolean isAvgNumTbOk;
     private boolean isAvgTimeOk;
 
+
+    // skal alle disse data sættes ved contructor injection i controlleren?
+    private double offset = 6.0; // hardware offset
+    private int minMeasurementDuration = 10; // minimum time in secs that a measurement should last to be considered as a tooth brushing
+    private int maxMeasurementDuration = 600; // maximum time in secs that a measurement should last to be considered as a tooth brushing
+    private int minAccpTbTime = 90; // minimum time in secs that a tooth brushing should last to be accepted
+    private LocalTime morningToEveningTime = LocalTime.parse("11:59"); // time of day where morning transitions to evening
+    private LocalTime eveningToMorningTime = LocalTime.parse("00:00"); // time of day where evening transitions to morning
+    private int tbEachDay = 2; // ideal number of tooth brushes each day
+    private double numTbThres = 0.8; // threshold value for minimum number of tooth brushes compared to ideal number of tooth brushes
+    private int timeBetweenMeasurements = 10; // maximum time in minutes between two measurements for them to be counted as one
+    private int numIntervalDays = 7; // number of days in interval
+    private LocalDate lastDayInInterval = LocalDate.now(); // the last day of the time interval the calculations are made over
+    private IDataFilter dataFilter;
+    private IDataCleaner dataCleaner;
+    private IDataProcessor dataProcessor;
+
     // view model
     private HomeViewModel vm;
+
+    private UpdateDataCtrl updateDataCtrl;
 
     @Nullable
     @Override
@@ -49,11 +78,16 @@ public class HomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         // inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false); // Hvorfor skal view bruges ved findViewById?
-
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         // set up user interface
         setupUI(view);
+
+        dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration);
+        dataCleaner = new DataCleaner(timeBetweenMeasurements);
+        dataProcessor = new DataProcessor(minAccpTbTime, numIntervalDays, tbEachDay,
+                morningToEveningTime, eveningToMorningTime, numTbThres, lastDayInInterval);
+        updateDataCtrl = new UpdateDataCtrl(dataFilter, dataCleaner, dataProcessor);
 
 
         return view;
@@ -63,8 +97,8 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         vm = new ViewModelProvider(this).get(HomeViewModel.class);
+        vm.setController(updateDataCtrl);
         vm.getTbStatusData().observe(getViewLifecycleOwner(), new Observer<TbStatus>() {
             @Override
             public void onChanged(TbStatus tbStatus) {
@@ -80,6 +114,9 @@ public class HomeFragment extends Fragment {
                 updateUI(view);
             }
         });
+
+
+        updateDataCtrl.initUpdateTbData();
     }
 
     private void setupUI(View view) {

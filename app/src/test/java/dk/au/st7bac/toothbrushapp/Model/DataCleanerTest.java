@@ -1,5 +1,6 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
@@ -11,16 +12,27 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DataCleanerTest {
+
+    DataCleaner uut;
+
+    @BeforeEach
+    void setup() {
+        uut = new DataCleaner(10);
+    }
+
+    // Test setDateTime()
+    // kilde til at teste private metoder: https://stackoverflow.com/questions/34571/how-do-i-test-a-class-that-has-private-methods-fields-or-inner-classes
     @Test
-    public void setDateTime_epochConverted_ReturnCorrect_Epoch() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    void setDateTime_EpochConverted_ReturnCorrectEpoch() throws NoSuchMethodException,
+            InvocationTargetException, IllegalAccessException {
         // arrange
-        Method testMethod = DataCleaner.class.getDeclaredMethod("setDateTime", List.class);
-        testMethod.setAccessible(true);
-        DataCleaner uut = new DataCleaner();
         List<TbData> testData = new ArrayList<>();
-        testData.add(new TbData("", 0, 20.0, "[nr:616D7A62", 0, LocalDateTime.now(), 0));
+        testData.add(new TbData("", 0, 20.0, "[nr:616D7A62",
+                0, LocalDateTime.now(), 0));
 
         // act
+        Method testMethod = DataCleaner.class.getDeclaredMethod("setDateTime", List.class);
+        testMethod.setAccessible(true);
         List<TbData> resultData = (List<TbData>) testMethod.invoke(uut, testData);
 
         // assert
@@ -28,15 +40,15 @@ class DataCleanerTest {
     }
 
     @Test
-    public void setDateTime_dateConverted_ReturnCorrectDate() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    void setDateTime_DateConverted_ReturnCorrectDate() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // arrange
-        Method testMethod = DataCleaner.class.getDeclaredMethod("setDateTime", List.class);
-        testMethod.setAccessible(true);
-        DataCleaner uut = new DataCleaner();
         List<TbData> testData = new ArrayList<>();
-        testData.add(new TbData("", 0, 20.0, "[nr:616D7A62", 0, LocalDateTime.now(), 0));
+        testData.add(new TbData("", 0, 20.0, "[nr:616D7A62",
+                0, LocalDateTime.now(), 0));
 
         // act
+        Method testMethod = DataCleaner.class.getDeclaredMethod("setDateTime", List.class);
+        testMethod.setAccessible(true);
         List<TbData> resultData = (List<TbData>) testMethod.invoke(uut, testData);
 
         // assert
@@ -44,14 +56,25 @@ class DataCleanerTest {
         assertEquals(expectedDate, resultData.get(0).getDateTime());
     }
 
+    // Test cleanData()
     @Test
-    public void cleanData_fiveIdenticalTbData_ReturnSizeOne() {
+    void cleanData_AddZeroMeasurements_ReturnSizeZero() {
         // arrange
         List<TbData> testData = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            testData.add(new TbData("", 0, 20.0, "[nr:616D72FF", 0, LocalDateTime.now(), 0));
-        }
-        DataCleaner uut = new DataCleaner();
+
+        // act
+        List<TbData> resultData = uut.cleanData(testData);
+
+        // assert
+        assertEquals(0, resultData.size());
+    }
+
+    @Test
+    void cleanData_AddOneMeasurement_ReturnSizeOne() {
+        // arrange
+        List<TbData> testData = new ArrayList<>();
+        testData.add(new TbData("", 0, 20.0,
+                "[nr:616D72FF", 0, LocalDateTime.now(), 0));
 
         // act
         List<TbData> resultData = uut.cleanData(testData);
@@ -61,13 +84,77 @@ class DataCleanerTest {
     }
 
     @Test
-    public void cleanData_twoSeparateTbData_ReturnSizeTwo() {
+    void cleanData_AddOneMeasurement_Return20s(){
         // arrange
         List<TbData> testData = new ArrayList<>();
-        testData.add(new TbData("", 0, 20.0, "[nr:616D7A62", 0, LocalDateTime.now(), 0));
-        testData.add(new TbData("", 0, 20.0, "[nr:616D72FF", 0, LocalDateTime.now(), 0));
+        testData.add(new TbData("", 0, 20.0,
+                "[nr:616D72FF", 0, LocalDateTime.now(), 0));
 
-        DataCleaner uut = new DataCleaner();
+        // act
+        List<TbData> resultData = uut.cleanData(testData);
+
+        // assert
+        assertEquals(20.0, resultData.get(0).getTbSecs());
+    }
+
+
+    @Test
+    void cleanData_FiveTbDataAtSameTime_ReturnSizeOne() {
+        // arrange
+        List<TbData> testData = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            testData.add(new TbData("", 0, 20.0,
+                    "[nr:616D72FF", 0, LocalDateTime.now(), 0));
+        }
+
+        // act
+        List<TbData> resultData = uut.cleanData(testData);
+
+        // assert
+        assertEquals(1, resultData.size());
+    }
+
+
+    @Test
+    void cleanData_FiveTbDataAtSameTime_Return100s() {
+        // arrange
+        List<TbData> testData = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            testData.add(new TbData("", 0, 20.0,
+                    "[nr:616D72FF", 0, LocalDateTime.now(), 0));
+        }
+
+        // act
+        List<TbData> resultData = uut.cleanData(testData);
+
+        // assert
+        assertEquals(100.0, resultData.get(0).getTbSecs());
+    }
+
+    @Test
+    void cleanData_TwoMeasurementsInsideInterval_ReturnSizeOne() {
+        // arrange
+        List<TbData> testData = new ArrayList<>();
+        testData.add(new TbData("", 0, 20.0, "[nr:617FE052",
+                0, LocalDateTime.now(), 0)); // Monday 1. November 2021 12:40:50
+        testData.add(new TbData("", 0, 20.0, "[nr:617FDDFB",
+                0, LocalDateTime.now(), 0)); // Monday 1. November 2021 12:30:51
+
+        // act
+        List<TbData> resultData = uut.cleanData(testData);
+
+        // assert
+        assertEquals(1, resultData.size());
+    }
+
+    @Test
+    void cleanData_TwoMeasurementsOutsideInterval_ReturnSizeTwo() {
+        // arrange
+        List<TbData> testData = new ArrayList<>();
+        testData.add(new TbData("", 0, 20.0, "[nr:617FE052",
+                0, LocalDateTime.now(), 0)); // Monday 1. November 2021 12:40:50
+        testData.add(new TbData("", 0, 20.0, "[nr:617FDDFA",
+                0, LocalDateTime.now(), 0)); // Monday 1. November 2021 12:30:50
 
         // act
         List<TbData> resultData = uut.cleanData(testData);

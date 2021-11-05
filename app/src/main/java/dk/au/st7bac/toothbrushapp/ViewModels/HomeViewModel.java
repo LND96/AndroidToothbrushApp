@@ -19,7 +19,7 @@ public class HomeViewModel extends ViewModel {
 
     public HomeViewModel() {
         super();
-        //updateDataCtrl = UpdateDataCtrl.getInstance();
+        updateDataCtrl = UpdateDataCtrl.getInstance();
     }
 
     public LiveData<TbStatus> getTbStatusData()
@@ -27,7 +27,10 @@ public class HomeViewModel extends ViewModel {
         return updateDataCtrl.getTbStatusLiveData();
     }
 
+    /*
     public void setController(UpdateDataCtrl updateDataCtrl) {
         this.updateDataCtrl = updateDataCtrl;
     }
+
+     */
 }

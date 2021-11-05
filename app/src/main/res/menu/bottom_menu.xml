@@ -5,9 +5,9 @@
     <item
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_baseline_home_24"
-        android:title="Home" />
+        android:title="@string/Home" />
     <item
         android:id="@+id/detailsFragment"
         android:icon="@drawable/ic_baseline_timeline_24"
-        android:title="Details" />
+        android:title="@string/Detail" />
 </menu>

@@ -8,12 +8,16 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="dk.au.st7bac.toothbrushapp.Fragments.HomeFragment"
-        android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        android:label="TandbørsteHjælpen"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailsFragment"
         android:name="dk.au.st7bac.toothbrushapp.Fragments.DetailsFragment"
-        android:label="Details"
+        android:label="TandbørsteHjælpen"
         tools:layout="@layout/fragment_details" />
 
 </navigation>

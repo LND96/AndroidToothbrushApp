@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="txtLastSevenDaysHeader">Tandbørstninger de sidste syv dage:</string>
+    <string name="txtLastSevenDaysHeader">Tandbørstninger gennemført de sidste syv dage:</string>
+    <string name="txtTimeLastSevenDaysHeader">Gennemsnitlig børstetid de sidste syv dage:</string>
     <string name="OutOf">ud af</string>
     <string name="toothBrushesCompleted">Tandbørstninger gennemført:</string>
     <string name="AvgToothbrushTime">Gennemsnitlig tandbørstetid:</string>
@@ -9,4 +10,6 @@
     <string name="timeIcon">tidsikon</string>
     <string name="Morning">Morgen</string>
     <string name="Evening">Aften</string>
+    <string name ="Home">Forside</string>
+    <string name ="Detail">Detaljer</string>
 </resources>

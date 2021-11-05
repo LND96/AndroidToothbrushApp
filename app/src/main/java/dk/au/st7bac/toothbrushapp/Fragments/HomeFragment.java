@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        updateDataCtrl.initUpdateTbData();
+        updateDataCtrl.initUpdateTbData(); //kaldes fra main
     }
 
     private void setupUI(View view) {

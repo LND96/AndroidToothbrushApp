@@ -32,24 +32,6 @@ import dk.au.st7bac.toothbrushapp.ViewModels.HomeViewModel;
 
 public class DetailsFragment extends Fragment {
 
-    private UpdateDataCtrl updateDataCtrl;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        // inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        updateDataCtrl = UpdateDataCtrl.getInstance();
-
-        return view;
-
-    }
-
-    /*
-
-
     // ui widgets
     private TableRow rowHeader, rowMorningBrush, rowMorningTime, rowEveningBrush, rowEveningTime;
 
@@ -69,13 +51,15 @@ public class DetailsFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         // inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_details, container, false);
 
+        updateDataCtrl = UpdateDataCtrl.getInstance();
+
         return view;
+
     }
 
 
@@ -84,7 +68,6 @@ public class DetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         vm = new ViewModelProvider(this).get(HomeViewModel.class);
-        vm.setController(updateDataCtrl);
         vm.getTbStatusData().observe(getViewLifecycleOwner(), new Observer<TbStatus>() {
             @Override
             public void onChanged(TbStatus tbStatus) {
@@ -95,8 +78,6 @@ public class DetailsFragment extends Fragment {
                 updateUI(view);
             }
         });
-
-        updateDataCtrl.initUpdateTbData();
     }
 
 
@@ -149,11 +130,5 @@ public class DetailsFragment extends Fragment {
 
         row.addView(imageView); // add ImageView to row
     }
-
-     */
-
-
-
-
 
 }

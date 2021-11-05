@@ -30,13 +30,21 @@ public class ApiRepo {
 
     private UpdateDataCtrl updateDataCtrl;
 
-    public ApiRepo(UpdateDataCtrl updateDataCtrl) {
+    private String sensorId;
+    private String apiSince;
+    private String apiLimit;
+
+    public ApiRepo(UpdateDataCtrl updateDataCtrl, String sensorId, String apiSince, String apiLimit) {
         this.updateDataCtrl = updateDataCtrl;
+        this.sensorId = sensorId;
+        this.apiSince = apiSince;
+        this.apiLimit = apiLimit;
     }
 
     public void getTbData() {
-        String baseUrl = "https://dmjljzkaec.execute-api.eu-west-1.amazonaws.com/default/tbapi/v1";
-        String url = baseUrl + "/system/tm/c4d1574b-d1ce-43da-84df-f54fe5e09ba9?since=20211013&limit=100"; // hardcoded værdi - skal sendes med metode
+        String baseUrl = "https://dmjljzkaec.execute-api.eu-west-1.amazonaws.com/default/tbapi/v1/system/tm/";
+        String url = baseUrl + sensorId + "?since=" + apiSince + "&limit=" + apiLimit;
+        //"/system/tm/c4d1574b-d1ce-43da-84df-f54fe5e09ba9?since=20211013&limit=100"; // hardcoded værdi - skal sendes med metode
         sendRequestForTbData(url);
     }
 

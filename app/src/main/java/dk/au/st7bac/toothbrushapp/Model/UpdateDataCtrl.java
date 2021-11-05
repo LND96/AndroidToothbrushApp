@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -41,6 +42,7 @@ public class UpdateDataCtrl {
 
 
     // skal alle disse data sættes ved contructor injection i controlleren?
+    /*
     private double offset = 6.0; // hardware offset
     private int minMeasurementDuration = 10; // minimum time in secs that a measurement should last to be considered as a tooth brushing
     private int maxMeasurementDuration = 600; // maximum time in secs that a measurement should last to be considered as a tooth brushing
@@ -52,24 +54,13 @@ public class UpdateDataCtrl {
     private int timeBetweenMeasurements = 10; // maximum time in minutes between two measurements for them to be counted as one
     private int numIntervalDays = 7; // number of days in interval
     private LocalDate lastDayInInterval = LocalDate.now(); // the last day of the time interval the calculations are made over
+     */
     private long lowerEpochIntervalLimit;
     private long higherEpochIntervalLimit;
 
+    private Settings settings;
 
     private final ExecutorService executor; // for asynch processing
-
-
-/*
-    public UpdateDataCtrl(IDataFilter dataFilter, IDataCleaner dataCleaner, IDataProcessor dataProcessor) {
-        this.dataFilter = dataFilter;
-        this.dataCleaner = dataCleaner;
-        this.dataProcessor = dataProcessor;
-        dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
-        executor = Executors.newSingleThreadExecutor();
-        tbStatusLiveData = new MutableLiveData<>();
-    }
-
- */
 
     // singleton pattern
     public static UpdateDataCtrl getInstance() {
@@ -81,10 +72,15 @@ public class UpdateDataCtrl {
 
     // private constructor
     private UpdateDataCtrl() {
-        dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration);
-        dataCleaner = new DataCleaner(timeBetweenMeasurements);
-        dataProcessor = new DataProcessor(minAccpTbTime, numIntervalDays, tbEachDay,
-                morningToEveningTime, eveningToMorningTime, numTbThres, lastDayInInterval);
+        SettingsReader reader = new SettingsReader();
+        settings = reader.getConfigSettings(ToothbrushApp.getAppContext());
+        dataFilter = new DataFilter(settings.getOffset(), settings.getMinMeasurementDuration(),
+                settings.getMaxMeasurementDuration());
+        dataCleaner = new DataCleaner(settings.getTimeBetweenMeasurements());
+        dataProcessor = new DataProcessor(settings.getMinAccpTbTime(),
+                settings.getNumIntervalDays(), settings.getTbEachDay(),
+                settings.getMorningToEveningTime(), settings.getEveningToMorningTime(),
+                settings.getNumTbThres(), settings.getLastDayInInterval());
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();
         tbStatusLiveData = new MutableLiveData<>();
@@ -103,7 +99,8 @@ public class UpdateDataCtrl {
     ////// Api repo //////
     private void getApiData() {
         if (apiRepo == null) {
-            apiRepo = new ApiRepo(this);
+            apiRepo = new ApiRepo(this, settings.getSensorId(), settings.getApiSince(),
+                    settings.getApiLimit());
         }
 
         apiRepo.getTbData();
@@ -185,10 +182,10 @@ public class UpdateDataCtrl {
         ZoneId utcZoneId = ZoneId.of("Greenwich");
 
         // find first day in interval at midnight
-        ZonedDateTime firstDateTimeInterval = lastDayInInterval.minusDays(numIntervalDays).atStartOfDay().atZone(utcZoneId);
+        ZonedDateTime firstDateTimeInterval = settings.getLastDayInInterval().minusDays(settings.getNumIntervalDays()).atStartOfDay().atZone(utcZoneId);
 
         // find last day in interval at current time
-        LocalDateTime lastDateTimeInterval = lastDayInInterval.atTime(LocalTime.now());
+        LocalDateTime lastDateTimeInterval = settings.getLastDayInInterval().atTime(LocalTime.now());
 
         // save results
         lowerEpochIntervalLimit = firstDateTimeInterval.toEpochSecond();

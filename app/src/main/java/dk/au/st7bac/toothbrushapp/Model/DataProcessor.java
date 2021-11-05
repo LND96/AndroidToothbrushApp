@@ -7,7 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataProcessor {
+import dk.au.st7bac.toothbrushapp.Interfaces.IDataProcessor;
+
+public class DataProcessor implements IDataProcessor {
     private final int timeTbThreshold;
     private final int days;
     private final int tbEachDay;

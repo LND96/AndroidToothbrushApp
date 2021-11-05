@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
-    private UpdateDataCtrl updateDataCtrl;
+    //private UpdateDataCtrl updateDataCtrl;
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
 
@@ -47,10 +47,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //AppContainer appContainer = ((ToothbrushApp) getApplication()).appContainer;
-        updateDataCtrl = UpdateDataCtrl.getInstance();
         //updateDataCtrl = new UpdateDataCtrl();
-        updateDataCtrl.initUpdateTbData();
+        //updateDataCtrl.initUpdateTbData();
 
         //start service
         startService();

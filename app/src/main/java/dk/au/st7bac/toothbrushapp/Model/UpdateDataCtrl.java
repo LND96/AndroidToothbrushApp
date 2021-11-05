@@ -39,7 +39,7 @@ public class UpdateDataCtrl {
     private ApiRepo apiRepo;
     private final DbRepo dbRepo;
 
-    /*
+
     // skal alle disse data sættes ved contructor injection i controlleren?
     private double offset = 6.0; // hardware offset
     private int minMeasurementDuration = 10; // minimum time in secs that a measurement should last to be considered as a tooth brushing
@@ -47,13 +47,9 @@ public class UpdateDataCtrl {
     private int minAccpTbTime = 90; // minimum time in secs that a tooth brushing should last to be accepted
     private LocalTime morningToEveningTime = LocalTime.parse("11:59"); // time of day where morning transitions to evening
     private LocalTime eveningToMorningTime = LocalTime.parse("00:00"); // time of day where evening transitions to morning
-
     private int tbEachDay = 2; // ideal number of tooth brushes each day
-    private double numTbThres = 0.8; // threshold value for minimum number of tooth brushes compared to ideal number of tooth brushes
-
+    private double numTbThres = 0.7; // threshold value for minimum number of tooth brushes compared to ideal number of tooth brushes
     private int timeBetweenMeasurements = 10; // maximum time in minutes between two measurements for them to be counted as one
-
-     */
     private int numIntervalDays = 7; // number of days in interval
     private LocalDate lastDayInInterval = LocalDate.now(); // the last day of the time interval the calculations are made over
     private long lowerEpochIntervalLimit;
@@ -63,7 +59,7 @@ public class UpdateDataCtrl {
     private final ExecutorService executor; // for asynch processing
 
 
-
+/*
     public UpdateDataCtrl(IDataFilter dataFilter, IDataCleaner dataCleaner, IDataProcessor dataProcessor) {
         this.dataFilter = dataFilter;
         this.dataCleaner = dataCleaner;
@@ -73,10 +69,10 @@ public class UpdateDataCtrl {
         tbStatusLiveData = new MutableLiveData<>();
     }
 
+ */
 
-    /*
     // singleton pattern
-    public static UpdateDataCtrl getInstance() { // Er det ok at bruge singleton her?
+    public static UpdateDataCtrl getInstance() {
         if (updateDataCtrl == null) {
             updateDataCtrl = new UpdateDataCtrl();
         }
@@ -85,22 +81,18 @@ public class UpdateDataCtrl {
 
     // private constructor
     private UpdateDataCtrl() {
-        dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration); // constructor injection?
-        dataCleaner = new DataCleaner(timeBetweenMeasurements); // constructor injection?
-        dataProcessor = new DataProcessor(minAccpTbTime, numIntervalDays, tbEachDay, morningToEveningTime, eveningToMorningTime, numTbThres, lastDayInInterval); // constructor injection?
-        //setTestData();
+        dataFilter = new DataFilter(offset, minMeasurementDuration, maxMeasurementDuration);
+        dataCleaner = new DataCleaner(timeBetweenMeasurements);
+        dataProcessor = new DataProcessor(minAccpTbTime, numIntervalDays, tbEachDay,
+                morningToEveningTime, eveningToMorningTime, numTbThres, lastDayInInterval);
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();
         tbStatusLiveData = new MutableLiveData<>();
     }
-     */
 
 
     // method for returning updated tb data
     public LiveData<TbStatus> getTbStatusLiveData() {
-        // get data from api
-        //initUpdateTbData();
-
         return tbStatusLiveData;
     }
 

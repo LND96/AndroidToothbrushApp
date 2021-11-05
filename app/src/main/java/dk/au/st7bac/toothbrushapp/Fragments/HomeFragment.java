@@ -34,16 +34,16 @@ import dk.au.st7bac.toothbrushapp.R;
 public class HomeFragment extends Fragment {
 
     // ui widgets
-    private TableRow rowHeader, rowMorningBrush, rowMorningTime, rowEveningBrush, rowEveningTime;
+    //private TableRow rowHeader, rowMorningBrush, rowMorningTime, rowEveningBrush, rowEveningTime;
     private TextView txtNumberToothbrushesCompletedResult, txtTotalNumberToothbrushes, txtAvgTimeResult;
     private ImageView imgNumberToothbrushesResult, imgAvgTimeResult;
 
-    private int imgPadding = 15;
+    //private int imgPadding = 15;
 
     // data
-    private String[] headerStrings;
-    private boolean[] isTbDone;
-    private boolean[] isTimeOk;
+    //private String[] headerStrings;
+    //private boolean[] isTbDone;
+    //private boolean[] isTimeOk;
     private int numTbCompleted;
     private int totalNumTb;
     private int avgTbTime;
@@ -102,9 +102,9 @@ public class HomeFragment extends Fragment {
         vm.getTbStatusData().observe(getViewLifecycleOwner(), new Observer<TbStatus>() {
             @Override
             public void onChanged(TbStatus tbStatus) {
-                headerStrings = tbStatus.getHeaderStrings();
-                isTbDone = tbStatus.getIsTbDone();
-                isTimeOk = tbStatus.getIsTimeOk();
+                //headerStrings = tbStatus.getHeaderStrings();
+                //isTbDone = tbStatus.getIsTbDone();
+                //isTimeOk = tbStatus.getIsTimeOk();
                 numTbCompleted = tbStatus.getNumTbCompleted();
                 totalNumTb = tbStatus.getTotalNumTb();
                 avgTbTime = tbStatus.getAvgTbTime();
@@ -114,7 +114,6 @@ public class HomeFragment extends Fragment {
                 updateUI(view);
             }
         });
-
 
         updateDataCtrl.initUpdateTbData();
     }
@@ -149,9 +148,10 @@ public class HomeFragment extends Fragment {
 
 
         // update table
-        updateTable(view);
+        //updateTable(view);
     }
 
+    /*
     // adds data to table
     private void updateTable(View view) {
         rowHeader = view.findViewById(R.id.rowHeader);
@@ -179,6 +179,9 @@ public class HomeFragment extends Fragment {
         }
     }
 
+     */
+
+    /*
     // adds images to table row
     private void addImgToRow(TableRow row, boolean isOk) {
         ImageView imageView = new ImageView(getActivity()); // create ImageView
@@ -193,5 +196,7 @@ public class HomeFragment extends Fragment {
 
         row.addView(imageView); // add ImageView to row
     }
+
+     */
 
 }

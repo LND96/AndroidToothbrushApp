@@ -27,6 +27,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.Calendar;
 
+import dk.au.st7bac.toothbrushapp.Fragments.HomeFragment;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.NotificationService;
 
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         //updateDataCtrl = new UpdateDataCtrl();
         //updateDataCtrl.initUpdateTbData();
@@ -74,9 +76,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-
     public void bottomNavigation()
     {
+
         //Inspired by: "https://www.section.io/engineering-education/bottom-navigation-bar-in-android/"
         // bottomNavigationView
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavController navController = Navigation.findNavController(this,R.id.fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(bottomNav, navController);
+
 
     }
 
@@ -110,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
     }
 

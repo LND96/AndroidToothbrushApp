@@ -24,8 +24,8 @@ public class DataCleaner {
         //set correct epoch and dateTime value
         for (TbData tbData : tbDataList) {
 
-            // kilde: https://stackoverflow.com/questions/35183146/how-can-i-create-a-java-8-localdate-from-a-long-epoch-time-in-milliseconds
-            // kilde: https://stackoverflow.com/questions/9936648/how-to-convert-string-to-long/24309678
+            // reference: https://stackoverflow.com/questions/35183146/how-can-i-create-a-java-8-localdate-from-a-long-epoch-time-in-milliseconds
+            // reference: https://stackoverflow.com/questions/9936648/how-to-convert-string-to-long/24309678
             // get hex value from rawTelemetry
             String hexValue = tbData.getRawTelemetry().substring(4, 12);
 

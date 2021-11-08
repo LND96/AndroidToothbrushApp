@@ -20,6 +20,9 @@ public class DataCalculator {
     private boolean[] morningAndEveningTimeOK;
     private String[] dateStrings;
 
+    private int numMorningOk;
+    private int numEveningOk;
+
 
     public DataCalculator(int timeTbThreshold, int days, int tbEachDay,
                           LocalTime morningToEveningTime, LocalTime eveningToMorningTime,
@@ -49,6 +52,8 @@ public class DataCalculator {
         // check if tb each day is done morning and evening and if the tb time is ok
         isMorningAndEveningTbOk(TbDataList, tbEachDay, dateList);
 
+        NumMorningEveningOk(morningAndEveningOK);
+
         // calculate number of tooth brushes
         int numTbCompleted = calcNumOfTb(morningAndEveningOK);
 
@@ -65,9 +70,8 @@ public class DataCalculator {
         boolean isAVgTimeTbOK = isAvgTimeTbOK(avgTbTime);
 
 
-
         //save all results in tbStatus object
-        return new TbStatus(dateStrings, morningAndEveningOK, morningAndEveningTimeOK, numTbCompleted, totalNumberTb, avgTbTime, isNumTbOK, isAVgTimeTbOK);
+        return new TbStatus(dateStrings, morningAndEveningOK, morningAndEveningTimeOK, numTbCompleted, totalNumberTb, avgTbTime, isNumTbOK, isAVgTimeTbOK, numEveningOk, numMorningOk);
 
     }
 
@@ -173,6 +177,25 @@ public class DataCalculator {
             }
         }
     }
+
+    //dokumentere i test at dette virker - mangler! - ikke tilføjet til flow diagrammet...
+    private void NumMorningEveningOk(boolean[] morningAndEveningOK) {
+        numMorningOk = 0;
+        numEveningOk = 0;
+
+        for (int i = 0; i < morningAndEveningOK.length; i++) {
+            if (i % 2 == 0 && morningAndEveningOK[i]) //i is even
+            {
+                numMorningOk++;
+            }
+
+            else if (i % 2 != 0 && morningAndEveningOK[i]){
+                numEveningOk ++;
+            }
+        }
+    }
+
+
 }
 
 

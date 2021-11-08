@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,6 +10,112 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.DetailsFragment">
+
+    <ImageView
+        android:id="@+id/imgToothIcon3"
+        android:layout_width="91dp"
+        android:layout_height="119dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="6dp"
+        android:contentDescription="@string/toothbrushIcon"
+        app:layout_constraintBottom_toTopOf="@+id/txtOutOfEvening"
+        app:layout_constraintEnd_toEndOf="@+id/txtNumEveningTb"
+        app:layout_constraintStart_toStartOf="@+id/txtNumEveningTbCompleted"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/toothbrush_icon" />
+
+    <ImageView
+        android:id="@+id/imgToothIcon2"
+        android:layout_width="91dp"
+        android:layout_height="119dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="6dp"
+        android:contentDescription="@string/toothbrushIcon"
+        app:layout_constraintBottom_toTopOf="@+id/txtOutOfMorning"
+        app:layout_constraintEnd_toEndOf="@+id/txtNumMorningTb"
+        app:layout_constraintStart_toStartOf="@+id/txtNumMorningTbCompleted"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/toothbrush_icon" />
+
+    <TextView
+        android:id="@+id/txtOutOfEvening"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:text="@string/OutOf"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNumMorningTbCompleted"
+        app:layout_constraintStart_toEndOf="@+id/txtNumEveningTbCompleted"
+        app:layout_constraintTop_toTopOf="@+id/txtNumMorningTbCompleted"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txtNumEveningTbCompleted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/txtOutOf"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="2" />
+
+    <TextView
+        android:id="@+id/txtNumEveningTb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/txtOutOfEvening"
+        app:layout_constraintTop_toTopOf="@+id/txtOutOfMorning"
+        tools:text="5" />
+
+    <TextView
+        android:id="@+id/txtNumMorningTbCompleted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/txtOutOfMorning"
+        app:layout_constraintTop_toTopOf="@+id/txtOutOf"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="2" />
+
+    <TextView
+        android:id="@+id/txtOutOfMorning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:text="@string/OutOf"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNumMorningTbCompleted"
+        app:layout_constraintEnd_toStartOf="@+id/txtNumMorningTb"
+        app:layout_constraintTop_toTopOf="@+id/txtNumMorningTbCompleted"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txtNumMorningTb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/txtOutOfMorning"
+        tools:text="7" />
 
     <TextView
         android:id="@+id/txtEvening"
@@ -127,6 +234,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tableOverview" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

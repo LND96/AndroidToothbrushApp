@@ -25,7 +25,7 @@ import dk.au.st7bac.toothbrushapp.R;
 public class HomeFragment extends Fragment {
 
     // ui widgets
-    private TextView txtNumberToothbrushesCompletedResult, txtTotalNumberToothbrushes, txtAvgMinutesResult, txtAvgSecsResult;
+    private TextView txtNumberToothbrushesCompletedResult, txtTotalNumberToothbrushes, txtAvgMinutesResult, txtAvgSecsResult, txtDays;
     private ImageView imgNumberToothbrushesResult, imgAvgTimeResult;
 
     // data

@@ -25,6 +25,7 @@ import dk.au.st7bac.toothbrushapp.ViewModels.HomeViewModel;
 public class DetailsFragment extends Fragment {
 
     // ui widgets
+    private TextView txtMorningTbCompleted, txtEveningTbCompleted, txtTotalNumMorning, txtTotalNumEvening;
     private TableRow rowHeader, rowMorningBrush, rowMorningTime, rowEveningBrush, rowEveningTime;
     private TableLayout tableOverview;
 
@@ -35,8 +36,8 @@ public class DetailsFragment extends Fragment {
     private String[] headerStrings;
     private boolean[] isTbDone;
     private boolean[] isTimeOk;
-    private int numMorningOk;
-    private int numEveningOk;
+    private int numMorning;
+    private int numEvening;
     private int totalNumTb;
 
     // view model
@@ -70,8 +71,8 @@ public class DetailsFragment extends Fragment {
                 headerStrings = tbStatus.getHeaderStrings();
                 isTbDone = tbStatus.getIsTbDone();
                 isTimeOk = tbStatus.getIsTimeOk();
-                numMorningOk = tbStatus.getNumMorningOk();
-                numEveningOk = tbStatus.getNumEveningOk();
+                numMorning = tbStatus.getNumMorningOk();
+                numEvening = tbStatus.getNumEveningOk();
                 totalNumTb = tbStatus.getTotalNumTb();
 
                 updateUI(view);
@@ -91,6 +92,18 @@ public class DetailsFragment extends Fragment {
     }
 
     private void updateMorningEvening(View view) {
+        txtTotalNumMorning = view.findViewById(R.id.txtNumMorningTb);
+        txtTotalNumEvening = view.findViewById(R.id.txtNumEveningTb);
+        txtMorningTbCompleted = view.findViewById(R.id.txtNumMorningTbCompleted);
+        txtEveningTbCompleted = view.findViewById(R.id.txtNumEveningTbCompleted);
+
+        // update text views
+        txtTotalNumMorning.setText(String.valueOf(totalNumTb/2));
+        txtMorningTbCompleted.setText(String.valueOf(numMorning));
+
+        txtTotalNumEvening.setText(String.valueOf(totalNumTb/2));
+        txtEveningTbCompleted.setText(String.valueOf(numEvening));
+
 
     }
 

@@ -35,8 +35,22 @@ public class DataCalculator {
 
     public TbStatus processData(List<TbData> TbDataList)
     {
+        // create list for days of week
+        dateStrings = new String[days];
+
+
+        // create list of dates in interval
+        List<LocalDate> dateList = createDateList(days);
+
+        // create boolean arrays for tb and tb time morning and evening with default value false
+        morningAndEveningOK = new boolean[days * tbEachDay];
+        morningAndEveningTimeOK = new boolean[days * tbEachDay];
+
+        // check if tb each day is done morning and evening and if the tb time is ok
+        isMorningAndEveningTbOk(TbDataList, tbEachDay, dateList);
+
         // calculate number of tooth brushes
-        int numTbCompleted = calcNumOfTb(TbDataList);
+        int numTbCompleted = calcNumOfTb(morningAndEveningOK);
 
         // calculate ideal number of tooth brushes
         int totalNumberTb = days * tbEachDay;
@@ -50,18 +64,7 @@ public class DataCalculator {
         // calculate if average tb time is ok
         boolean isAVgTimeTbOK = isAvgTimeTbOK(avgTbTime);
 
-        // create list for days of week
-        dateStrings = new String[days];
 
-        // create list of dates in interval
-        List<LocalDate> dateList = createDateList(days);
-
-        // create boolean arrays for tb and tb time morning and evening with default value false
-        morningAndEveningOK = new boolean[days * tbEachDay];
-        morningAndEveningTimeOK = new boolean[days * tbEachDay];
-
-        // check if tb each day is done morning and evening and if the tb time is ok
-        isMorningAndEveningTbOk(TbDataList, tbEachDay, dateList);
 
         //save all results in tbStatus object
         return new TbStatus(dateStrings, morningAndEveningOK, morningAndEveningTimeOK, numTbCompleted, totalNumberTb, avgTbTime, isNumTbOK, isAVgTimeTbOK);
@@ -69,9 +72,21 @@ public class DataCalculator {
     }
 
     //Calculate #tb (length of TBDataList)
-    private int calcNumOfTb(List<TbData> TBDataList)
+    private int calcNumOfTb(boolean[] morningAndEveningOK)
     {
-        return TBDataList.size();
+        //Mangler dokumenteret test
+
+        //check #true in monrningAndEveningOK
+        int count = 0;
+        for (Boolean b : morningAndEveningOK) {
+            if (b) {
+                count ++;
+            }
+        }
+        return count;
+
+
+        //return TBDataList.size();
     }
 
     //Calculate if numbers of tb is ok

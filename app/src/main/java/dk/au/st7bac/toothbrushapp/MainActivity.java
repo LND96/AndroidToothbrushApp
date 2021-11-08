@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ActionBarDrawerToggle actionBarDrawerToggle;
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
-
+    private UpdateDataCtrl updateDataCtrl;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -50,8 +50,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        updateDataCtrl = UpdateDataCtrl.getInstance();
+
+        updateDataCtrl.initUpdateTbData(); //kaldes fra main
+
         //start service
-        startService();
+        //startService();
 
         //bottom navigation
         bottomNavigation();

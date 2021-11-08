@@ -1,5 +1,6 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
+import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -21,6 +22,7 @@ import dk.au.st7bac.toothbrushapp.Interfaces.IDataFilter;
 import dk.au.st7bac.toothbrushapp.Interfaces.IDataCalculator;
 import dk.au.st7bac.toothbrushapp.Repositories.ApiRepo;
 import dk.au.st7bac.toothbrushapp.Repositories.DbRepo;
+import dk.au.st7bac.toothbrushapp.Services.NotificationHelper;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
 public class UpdateDataCtrl {
@@ -40,6 +42,8 @@ public class UpdateDataCtrl {
     private Settings settings;
 
     private final ExecutorService executor; // for asynch processing
+
+    private NotificationHelper notificationHelper;
 
     // singleton pattern
     public static UpdateDataCtrl getInstance() {
@@ -64,6 +68,8 @@ public class UpdateDataCtrl {
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();
         tbStatusLiveData = new MutableLiveData<>();
+
+        notificationHelper = new NotificationHelper(ToothbrushApp.getAppContext());
     }
 
 
@@ -103,6 +109,31 @@ public class UpdateDataCtrl {
         TbStatus tbStatus = dataProcessor.calculateTbStatus(tbDataList);
 
         tbStatusLiveData.setValue(tbStatus);
+
+        checkForNotification(tbStatus);
+    }
+
+    private void checkForNotification(TbStatus tbStatus) {
+
+        //skal vi tjekke på både tiden og om der er børstet? - to notifikationer
+
+        boolean notification = false;
+        boolean[] isTimeOk =  tbStatus.getIsTimeOk();
+        for (int i = 0; i < 6; i ++)
+        {
+            if (isTimeOk[i]) {
+                notification = true;
+            }
+        }
+
+        if (notification == false) {
+            NotificationCompat.Builder nb = notificationHelper.getChannelNotification("Alarm", "besked");
+            notificationHelper.getManager().notify(1, nb.build());
+
+        }
+
+
+
     }
 
 

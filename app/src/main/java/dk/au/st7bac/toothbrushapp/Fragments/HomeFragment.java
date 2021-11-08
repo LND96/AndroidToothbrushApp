@@ -42,7 +42,6 @@ public class HomeFragment extends Fragment {
     // view model
     private HomeViewModel vm;
 
-    private UpdateDataCtrl updateDataCtrl;
 
     @Nullable
     @Override
@@ -55,7 +54,6 @@ public class HomeFragment extends Fragment {
         // set up user interface
         setupUI(view);
 
-        updateDataCtrl = UpdateDataCtrl.getInstance();
 
         return view;
     }
@@ -82,7 +80,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        updateDataCtrl.initUpdateTbData(); //kaldes fra main
     }
 
     private void setupUI(View view) {

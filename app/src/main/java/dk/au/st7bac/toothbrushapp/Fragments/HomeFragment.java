@@ -96,19 +96,23 @@ public class HomeFragment extends Fragment {
         // update text views
         txtTotalNumberToothbrushes.setText(String.valueOf(totalNumTb));
         txtNumberToothbrushesCompletedResult.setText(String.valueOf(numTbCompleted));
-        txtAvgTimeResult.setText(String.valueOf(avgTbTime));
+        int sec = avgTbTime % 60;
+        int min = (avgTbTime / 60) % 60;
+        txtAvgTimeResult.setText(String.valueOf(min) + " min og " + String.valueOf(sec) + " sek");
+        //txtAvgTimeResult.setText(String.valueOf(avgTbTime));
 
         // update images
         if (isAvgNumTbOk){
             imgNumberToothbrushesResult.setImageResource(R.drawable.ok_icon);
+            if (isAvgTimeOk){
+                imgAvgTimeResult.setImageResource(R.drawable.ok_icon);
+            } else {
+                imgAvgTimeResult.setImageResource(R.drawable.not_ok_icon);
+            }
         } else {
             imgNumberToothbrushesResult.setImageResource(R.drawable.not_ok_icon);
         }
-        if (isAvgTimeOk){
-            imgAvgTimeResult.setImageResource(R.drawable.ok_icon);
-        } else {
-            imgAvgTimeResult.setImageResource(R.drawable.not_ok_icon);
-        }
+
 
 
         // update table

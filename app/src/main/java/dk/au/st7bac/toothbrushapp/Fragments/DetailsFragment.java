@@ -33,6 +33,9 @@ public class DetailsFragment extends Fragment {
     private String[] headerStrings;
     private boolean[] isTbDone;
     private boolean[] isTimeOk;
+    private int numMorningOk;
+    private int numEveningOk;
+    private int totalNumTb;
 
     // view model
     private HomeViewModel vm;
@@ -65,6 +68,9 @@ public class DetailsFragment extends Fragment {
                 headerStrings = tbStatus.getHeaderStrings();
                 isTbDone = tbStatus.getIsTbDone();
                 isTimeOk = tbStatus.getIsTimeOk();
+                numMorningOk = tbStatus.getNumMorningOk();
+                numEveningOk = tbStatus.getNumEveningOk();
+                totalNumTb = tbStatus.getTotalNumTb();
 
                 updateUI(view);
             }
@@ -77,6 +83,13 @@ public class DetailsFragment extends Fragment {
 
         // update table
         updateTable(view);
+
+        //update morning and evening view
+        updateMorningEvening(view);
+    }
+
+    private void updateMorningEvening(View view) {
+
     }
 
 

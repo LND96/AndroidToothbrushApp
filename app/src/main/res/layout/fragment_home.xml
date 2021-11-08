@@ -31,7 +31,7 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
         <TextView
-            android:id="@+id/txtLastSevenDaysHeader"
+            android:id="@+id/txtDaysHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -91,7 +91,7 @@
             android:layout_marginEnd="20dp"
             android:contentDescription="@string/toothbrushIcon"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toBottomOf="@+id/txtLastSevenDaysHeader"
+            app:layout_constraintTop_toBottomOf="@+id/txtDaysHeader"
             app:srcCompat="@drawable/toothbrush_icon" />
 
         <TextView

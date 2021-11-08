@@ -3,9 +3,7 @@ package dk.au.st7bac.toothbrushapp.Model;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.au.st7bac.toothbrushapp.Interfaces.IDataFilter;
-
-public class DataFilter implements IDataFilter {
+public class DataFilter {
 
     String prev_rawTelemetry_last26 = "";
     String curr_rawTelemetry_last26 = "";

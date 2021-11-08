@@ -8,9 +8,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.au.st7bac.toothbrushapp.Interfaces.IDataCleaner;
-
-public class DataCleaner implements IDataCleaner {
+public class DataCleaner {
 
     private int timeBetweenMeasurements;
 

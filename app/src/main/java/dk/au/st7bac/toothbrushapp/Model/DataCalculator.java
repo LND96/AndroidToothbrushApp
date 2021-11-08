@@ -7,9 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.au.st7bac.toothbrushapp.Interfaces.IDataProcessor;
-
-public class DataProcessor implements IDataProcessor {
+public class DataCalculator {
     private final int timeTbThreshold;
     private final int days;
     private final int tbEachDay;
@@ -23,7 +21,9 @@ public class DataProcessor implements IDataProcessor {
     private String[] dateStrings;
 
 
-    public DataProcessor(int timeTbThreshold, int days, int tbEachDay, LocalTime morningToEveningTime, LocalTime eveningToMorningTime, double numTbThreshold, LocalDate lastDayOfInterval) {
+    public DataCalculator(int timeTbThreshold, int days, int tbEachDay,
+                          LocalTime morningToEveningTime, LocalTime eveningToMorningTime,
+                          double numTbThreshold, LocalDate lastDayOfInterval) {
         this.timeTbThreshold = timeTbThreshold;
         this.days = days;
         this.tbEachDay = tbEachDay;

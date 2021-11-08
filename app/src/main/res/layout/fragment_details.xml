@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.DetailsFragment">
@@ -12,22 +15,26 @@
         android:id="@+id/imgToothIcon3"
         android:layout_width="91dp"
         android:layout_height="119dp"
+        android:layout_marginTop="70dp"
         android:layout_marginBottom="6dp"
         android:contentDescription="@string/toothbrushIcon"
         app:layout_constraintBottom_toTopOf="@+id/txtOutOfEvening"
         app:layout_constraintEnd_toEndOf="@+id/txtNumEveningTb"
         app:layout_constraintStart_toStartOf="@+id/txtNumEveningTbCompleted"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/toothbrush_icon" />
 
     <ImageView
         android:id="@+id/imgToothIcon2"
         android:layout_width="91dp"
         android:layout_height="119dp"
+        android:layout_marginTop="70dp"
         android:layout_marginBottom="6dp"
         android:contentDescription="@string/toothbrushIcon"
         app:layout_constraintBottom_toTopOf="@+id/txtOutOfMorning"
         app:layout_constraintEnd_toEndOf="@+id/txtNumMorningTb"
         app:layout_constraintStart_toStartOf="@+id/txtNumMorningTbCompleted"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/toothbrush_icon" />
 
     <TextView
@@ -143,7 +150,9 @@
             android:background="@color/dark_turquoise"
             android:gravity="center">
 
-            <TextView android:layout_weight="1" />
+            <TextView
+                android:layout_weight="1"
+                android:textAlignment="center" />
         </TableRow>
 
         <!-- Table content -->
@@ -241,3 +250,5 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

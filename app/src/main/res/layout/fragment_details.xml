@@ -14,28 +14,26 @@
     <ImageView
         android:id="@+id/imgToothIcon3"
         android:layout_width="91dp"
-        android:layout_height="119dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginBottom="6dp"
+        android:layout_height="70dp"
         android:contentDescription="@string/toothbrushIcon"
-        app:layout_constraintBottom_toTopOf="@+id/txtOutOfEvening"
+        app:layout_constraintBottom_toBottomOf="@+id/imgToothIcon2"
         app:layout_constraintEnd_toEndOf="@+id/txtNumEveningTb"
         app:layout_constraintStart_toStartOf="@+id/txtNumEveningTbCompleted"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/toothbrush_icon" />
+        app:layout_constraintTop_toTopOf="@+id/imgToothIcon2"
+        app:srcCompat="@drawable/moon_icon" />
 
     <ImageView
         android:id="@+id/imgToothIcon2"
         android:layout_width="91dp"
-        android:layout_height="119dp"
-        android:layout_marginTop="70dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="6dp"
         android:contentDescription="@string/toothbrushIcon"
         app:layout_constraintBottom_toTopOf="@+id/txtOutOfMorning"
         app:layout_constraintEnd_toEndOf="@+id/txtNumMorningTb"
         app:layout_constraintStart_toStartOf="@+id/txtNumMorningTbCompleted"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/toothbrush_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/txtMorningEveningHeader"
+        app:srcCompat="@drawable/sun_icon" />
 
     <TextView
         android:id="@+id/txtOutOfEvening"
@@ -46,10 +44,9 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/txtNumMorningTbCompleted"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNumEveningTbCompleted"
         app:layout_constraintStart_toEndOf="@+id/txtNumEveningTbCompleted"
-        app:layout_constraintTop_toTopOf="@+id/txtNumMorningTbCompleted"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/txtNumEveningTbCompleted" />
 
     <TextView
         android:id="@+id/txtNumEveningTbCompleted"
@@ -59,10 +56,9 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNumMorningTb"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/txtOutOf"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="@+id/txtNumMorningTb"
         tools:text="2" />
 
     <TextView
@@ -73,9 +69,10 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txtOutOfEvening"
         app:layout_constraintStart_toEndOf="@+id/txtOutOfEvening"
-        app:layout_constraintTop_toTopOf="@+id/txtOutOfMorning"
-        tools:text="5" />
+        app:layout_constraintTop_toTopOf="@+id/txtOutOfEvening"
+        tools:text="7" />
 
     <TextView
         android:id="@+id/txtNumMorningTbCompleted"
@@ -85,9 +82,9 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toBottomOf="@+id/txtOutOfMorning"
         app:layout_constraintEnd_toStartOf="@+id/txtOutOfMorning"
-        app:layout_constraintTop_toTopOf="@+id/txtOutOf"
+        app:layout_constraintTop_toTopOf="@+id/txtOutOfMorning"
         app:layout_constraintVertical_bias="0.0"
         tools:text="2" />
 
@@ -100,21 +97,22 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNumMorningTb"
         app:layout_constraintEnd_toStartOf="@+id/txtNumMorningTb"
-        app:layout_constraintTop_toTopOf="@+id/txtNumMorningTbCompleted"
+        app:layout_constraintTop_toTopOf="@+id/txtNumMorningTb"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/txtNumMorningTb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="50dp"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/txtOutOfMorning"
+        app:layout_constraintTop_toBottomOf="@+id/imgToothIcon2"
         tools:text="7" />
 
     <TextView
@@ -134,13 +132,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtOutOfMorning">
+        app:layout_constraintTop_toBottomOf="@+id/txtTableHeader">
 
         <!-- Table heading -->
         <TableRow
@@ -235,18 +231,42 @@
         app:layout_constraintTop_toTopOf="@+id/tableOverview" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/txtMorningEveningHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/morningEveningHeader"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTableHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="@string/tableHeader"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtOutOfMorning" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

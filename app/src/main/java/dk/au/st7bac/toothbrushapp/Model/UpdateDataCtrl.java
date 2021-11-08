@@ -3,22 +3,22 @@ package dk.au.st7bac.toothbrushapp.Model;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import dk.au.st7bac.toothbrushapp.DataProcessorFactory.DataProcessor;
+import dk.au.st7bac.toothbrushapp.DataProcessorFactory.Processor1;
 import dk.au.st7bac.toothbrushapp.Interfaces.IDataCleaner;
 import dk.au.st7bac.toothbrushapp.Interfaces.IDataFilter;
-import dk.au.st7bac.toothbrushapp.Interfaces.IDataProcessor;
+import dk.au.st7bac.toothbrushapp.Interfaces.IDataCalculator;
 import dk.au.st7bac.toothbrushapp.Repositories.ApiRepo;
 import dk.au.st7bac.toothbrushapp.Repositories.DbRepo;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
@@ -27,34 +27,13 @@ public class UpdateDataCtrl {
 
     public static UpdateDataCtrl updateDataCtrl;
 
-    //private final DataFilter dataFilter; // husk interface
-    //private final DataCleaner dataCleaner; // husk interface
-    //private final DataProcessor dataProcessor; //husk interface
-
-    private IDataFilter dataFilter;
-    private IDataCleaner dataCleaner;
-    private IDataProcessor dataProcessor;
+    private DataProcessor dataProcessor;
 
     private MutableLiveData<TbStatus> tbStatusLiveData;
 
     private ApiRepo apiRepo;
     private final DbRepo dbRepo;
 
-
-    // skal alle disse data sættes ved contructor injection i controlleren?
-    /*
-    private double offset = 6.0; // hardware offset
-    private int minMeasurementDuration = 10; // minimum time in secs that a measurement should last to be considered as a tooth brushing
-    private int maxMeasurementDuration = 600; // maximum time in secs that a measurement should last to be considered as a tooth brushing
-    private int minAccpTbTime = 90; // minimum time in secs that a tooth brushing should last to be accepted
-    private LocalTime morningToEveningTime = LocalTime.parse("11:59"); // time of day where morning transitions to evening
-    private LocalTime eveningToMorningTime = LocalTime.parse("00:00"); // time of day where evening transitions to morning
-    private int tbEachDay = 2; // ideal number of tooth brushes each day
-    private double numTbThres = 0.7; // threshold value for minimum number of tooth brushes compared to ideal number of tooth brushes
-    private int timeBetweenMeasurements = 10; // maximum time in minutes between two measurements for them to be counted as one
-    private int numIntervalDays = 7; // number of days in interval
-    private LocalDate lastDayInInterval = LocalDate.now(); // the last day of the time interval the calculations are made over
-     */
     private long lowerEpochIntervalLimit;
     private long higherEpochIntervalLimit;
 
@@ -74,13 +53,14 @@ public class UpdateDataCtrl {
     private UpdateDataCtrl() {
         SettingsReader reader = new SettingsReader();
         settings = reader.getConfigSettings(ToothbrushApp.getAppContext());
-        dataFilter = new DataFilter(settings.getOffset(), settings.getMinMeasurementDuration(),
-                settings.getMaxMeasurementDuration());
-        dataCleaner = new DataCleaner(settings.getTimeBetweenMeasurements());
-        dataProcessor = new DataProcessor(settings.getMinAccpTbTime(),
-                settings.getNumIntervalDays(), settings.getTbEachDay(),
-                settings.getMorningToEveningTime(), settings.getEveningToMorningTime(),
-                settings.getNumTbThres(), settings.getLastDayInInterval());
+        //dataFilter = new DataFilter(settings.getOffset(), settings.getMinMeasurementDuration(),
+        //        settings.getMaxMeasurementDuration());
+        //dataCleaner = new DataCleaner(settings.getTimeBetweenMeasurements());
+        //dataProcessor = new DataCalculator(settings.getMinAccpTbTime(),
+        //        settings.getNumIntervalDays(), settings.getTbEachDay(),
+        //        settings.getMorningToEveningTime(), settings.getEveningToMorningTime(),
+        //        settings.getNumTbThres(), settings.getLastDayInInterval());
+        dataProcessor = new Processor1(settings);
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();
         tbStatusLiveData = new MutableLiveData<>();
@@ -108,19 +88,19 @@ public class UpdateDataCtrl {
 
     //
     public void updateTbData(List<TbData> tbDataList) {
-
         // filter and clean data
-        tbDataList = dataFilter.filterData(tbDataList);
-        tbDataList = dataCleaner.cleanData(tbDataList);     // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
+        tbDataList = dataProcessor.processData(tbDataList); // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
+
+        //tbDataList = dataFilter.filterData(tbDataList);
+        //tbDataList = dataCleaner.cleanData(tbDataList);
 
         // add data to database
         addDataToDb(tbDataList);
 
-
         // get data from database
         tbDataList = getDbTbDataInInterval();
 
-        TbStatus tbStatus = dataProcessor.processData(tbDataList);
+        TbStatus tbStatus = dataProcessor.calculateTbStatus(tbDataList);
 
         tbStatusLiveData.setValue(tbStatus);
     }

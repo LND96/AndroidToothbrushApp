@@ -12,19 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TableRow;
 import android.widget.TextView;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
-import dagger.hilt.android.AndroidEntryPoint;
-import dk.au.st7bac.toothbrushapp.Interfaces.IDataCleaner;
-import dk.au.st7bac.toothbrushapp.Interfaces.IDataFilter;
-import dk.au.st7bac.toothbrushapp.Interfaces.IDataProcessor;
-import dk.au.st7bac.toothbrushapp.Model.DataCleaner;
-import dk.au.st7bac.toothbrushapp.Model.DataFilter;
-import dk.au.st7bac.toothbrushapp.Model.DataProcessor;
 import dk.au.st7bac.toothbrushapp.Model.TbStatus;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.ViewModels.HomeViewModel;

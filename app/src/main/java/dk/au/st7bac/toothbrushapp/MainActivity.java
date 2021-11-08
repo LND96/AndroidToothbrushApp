@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
-    //private UpdateDataCtrl updateDataCtrl;
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
 
@@ -49,11 +48,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        //updateDataCtrl = new UpdateDataCtrl();
-        //updateDataCtrl.initUpdateTbData();
-
 
         //start service
         startService();

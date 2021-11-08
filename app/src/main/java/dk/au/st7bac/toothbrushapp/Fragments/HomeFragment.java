@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import dk.au.st7bac.toothbrushapp.Model.TbStatus;
-import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.ViewModels.HomeViewModel;
 
 import dk.au.st7bac.toothbrushapp.R;
@@ -23,16 +22,10 @@ import dk.au.st7bac.toothbrushapp.R;
 public class HomeFragment extends Fragment {
 
     // ui widgets
-    //private TableRow rowHeader, rowMorningBrush, rowMorningTime, rowEveningBrush, rowEveningTime;
-    private TextView txtNumberToothbrushesCompletedResult, txtTotalNumberToothbrushes, txtAvgTimeResult;
+    private TextView txtNumberToothbrushesCompletedResult, txtTotalNumberToothbrushes, txtAvgMinutesResult, txtAvgSecsResult;
     private ImageView imgNumberToothbrushesResult, imgAvgTimeResult;
 
-    //private int imgPadding = 15;
-
     // data
-    //private String[] headerStrings;
-    //private boolean[] isTbDone;
-    //private boolean[] isTimeOk;
     private int numTbCompleted;
     private int totalNumTb;
     private int avgTbTime;
@@ -54,7 +47,6 @@ public class HomeFragment extends Fragment {
         // set up user interface
         setupUI(view);
 
-
         return view;
     }
 
@@ -63,13 +55,9 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         vm = new ViewModelProvider(this).get(HomeViewModel.class);
-        //vm.setController(updateDataCtrl);
         vm.getTbStatusData().observe(getViewLifecycleOwner(), new Observer<TbStatus>() {
             @Override
             public void onChanged(TbStatus tbStatus) {
-                //headerStrings = tbStatus.getHeaderStrings();
-                //isTbDone = tbStatus.getIsTbDone();
-                //isTimeOk = tbStatus.getIsTimeOk();
                 numTbCompleted = tbStatus.getNumTbCompleted();
                 totalNumTb = tbStatus.getTotalNumTb();
                 avgTbTime = tbStatus.getAvgTbTime();
@@ -86,7 +74,8 @@ public class HomeFragment extends Fragment {
         // find UI elements
         txtNumberToothbrushesCompletedResult = view.findViewById(R.id.txtNumberToothbrushesCompletedResult);
         txtTotalNumberToothbrushes = view.findViewById(R.id.txtTotalNumberToothbrushes);
-        txtAvgTimeResult = view.findViewById(R.id.txtAvgTimeResult);
+        txtAvgMinutesResult = view.findViewById(R.id.txtAvgMinutesResult);
+        txtAvgSecsResult = view.findViewById(R.id.txtAvgSecsResult);
         imgNumberToothbrushesResult = view.findViewById(R.id.imgNumberToothbrushingResult);
         imgAvgTimeResult = view.findViewById(R.id.imgAvgTimeResult);
     }
@@ -96,10 +85,12 @@ public class HomeFragment extends Fragment {
         // update text views
         txtTotalNumberToothbrushes.setText(String.valueOf(totalNumTb));
         txtNumberToothbrushesCompletedResult.setText(String.valueOf(numTbCompleted));
+        // https://www.codegrepper.com/code-examples/java/java+seconds+to+hours+minutes+seconds
         int sec = avgTbTime % 60;
         int min = (avgTbTime / 60) % 60;
-        txtAvgTimeResult.setText(String.valueOf(min) + " min og " + String.valueOf(sec) + " sek");
-        //txtAvgTimeResult.setText(String.valueOf(avgTbTime));
+        txtAvgMinutesResult.setText(String.valueOf(min));
+        txtAvgSecsResult.setText(String.valueOf(sec));
+
 
         // update images
         if (isAvgNumTbOk){
@@ -112,59 +103,5 @@ public class HomeFragment extends Fragment {
         } else {
             imgNumberToothbrushesResult.setImageResource(R.drawable.not_ok_icon);
         }
-
-
-
-        // update table
-        //updateTable(view);
     }
-
-    /*
-    // adds data to table
-    private void updateTable(View view) {
-        rowHeader = view.findViewById(R.id.rowHeader);
-        rowMorningBrush = view.findViewById(R.id.rowMorningBrush);
-        rowMorningTime = view.findViewById(R.id.rowMorningTime);
-        rowEveningBrush = view.findViewById(R.id.rowEveningBrush);
-        rowEveningTime = view.findViewById(R.id.rowEveningTime);
-
-        for (String headerString : headerStrings) {
-            TextView textView = new TextView(getActivity()); // create TextView
-            textView.setText(headerString); // set text in TextView to the i'th string
-            textView.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1)); // make cells equal size
-            rowHeader.addView(textView); // add TextView to row
-        }
-
-
-        for (int i = 0; i < isTbDone.length; i++) {
-            if (i % 2 == 0) {
-                addImgToRow(rowMorningBrush, isTbDone[i]);
-                addImgToRow(rowMorningTime, isTimeOk[i]);
-            } else {
-                addImgToRow(rowEveningBrush, isTbDone[i]);
-                addImgToRow(rowEveningTime, isTimeOk[i]);
-            }
-        }
-    }
-
-     */
-
-    /*
-    // adds images to table row
-    private void addImgToRow(TableRow row, boolean isOk) {
-        ImageView imageView = new ImageView(getActivity()); // create ImageView
-        imageView.setLayoutParams(new TableRow.LayoutParams(0, 80, 1)); // make cells equal size
-        imageView.setPadding(imgPadding, imgPadding, imgPadding, imgPadding); // set padding around images
-        if (isOk) // set the right icon
-        {
-            imageView.setImageResource(R.drawable.ok_icon);
-        } else {
-            imageView.setImageResource(R.drawable.not_ok_icon);
-        }
-
-        row.addView(imageView); // add ImageView to row
-    }
-
-     */
-
 }

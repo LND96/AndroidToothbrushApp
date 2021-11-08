@@ -16,6 +16,7 @@
     <string name ="Settings">Indstillinger</string>
     <string name ="Help">Hjælp</string>
     <string name ="SignOut">Log ud </string>
+    <string name="Min">min</string>
 
 
 </resources>

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" >ToothbrushHelper</string>
-    <string name="txtDaysHeader">Toothbrushes completed the last seven days</string>
+    <string name="txtDaysHeader">Toothbrushes completed the last</string>
+    <string name="txtDays">days</string>
     <string name="txtTimeLastSevenDaysHeader">Average brushing time for completed toothbrushes</string>
     <string name="OutOf">out of</string>
     <string name="toothBrushesCompleted">Toothbrushes completed:</string>

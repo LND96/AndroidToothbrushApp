@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name ="app_name"> TandbørsteHjælperen </string>
-    <string name="txtDaysHeader">Tandbørstninger gennemført de sidste syv dage</string>
+    <string name="txtDaysHeader">Tandbørstninger gennemført de sidste</string>
+    <string name="txtDays">dage</string>
     <string name="txtTimeLastSevenDaysHeader">Gennemsnitlig børstetid for gennemførte tandbørstninger</string>
     <string name="OutOf">ud af</string>
     <string name="toothBrushesCompleted">Tandbørstninger gennemført:</string>

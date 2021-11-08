@@ -81,10 +81,14 @@ public class HomeFragment extends Fragment {
         txtAvgSecsResult = view.findViewById(R.id.txtAvgSecsResult);
         imgNumberToothbrushesResult = view.findViewById(R.id.imgNumberToothbrushingResult);
         imgAvgTimeResult = view.findViewById(R.id.imgAvgTimeResult);
+        txtDays = view.findViewById(R.id.txtDaysHeader);
     }
 
     // updates UI with data
     private void updateUI(View view) { // denne må ikke kaldes før setupUI - hvordan tager vi højde for dette? Evt. med try catch rundt om i stedet
+
+        txtDays.setText(getString(R.string.txtDaysHeader) + " "+ (String.valueOf(totalNumTb/2) + " "+getString(R.string.txtDays)));
+
         // update text views
         txtTotalNumberToothbrushes.setText(String.valueOf(totalNumTb));
         txtNumberToothbrushesCompletedResult.setText(String.valueOf(numTbCompleted));

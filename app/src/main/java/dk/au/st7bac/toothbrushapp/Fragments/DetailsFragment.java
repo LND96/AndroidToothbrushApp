@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ public class DetailsFragment extends Fragment {
 
     // ui widgets
     private TableRow rowHeader, rowMorningBrush, rowMorningTime, rowEveningBrush, rowEveningTime;
+    private TableLayout tableOverview;
 
 
     private int imgPadding = 15;
@@ -101,12 +103,21 @@ public class DetailsFragment extends Fragment {
         rowEveningBrush = view.findViewById(R.id.rowEveningBrush);
         rowEveningTime = view.findViewById(R.id.rowEveningTime);
 
+        // remove previous views from rows
+        rowHeader.removeAllViews();
+        rowMorningBrush.removeAllViews();
+        rowMorningTime.removeAllViews();
+        rowEveningBrush.removeAllViews();
+        rowEveningTime.removeAllViews();
+
         for (String headerString : headerStrings) {
             TextView textView = new TextView(getActivity()); // create TextView
             textView.setText(headerString); // set text in TextView to the i'th string
             textView.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1)); // make cells equal size
             rowHeader.addView(textView); // add TextView to row
         }
+
+
 
 
         for (int i = 0; i < isTbDone.length; i++) {

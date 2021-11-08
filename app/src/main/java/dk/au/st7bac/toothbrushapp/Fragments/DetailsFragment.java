@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,6 +101,7 @@ public class DetailsFragment extends Fragment {
         for (String headerString : headerStrings) {
             TextView textView = new TextView(getActivity()); // create TextView
             textView.setText(headerString); // set text in TextView to the i'th string
+            textView.setGravity(Gravity.CENTER);
             textView.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1)); // make cells equal size
             rowHeader.addView(textView); // add TextView to row
         }

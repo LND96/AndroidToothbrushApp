@@ -31,6 +31,7 @@ import java.util.Calendar;
 
 import dk.au.st7bac.toothbrushapp.Fragments.HomeFragment;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
+import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
 import dk.au.st7bac.toothbrushapp.Services.NotificationService;
 
 // kilde til alarm manager: https://developer.android.com/training/scheduling/alarms#java
@@ -70,9 +71,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         calendar.set(Calendar.HOUR_OF_DAY, 14);
 
         alarmMgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getApplicationContext(), UpdateDataCtrl.class);
+        Intent intent = new Intent(getApplicationContext(), AlertReceiver.class);
         int requestCode = 0;
-        pendingIntent = PendingIntent.getService(getApplicationContext(), requestCode, intent, PendingIntent.FLAG_NO_CREATE);
+        pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), requestCode, intent, 0);
+
+               // getService(getApplicationContext(), requestCode, intent, PendingIntent.FLAG_NO_CREATE);
 
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);

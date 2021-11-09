@@ -24,27 +24,32 @@ import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 // DENNE KLASSE ER INSPIRERET AF MAD LEKTION 6
 public class ApiRepo {
 
+    // constants
     private static final String TAG = "WebApiService";
 
     private RequestQueue queue;
 
-    private UpdateDataCtrl updateDataCtrl;
+    private final UpdateDataCtrl updateDataCtrl;
 
     private String sensorId;
     private String apiSince;
     private String apiLimit;
 
-    public ApiRepo(UpdateDataCtrl updateDataCtrl, String sensorId, String apiSince, String apiLimit) {
+    public ApiRepo(UpdateDataCtrl updateDataCtrl, String sensorId, String apiSince) {
         this.updateDataCtrl = updateDataCtrl;
         this.sensorId = sensorId;
         this.apiSince = apiSince;
+        this.apiLimit = "1000";
+    }
+
+    public void setApiLimit(String apiLimit) {
         this.apiLimit = apiLimit;
     }
 
     public void getTbData() {
+
         String baseUrl = "https://dmjljzkaec.execute-api.eu-west-1.amazonaws.com/default/tbapi/v1/system/tm/";
         String url = baseUrl + sensorId + "?since=" + apiSince + "&limit=" + apiLimit;
-        //"/system/tm/c4d1574b-d1ce-43da-84df-f54fe5e09ba9?since=20211013&limit=100"; // hardcoded værdi - skal sendes med metode
         sendRequestForTbData(url);
     }
 

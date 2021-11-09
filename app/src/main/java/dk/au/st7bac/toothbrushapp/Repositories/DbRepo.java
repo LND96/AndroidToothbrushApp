@@ -8,11 +8,12 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import dk.au.st7bac.toothbrushapp.Model.Converters;
+import dk.au.st7bac.toothbrushapp.Model.Settings;
 import dk.au.st7bac.toothbrushapp.Model.TbDao;
 import dk.au.st7bac.toothbrushapp.Model.TbData;
 
 // Kilde: MAD lektion 4 demovideo
-@Database(entities = {TbData.class}, version = 4)
+@Database(entities = {TbData.class, Settings.class}, version = 5)
 @TypeConverters({Converters.class})
 public abstract class DbRepo extends RoomDatabase {
     // Skal vi gøre noget med extending SQLiteOpenHelper som bliver beskrevet i video L4_2 omkring 2 min inde? Eller er det noget man gør hvis man ikke bruger room?

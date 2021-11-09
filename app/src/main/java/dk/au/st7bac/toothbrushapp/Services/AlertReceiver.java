@@ -17,7 +17,7 @@ public class AlertReceiver extends BroadcastReceiver {
 
         updateDataCtrl = UpdateDataCtrl.getInstance();
 
-        updateDataCtrl.initUpdateTbData(); //kaldes fra main
+        updateDataCtrl.initUpdateTbData();
 
 
 

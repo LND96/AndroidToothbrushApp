@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import android.view.View;
@@ -27,12 +28,16 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import dk.au.st7bac.toothbrushapp.Fragments.HomeFragment;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
 import dk.au.st7bac.toothbrushapp.Services.NotificationService;
+
+import static java.util.Calendar.PM;
 
 // kilde til alarm manager: https://developer.android.com/training/scheduling/alarms#java
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -65,18 +70,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerNavigation();
 
         //alarm manager for update tb data on specific time
-        Calendar calendar = Calendar.getInstance();
+
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
+        calendar.set(Calendar.HOUR_OF_DAY, 20);
+        //calendar.set(Calendar.MINUTE, 00);
 
         alarmMgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlertReceiver.class);
         int requestCode = 0;
         pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), requestCode, intent, 0);
 
-               // getService(getApplicationContext(), requestCode, intent, PendingIntent.FLAG_NO_CREATE);
-
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+10000,
                 AlarmManager.INTERVAL_DAY, pendingIntent);
 
     }
@@ -148,20 +154,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //erstat evt. dette med case...
         if (id == R.id.nav_settings) {
 
-            Toast.makeText(this,"This is settings", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.Settings, Toast.LENGTH_SHORT).show();
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         if (id == R.id.nav_help) {
-            Toast.makeText(this,"This is help", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.Help, Toast.LENGTH_SHORT).show();
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         if (id == R.id.nav_Signout){
-            Toast.makeText(this,"This is signout", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.SignOut, Toast.LENGTH_SHORT).show();
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         return false;
-
-
     }
 
 

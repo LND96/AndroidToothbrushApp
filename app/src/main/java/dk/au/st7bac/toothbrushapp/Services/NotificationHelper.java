@@ -25,13 +25,11 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     private void createChannel() {
-        NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_DEFAULT); //undgår notifikation forstyrer
+        NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_DEFAULT);
 
-        //Overvej nedestående!
         channel.enableLights(true);
         channel.enableVibration(true);
-        channel.setLightColor(R.color.design_default_color_primary_dark);
-        channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
 
         getManager().createNotificationChannel(channel);
     }
@@ -51,6 +49,4 @@ public class NotificationHelper extends ContextWrapper {
                 .setSmallIcon(R.drawable.toothbrush_icon);
 
     }
-
-
 }

@@ -16,12 +16,16 @@
     <string name ="Settings">Settings</string>
     <string name ="Help">Help</string>
     <string name ="SignOut">Sign out </string>
+    <string name="Min">min</string>
+    <string name="morningEveningHeader">Number of toothbrushes morning and evening</string>
+    <string name="tableHeader">Overview over tooth brushes</string>
+
+
 
     <!--toggle the open close button of the navigation drawer-->
     --<string name="nav_open" translatable="false">Open navigation drawer</string>
     <string name="nav_close" translatable="false">Close navigation drawer</string>
-    <string name="Min">min</string>
-    <string name="morningEveningHeader">Number of toothbrushes morning and evening</string>
-    <string name="tableHeader">Overview over tooth brushes</string>
+
+
 
 </resources>

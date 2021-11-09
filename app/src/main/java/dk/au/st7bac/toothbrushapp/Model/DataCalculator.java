@@ -1,5 +1,7 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
+import android.util.Log;
+
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -52,7 +54,7 @@ public class DataCalculator {
         // check if tb each day is done morning and evening and if the tb time is ok
         isMorningAndEveningTbOk(TbDataList, tbEachDay, dateList);
 
-        NumMorningEveningOk(morningAndEveningOK);
+        numMorningEveningOk(morningAndEveningOK);
 
         // calculate number of tooth brushes
         int numTbCompleted = calcNumOfTb(morningAndEveningOK);
@@ -75,12 +77,9 @@ public class DataCalculator {
 
     }
 
-    //Calculate #tb (length of TBDataList)
+    //Calculate #tb (check #true in monrningAndEveningOK)
     private int calcNumOfTb(boolean[] morningAndEveningOK)
     {
-        //Mangler dokumenteret test
-
-        //check #true in monrningAndEveningOK
         int count = 0;
         for (Boolean b : morningAndEveningOK) {
             if (b) {
@@ -88,9 +87,6 @@ public class DataCalculator {
             }
         }
         return count;
-
-
-        //return TBDataList.size();
     }
 
     //Calculate if numbers of tb is ok
@@ -151,9 +147,12 @@ public class DataCalculator {
                     // check if date for current tb is equal to j'th date in date list
                     if (TBDataList.get(i).getDateTime().toLocalDate().isEqual(dateList.get(j))) {
 
+                        //Log.d("" + TBDataList.get(i).getDateTime().toLocalTime());
+
                         // check if time of current tb is in the morning time interval
                         if (eveningToMorningTime.isBefore(TBDataList.get(i).getDateTime().toLocalTime()) &&
                                 morningToEveningTime.isAfter(TBDataList.get(i).getDateTime().toLocalTime())) {
+
 
                             //https://stackoverflow.com/questions/4352885/how-do-i-update-the-element-at-a-certain-position-in-an-arraylist
                             //x' element in boolean array is updated to true (morning)
@@ -178,24 +177,24 @@ public class DataCalculator {
         }
     }
 
-    //dokumentere i test at dette virker - mangler! - ikke tilføjet til flow diagrammet...
-    private void NumMorningEveningOk(boolean[] morningAndEveningOK) {
+    //calculate #tb morning and evening
+    private void numMorningEveningOk(boolean[] morningAndEveningOK) {
         numMorningOk = 0;
         numEveningOk = 0;
 
         for (int i = 0; i < morningAndEveningOK.length; i++) {
-            if (i % 2 == 0 && morningAndEveningOK[i]) //i is even
+            //is even and true
+            if (i % 2 == 0 && morningAndEveningOK[i])
             {
                 numMorningOk++;
             }
 
+            //is odd and true
             else if (i % 2 != 0 && morningAndEveningOK[i]){
                 numEveningOk ++;
             }
         }
     }
-
-
 }
 
 

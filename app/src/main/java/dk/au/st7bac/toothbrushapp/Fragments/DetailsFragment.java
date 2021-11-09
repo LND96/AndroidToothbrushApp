@@ -32,6 +32,7 @@ public class DetailsFragment extends Fragment {
 
 
     private int imgPadding = 15;
+    private int iconPadding = 3;
 
     // data
     private String[] headerStrings;
@@ -124,6 +125,12 @@ public class DetailsFragment extends Fragment {
         rowEveningBrush.removeAllViews();
         rowEveningTime.removeAllViews();
 
+        addImageToRow(rowHeader, R.drawable.empty_icon, 20, iconPadding);
+        addImageToRow(rowMorningBrush, R.drawable.toothbrush_icon, 80, iconPadding);
+        addImageToRow(rowMorningTime, R.drawable.time_icon, 60, iconPadding);
+        addImageToRow(rowEveningBrush, R.drawable.toothbrush_icon, 80, iconPadding);
+        addImageToRow(rowEveningTime, R.drawable.time_icon, 60, iconPadding);
+
         for (String headerString : headerStrings) {
             TextView textView = new TextView(getActivity()); // create TextView
             textView.setText(headerString); // set text in TextView to the i'th string
@@ -132,33 +139,49 @@ public class DetailsFragment extends Fragment {
             rowHeader.addView(textView); // add TextView to row
         }
 
-
-
-
         for (int i = 0; i < isTbDone.length; i++) {
-            if (i % 2 == 0) {
-                addImgToRow(rowMorningBrush, isTbDone[i]);
-                addImgToRow(rowMorningTime, isTimeOk[i]);
+            int tbResId;
+            int timeResId;
+
+            // set correct image in regards to tooth brush completion
+            if (isTbDone[i]) {
+                tbResId = R.drawable.ok_icon;
             } else {
-                addImgToRow(rowEveningBrush, isTbDone[i]);
-                addImgToRow(rowEveningTime, isTimeOk[i]);
+                tbResId = R.drawable.not_ok_icon;
             }
+
+            // set correct image in regards to time
+            if (isTimeOk[i]) {
+                timeResId = R.drawable.ok_icon;
+            } else {
+                timeResId = R.drawable.not_ok_icon;
+            }
+
+            TableRow tbRow;
+            TableRow timeRow;
+
+            // decide if the images should be added to morning or evening row
+            if (i % 2 == 0) {
+                tbRow = rowMorningBrush;
+                timeRow = rowMorningTime;
+            } else {
+                tbRow = rowEveningBrush;
+                timeRow = rowEveningTime;
+            }
+
+            // add images to rows via method
+            addImageToRow(tbRow, tbResId, 80, imgPadding);
+            addImageToRow(timeRow, timeResId, 80, imgPadding);
         }
     }
 
     // adds images to table row
-    private void addImgToRow(TableRow row, boolean isOk) {
+    private void addImageToRow(TableRow row, int resId, int imgHeight, int imgPadding) {
         ImageView imageView = new ImageView(getActivity()); // create ImageView
-        imageView.setLayoutParams(new TableRow.LayoutParams(0, 80, 1)); // make cells equal size
-        imageView.setPadding(imgPadding, imgPadding, imgPadding, imgPadding); // set padding around images
-        if (isOk) // set the right icon
-        {
-            imageView.setImageResource(R.drawable.ok_icon);
-        } else {
-            imageView.setImageResource(R.drawable.not_ok_icon);
-        }
+        imageView.setLayoutParams(new TableRow.LayoutParams(0, imgHeight, 1)); // make cells equal size
+        imageView.setPadding(imgPadding, imgPadding, imgPadding, imgPadding); // set padding around image
+        imageView.setImageResource(resId); // set resource id
 
         row.addView(imageView); // add ImageView to row
     }
-
 }

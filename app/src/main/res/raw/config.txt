@@ -1,6 +1,6 @@
 sensorId=c4d1574b-d1ce-43da-84df-f54fe5e09ba9
-apiSince=20211013
-apiLimit=1000
+apiSince=20210101
+apiLimit=10
 offset=6.0
 minMeasurementDuration=500
 maxMeasurementDuration=600

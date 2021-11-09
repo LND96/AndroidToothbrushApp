@@ -36,4 +36,8 @@ public interface TbDao {
     // delete all data in database
     @Query("DELETE FROM tbdata")
     void deleteAllData();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addSettings(Settings settings);
+
 }

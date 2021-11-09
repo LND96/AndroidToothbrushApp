@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Properties;
@@ -41,6 +45,14 @@ public class SettingsReader {
             int timeBetweenMeasurements = Integer.parseInt(properties.getProperty("timeBetweenMeasurements"));
             int numIntervalDays = Integer.parseInt(properties.getProperty("numIntervalDays"));
             String lastDayInInterval = properties.getProperty("lastDayInInterval");
+            boolean firstRun = Boolean.parseBoolean(properties.getProperty("firstRun", "true"));
+            //if (firstRun) {
+                //Files.write(Paths.get("config.txt"), "firstRun=false".getBytes(), StandardOpenOption.APPEND);
+            //    String filename = "src\\main\\res\\raw\\config.txt";
+            //    FileWriter fileWriter = new FileWriter(filename, true);
+            //    fileWriter.write("firstRun=false\n");
+            //    fileWriter.close();
+            //}
 
             Settings settings = new Settings(sensorId, apiSince, apiLimit, offset,
                     minMeasurementDuration, maxMeasurementDuration, minAccpTbTime,

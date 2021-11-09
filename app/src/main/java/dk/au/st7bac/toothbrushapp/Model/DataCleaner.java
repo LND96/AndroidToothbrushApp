@@ -1,6 +1,8 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
 import android.os.Build;
+import android.util.Log;
+
 import androidx.annotation.RequiresApi;
 import java.time.Instant;
 import java.time.LocalDateTime;

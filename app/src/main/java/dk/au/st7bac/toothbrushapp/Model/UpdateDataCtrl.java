@@ -57,19 +57,14 @@ public class UpdateDataCtrl {
     private UpdateDataCtrl() {
         SettingsReader reader = new SettingsReader();
         settings = reader.getConfigSettings(ToothbrushApp.getAppContext());
-        //dataFilter = new DataFilter(settings.getOffset(), settings.getMinMeasurementDuration(),
-        //        settings.getMaxMeasurementDuration());
-        //dataCleaner = new DataCleaner(settings.getTimeBetweenMeasurements());
-        //dataProcessor = new DataCalculator(settings.getMinAccpTbTime(),
-        //        settings.getNumIntervalDays(), settings.getTbEachDay(),
-        //        settings.getMorningToEveningTime(), settings.getEveningToMorningTime(),
-        //        settings.getNumTbThres(), settings.getLastDayInInterval());
         dataProcessor = new Processor1(settings);
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();
         tbStatusLiveData = new MutableLiveData<>();
 
         notificationHelper = new NotificationHelper(ToothbrushApp.getAppContext());
+
+        addSettingsToDb(settings);
     }
 
 
@@ -85,8 +80,9 @@ public class UpdateDataCtrl {
     ////// Api repo //////
     private void getApiData() {
         if (apiRepo == null) {
-            apiRepo = new ApiRepo(this, settings.getSensorId(), settings.getApiSince(),
-                    settings.getApiLimit());
+            apiRepo = new ApiRepo(this, settings.getSensorId(), settings.getApiSince());
+        } else {
+            apiRepo.setApiLimit(settings.getApiLimit());
         }
 
         apiRepo.getTbData();
@@ -144,6 +140,15 @@ public class UpdateDataCtrl {
             @Override
             public void run() {
                 dbRepo.tbDao().addTbDataList(tbDataList);
+            }
+        });
+    }
+
+    private void addSettingsToDb(Settings settings) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dbRepo.tbDao().addSettings(settings);
             }
         });
     }

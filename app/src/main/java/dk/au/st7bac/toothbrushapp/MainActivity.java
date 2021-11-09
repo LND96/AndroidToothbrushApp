@@ -27,7 +27,9 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import dk.au.st7bac.toothbrushapp.Fragments.HomeFragment;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerNavigation();
 
         //alarm manager for update tb data on specific time
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 8);
 

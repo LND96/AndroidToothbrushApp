@@ -13,11 +13,35 @@
         <action
             android:id="@+id/action_homeFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_signinFragment"
+            app:destination="@id/signinFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
         android:name="dk.au.st7bac.toothbrushapp.Fragments.DetailsFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_details" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="dk.au.st7bac.toothbrushapp.Fragments.HelpFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_help" />
+    <fragment
+        android:id="@+id/signinFragment"
+        android:name="dk.au.st7bac.toothbrushapp.Fragments.SignInFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_signin" />
 
 </navigation>

@@ -60,7 +60,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
     <!-- navigation view which draws and shows the navigation drawer -->
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"

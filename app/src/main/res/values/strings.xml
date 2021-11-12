@@ -19,6 +19,9 @@
     <string name="Min">min</string>
     <string name="morningEveningHeader">Number of toothbrushes morning and evening</string>
     <string name="tableHeader">Overview over tooth brushes</string>
+    <string name="NotificationHeader">Toothbrushing is missing</string>
+    <string name="NotificationText">toothbrushing has been missed for 3 days in a row </string>
+
 
 
 

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -33,8 +34,12 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import dk.au.st7bac.toothbrushapp.Fragments.DetailsFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.HelpFragment;
 import dk.au.st7bac.toothbrushapp.Fragments.HomeFragment;
 import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.SignInFragment;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
 import dk.au.st7bac.toothbrushapp.Services.NotificationService;
@@ -64,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //start service
         //startService();
 
-        settingsContainer = findViewById(R.id.settings_container);
-
         //bottom navigation
         bottomNavigation();
 
@@ -77,8 +80,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 20);
-        //calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.HOUR_OF_DAY, 7);
+        calendar.set(Calendar.MINUTE, 45);
 
         alarmMgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlertReceiver.class);
@@ -149,11 +152,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    // https://www.youtube.com/watch?v=5kmjCzQBieY
+
+    private void displaySelectedScreen(int id) {
+        Fragment fragment = null;
+
+        switch (id) {
+            case R.id.nav_settings:
+                fragment = new SettingsFragment();
+                break;
+            case R.id.nav_help:
+                fragment = new HelpFragment();
+                break;
+            case R.id.nav_Signout:
+                fragment = new SignInFragment();
+                break;
+
+        }
+        if (fragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.settings_container, fragment);
+            ft.commit();
+        }
+        //DrawerLayout drawer  = (DrawerLayout) findViewById(R.id.my_drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    // https://www.youtube.com/watch?v=5kmjCzQBieY & https://www.youtube.com/watch?v=-SUvA1fXaKw&ab_channel=SimplifiedCoding
     //handle what happens when selecting an item in navigation drawer.
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        displaySelectedScreen(id);
 
+        /*
         //erstat evt. dette med case...
         if (id == R.id.nav_settings) {
 
@@ -172,8 +202,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this,R.string.SignOut, Toast.LENGTH_SHORT).show();
             drawerLayout.closeDrawer(GravityCompat.START);
         }
-        return false;
+
+         */
+        //return false;
+        return true;
     }
+
 
 
     //handle service

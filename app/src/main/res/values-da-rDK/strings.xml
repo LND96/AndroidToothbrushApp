@@ -20,6 +20,8 @@
     <string name="Min">min</string>
     <string name="morningEveningHeader">Antal tandbørstninger fordelt på morgen og aften</string>
     <string name="tableHeader">Overblik over tandbørstninger</string>
+    <string name="NotificationHeader">Manglende tandbørstning</string>
+    <string name="NotificationText">Tandbørstning er udeblevet i 3 dage i streg</string>
 
 
 

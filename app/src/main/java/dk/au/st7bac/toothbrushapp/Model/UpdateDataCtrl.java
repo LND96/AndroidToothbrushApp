@@ -23,6 +23,7 @@ import dk.au.st7bac.toothbrushapp.DataProcessorFactory.Processor1;
 import dk.au.st7bac.toothbrushapp.Interfaces.IDataCleaner;
 import dk.au.st7bac.toothbrushapp.Interfaces.IDataFilter;
 import dk.au.st7bac.toothbrushapp.Interfaces.IDataCalculator;
+import dk.au.st7bac.toothbrushapp.R;
 import dk.au.st7bac.toothbrushapp.Repositories.ApiRepo;
 import dk.au.st7bac.toothbrushapp.Repositories.DbRepo;
 import dk.au.st7bac.toothbrushapp.Services.NotificationHelper;
@@ -135,7 +136,7 @@ public class UpdateDataCtrl {
         }
 
         if (notification == false) {
-            NotificationCompat.Builder nb = notificationHelper.getChannelNotification("Alarm", "besked");
+            NotificationCompat.Builder nb = notificationHelper.getChannelNotification(ToothbrushApp.getAppContext().getString(R.string.NotificationHeader), ToothbrushApp.getAppContext().getString(R.string.NotificationText));
             notificationHelper.getManager().notify(1, nb.build());
 
         }

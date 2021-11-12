@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,6 +34,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import dk.au.st7bac.toothbrushapp.Fragments.HomeFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
 import dk.au.st7bac.toothbrushapp.Services.NotificationService;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
     private UpdateDataCtrl updateDataCtrl;
+    private LinearLayout settingsContainer;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //start service
         //startService();
+
+        settingsContainer = findViewById(R.id.settings_container);
 
         //bottom navigation
         bottomNavigation();
@@ -154,6 +159,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Toast.makeText(this,R.string.Settings, Toast.LENGTH_SHORT).show();
             drawerLayout.closeDrawer(GravityCompat.START);
+
+            // open settings here
+
+
         }
         if (id == R.id.nav_help) {
             Toast.makeText(this,R.string.Help, Toast.LENGTH_SHORT).show();

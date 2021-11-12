@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Notification"
+        android:icon="@drawable/ic_baseline_notifications_24">
+
+        <SwitchPreferenceCompat
+            android:key="notifications"
+            android:title="Enable message notifications"/>
+
+        <Preference
+            android:key="feedback"
+            android:title="Send feedback"
+            android:summary="Report technical issues or suggest new features"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

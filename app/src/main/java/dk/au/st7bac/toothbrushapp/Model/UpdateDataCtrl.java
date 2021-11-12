@@ -1,5 +1,8 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
+import android.content.SharedPreferences;
+import android.util.Log;
+
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -65,6 +68,15 @@ public class UpdateDataCtrl {
         notificationHelper = new NotificationHelper(ToothbrushApp.getAppContext());
 
         addSettingsToDb(settings);
+
+        SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if (key.equals("notification")) {
+                    Log.d("Controller", "Preference value update to " + sharedPreferences.getString(key, ""));
+                }
+            }
+        };
     }
 
 

@@ -6,8 +6,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,11 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-
-import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -33,14 +27,8 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import dk.au.st7bac.toothbrushapp.Fragments.DetailsFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.HelpFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.HomeFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.SignInFragment;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
-import dk.au.st7bac.toothbrushapp.Services.NotificationService;
 
 // kilde til alarm manager: https://developer.android.com/training/scheduling/alarms#java
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{

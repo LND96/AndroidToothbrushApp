@@ -19,6 +19,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -57,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         updateDataCtrl.initUpdateTbData(Constants.FROM_MAIN_ACTIVITY); //kaldes fra main
 
-        navigationView = findViewById(R.id.navigation_view);
         drawerLayout = findViewById(R.id.my_drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
 
         //bottom navigation
         bottomNavigation();
@@ -104,23 +106,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void drawerNavigation()
     {
-
-        //Inspired by: https://www.geeksforgeeks.org/navigation-drawer-in-android/ (edit text, it is compied)
-
-        // drawer layout instance to toggle the menu icon to open
-        // drawer and back button to close drawer
-        //drawerLayout = findViewById(R.id.my_drawer_layout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
-
-        // pass the Open and Close toggle for the drawer layout listener
-        // to toggle the button
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-
-        // to make the Navigation drawer icon always appear on the action bar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //
         NavController navController = Navigation.findNavController(this, R.id.fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout);//setup drawer layout with navigation controller
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -128,20 +113,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    //https://www.geeksforgeeks.org/navigation-drawer-in-android/ (edit text!!!)
-    // override the onOptionsItemSelected()
-    // function to implement
-    // the item click listener callback
-    // to open and close the navigation
-    // drawer when the icon is clicked
+    //specify the options menu for the activity
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.drawer_navigation_menu, menu);
+        return true;
+    }
+
+    //https://www.youtube.com/watch?v=MTpVJwFROZE&list=RDCMUCoNZZLhPuuRteu02rh7bzsw&start_radio=1&rv=MTpVJwFROZE&t=596
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
+        if (item.getItemId() == android.R.id.home) {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            } else {
+                return false;
+            }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -151,21 +141,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.nav_settings:
-                Navigation.findNavController(this, R.id.fragment).navigate(R.id.settingsFragment);
+            case R.id.nav_settings: {
+                if (isValidDestination(R.id.signinFragment)) {
+                    Navigation.findNavController(this, R.id.fragment).navigate(R.id.settingsFragment);
+                }
                 break;
-            case R.id.nav_help:
-                Navigation.findNavController(this, R.id.fragment).navigate(R.id.helpFragment);
+            }
+            case R.id.nav_help: {
+                if (isValidDestination(R.id.helpFragment)) {
+                    Navigation.findNavController(this, R.id.fragment).navigate(R.id.helpFragment);
+                }
                 break;
-            case R.id.nav_Signout:
-                Navigation.findNavController(this, R.id.fragment).navigate(R.id.signinFragment);
+            }
+            case R.id.nav_Signout: {
+                if (isValidDestination(R.id.signinFragment)) {
+                    Navigation.findNavController(this, R.id.fragment).navigate(R.id.signinFragment);
+                }
                 break;
-
+            }
         }
         item.setChecked(true);
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    //id of the fragment it trying to navigate to.
+    private boolean isValidDestination(int destination) {
+        //if the destination is the same, don't add it to the back stack.
+        return destination != Navigation.findNavController(this, R.id.fragment).getCurrentDestination().getId();
+
+    }
+
+    //Enable to open navigation drawer and enable the back error
+    @Override
+    public boolean onSupportNavigateUp() {
+        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.fragment), drawerLayout);
+    }
+
 
 
 }

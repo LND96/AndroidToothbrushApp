@@ -1,17 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="Notification"
+    <PreferenceCategory
+        android:title="@string/settingNotificationHeader"
         android:icon="@drawable/ic_baseline_notifications_24">
 
         <SwitchPreferenceCompat
-            android:key="notifications"
-            android:title="Enable message notifications"/>
+            android:key="@string/settingEnableNotificationsKey"
+            android:title="@string/settingEnableNotifications"
+            android:defaultValue="true"
+            android:summary="@string/settingEnableNotificationsSummary"/>
 
-        <Preference
-            android:key="feedback"
-            android:title="Send feedback"
-            android:summary="Report technical issues or suggest new features"/>
+        <ListPreference
+            android:defaultValue="90"
+            android:dependency="@string/settingEnableNotificationsKey"
+            android:dialogTitle="@string/settingMinAccpTime"
+            android:entries="@array/minAccpTimeEntries"
+            android:entryValues="@array/minAccpTimeValues"
+            android:key="@string/settingMinAccpTimeKey"
+            app:useSimpleSummaryProvider="true"
+            android:title="@string/settingMinAccpTime"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:key="@string/settingAdvancedKey"
+            android:title="@string/settingAdvanced"
+            app:initialExpandedChildrenCount="0">
+
+        <EditTextPreference
+            android:key="@string/settingSensorIdKey"
+            android:title="@string/settingSensorId"
+            android:defaultValue="c4d1574b-d1ce-43da-84df-f54fe5e09ba9"
+            app:useSimpleSummaryProvider="true"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

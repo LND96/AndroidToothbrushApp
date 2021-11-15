@@ -46,6 +46,10 @@ public class ApiRepo {
         this.apiLimit = apiLimit;
     }
 
+    public void setApiSensorId(String sensorId) {
+        this.sensorId = sensorId;
+    }
+
     public void getTbData() {
 
         String baseUrl = "https://dmjljzkaec.execute-api.eu-west-1.amazonaws.com/default/tbapi/v1/system/tm/";
@@ -106,7 +110,7 @@ public class ApiRepo {
             e.printStackTrace(); // skal der gøres noget andet ved exception?
         }
 
-        updateDataCtrl.updateTbData(tbDataList);                      // hvad hvis listen er tom?
+        updateDataCtrl.updateTbData(tbDataList); // check op på hvad der sker hvis api er forkert...
 
     }
 }

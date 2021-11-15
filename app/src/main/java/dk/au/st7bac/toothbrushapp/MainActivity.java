@@ -12,12 +12,14 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceManager;
 
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,7 +46,7 @@ import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
 
 // kilde til alarm manager: https://developer.android.com/training/scheduling/alarms#java
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     public DrawerLayout drawerLayout;
@@ -66,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         updateDataCtrl = UpdateDataCtrl.getInstance();
 
-        updateDataCtrl.initUpdateTbData(Constants.FROM_MAIN_ACTIVITY); //kaldes fra main
 
         navigationView = findViewById(R.id.navigation_view);
         drawerLayout = findViewById(R.id.my_drawer_layout);
@@ -90,11 +91,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), requestCode, intent, 0);
 
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+10000,
-                86400000, pendingIntent); // 86400000
+                10000, pendingIntent); // 86400000
 
 
         fragmentContainer = findViewById(R.id.fragment_container);
         settingsContainer = findViewById(R.id.settings_container);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateDataCtrl.initUpdateTbData(Constants.FROM_MAIN_ACTIVITY);
     }
 
     public void bottomNavigation()
@@ -175,6 +184,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 }

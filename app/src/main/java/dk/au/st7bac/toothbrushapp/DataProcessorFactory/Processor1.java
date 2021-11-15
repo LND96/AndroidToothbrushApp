@@ -1,5 +1,7 @@
 package dk.au.st7bac.toothbrushapp.DataProcessorFactory;
 
+import android.content.SharedPreferences;
+
 import java.util.List;
 
 import dk.au.st7bac.toothbrushapp.Model.DataCalculator;
@@ -8,6 +10,8 @@ import dk.au.st7bac.toothbrushapp.Model.DataFilter;
 import dk.au.st7bac.toothbrushapp.Model.Settings;
 import dk.au.st7bac.toothbrushapp.Model.TbData;
 import dk.au.st7bac.toothbrushapp.Model.TbStatus;
+import dk.au.st7bac.toothbrushapp.R;
+import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
 public class Processor1 extends DataProcessor {
 
@@ -40,5 +44,13 @@ public class Processor1 extends DataProcessor {
     @Override
     public TbStatus calculateTbStatus(List<TbData> tbDataList) {
         return dataCalculator.processData(tbDataList);
+    }
+
+    @Override
+    public void updateSettings(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(ToothbrushApp.getAppContext().getString(R.string.settingMinAccpTimeKey))) {
+            int newSetting = Integer.parseInt(sharedPreferences.getString(key, "90"));
+            dataCalculator.setTimeTbThreshold(newSetting);
+        }
     }
 }

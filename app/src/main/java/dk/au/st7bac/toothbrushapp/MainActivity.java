@@ -113,14 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    //specify the options menu for the activity
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.drawer_navigation_menu, menu);
-        return true;
-    }
-
     //https://www.youtube.com/watch?v=MTpVJwFROZE&list=RDCMUCoNZZLhPuuRteu02rh7bzsw&start_radio=1&rv=MTpVJwFROZE&t=596
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

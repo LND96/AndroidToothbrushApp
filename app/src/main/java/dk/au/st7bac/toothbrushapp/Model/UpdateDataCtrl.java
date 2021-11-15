@@ -1,5 +1,7 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
+import android.content.SharedPreferences;
+
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -15,6 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import dk.au.st7bac.toothbrushapp.Constants;
 import dk.au.st7bac.toothbrushapp.DataProcessorFactory.DataProcessor;
 import dk.au.st7bac.toothbrushapp.DataProcessorFactory.Processor1;
 import dk.au.st7bac.toothbrushapp.Interfaces.IDataCleaner;
@@ -46,6 +49,8 @@ public class UpdateDataCtrl {
 
     private NotificationHelper notificationHelper;
 
+    private String methodSender;
+
     // singleton pattern
     public static UpdateDataCtrl getInstance() {
         if (updateDataCtrl == null) {
@@ -74,7 +79,9 @@ public class UpdateDataCtrl {
         return tbStatusLiveData;
     }
 
-    public void initUpdateTbData() {
+    public void initUpdateTbData(String methodSender) {
+        this.methodSender = methodSender;
+
         getApiData();
     }
 
@@ -107,7 +114,12 @@ public class UpdateDataCtrl {
 
         tbStatusLiveData.setValue(tbStatus);
 
-        checkForNotification(tbStatus);
+        if (methodSender.equals(Constants.FROM_ALERT_RECEIVER)){
+            checkForNotification(tbStatus);
+        }
+
+
+
     }
 
     private void checkForNotification(TbStatus tbStatus) {

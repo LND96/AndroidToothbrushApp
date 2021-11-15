@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import dk.au.st7bac.toothbrushapp.Constants;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 
 
@@ -17,7 +18,7 @@ public class AlertReceiver extends BroadcastReceiver {
 
         updateDataCtrl = UpdateDataCtrl.getInstance();
 
-        updateDataCtrl.initUpdateTbData();
+        updateDataCtrl.initUpdateTbData(Constants.FROM_ALERT_RECEIVER);
 
 
 

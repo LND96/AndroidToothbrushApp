@@ -16,6 +16,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -41,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private PendingIntent pendingIntent;
     private UpdateDataCtrl updateDataCtrl;
 
+    //Constants:
+    public static final String SHARED_PREF = "SHARED_PREF";
+    public static final String SHARED_PREF_BOOL_START = "SHARED_PREF_BOOL_START";
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         updateDataCtrl = UpdateDataCtrl.getInstance();
 
-        updateDataCtrl.initUpdateTbData(); //kaldes fra main
+        updateDataCtrl.initUpdateTbData(Constants.FROM_MAIN_ACTIVITY); //kaldes fra main
 
         navigationView = findViewById(R.id.navigation_view);
         drawerLayout = findViewById(R.id.my_drawer_layout);
@@ -62,10 +67,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //drawer navigation
         drawerNavigation();
 
+
         //alarm manager for update tb data on specific time
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 19);
+        //calendar.set(Calendar.HOUR_OF_DAY, 19);
         //calendar.set(Calendar.MINUTE, 00);
 
         alarmMgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
@@ -74,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), requestCode, intent, 0);
 
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+10000,
-                86400000, pendingIntent);
+                86400000, pendingIntent); // 86400000
 
     }
 
@@ -162,9 +168,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

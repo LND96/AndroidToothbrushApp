@@ -11,16 +11,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_toothbrush"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_toothbrush_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ToothbrushApp"
         android:name=".ToothbrushApp">
-        <service
-            android:name=".Services.NotificationService"
-            android:enabled="true"
-            android:exported="false"></service>
 
         <activity android:name=".MainActivity"
             android:launchMode="singleTop">

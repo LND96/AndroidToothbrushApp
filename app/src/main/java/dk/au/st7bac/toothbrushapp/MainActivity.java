@@ -18,7 +18,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,13 +42,13 @@ import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
 import dk.au.st7bac.toothbrushapp.Fragments.SignInFragment;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
-import dk.au.st7bac.toothbrushapp.Services.NotificationService;
 
 // kilde til alarm manager: https://developer.android.com/training/scheduling/alarms#java
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
 
     public DrawerLayout drawerLayout;
+    private NavigationView navigationView;
     public ActionBarDrawerToggle actionBarDrawerToggle;
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
@@ -67,21 +66,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         updateDataCtrl = UpdateDataCtrl.getInstance();
 
-        updateDataCtrl.initUpdateTbData(); //kaldes fra main
+        updateDataCtrl.initUpdateTbData(Constants.FROM_MAIN_ACTIVITY); //kaldes fra main
+
+        navigationView = findViewById(R.id.navigation_view);
+        drawerLayout = findViewById(R.id.my_drawer_layout);
 
         //bottom navigation
         bottomNavigation();
+
 
         //drawer navigation
         drawerNavigation();
 
         //alarm manager for update tb data on specific time
-
-
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 7);
-        calendar.set(Calendar.MINUTE, 45);
+        //calendar.set(Calendar.HOUR_OF_DAY, 19);
+        //calendar.set(Calendar.MINUTE, 00);
 
         alarmMgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlertReceiver.class);
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), requestCode, intent, 0);
 
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+10000,
-                AlarmManager.INTERVAL_DAY, pendingIntent);
+                86400000, pendingIntent); // 86400000
 
 
         fragmentContainer = findViewById(R.id.fragment_container);
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // drawer layout instance to toggle the menu icon to open
         // drawer and back button to close drawer
-        drawerLayout = findViewById(R.id.my_drawer_layout);
+        //drawerLayout = findViewById(R.id.my_drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
 
         // pass the Open and Close toggle for the drawer layout listener
@@ -129,10 +130,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        NavigationView navigationView = findViewById(R.id.navigation_view);
+        //
+        NavController navController = Navigation.findNavController(this, R.id.fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout);//setup drawer layout with navigation controller
+        NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this);
-    }
 
+    }
 
     //https://www.geeksforgeeks.org/navigation-drawer-in-android/ (edit text!!!)
     // override the onOptionsItemSelected()
@@ -151,67 +155,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    private void displaySelectedScreen(int id) {
-        Fragment fragment = null;
-
-        switch (id) {
-            case R.id.nav_settings:
-                fragment = new SettingsFragment();
-                break;
-            case R.id.nav_help:
-                fragment = new HelpFragment();
-                break;
-            case R.id.nav_Signout:
-                fragment = new SignInFragment();
-                break;
-
-        }
-        if (fragment != null) {
-            fragmentContainer.setVisibility(View.GONE);
-            settingsContainer.setVisibility(View.VISIBLE);
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.settings_container, fragment);
-            ft.commit();
-        }
-        //DrawerLayout drawer  = (DrawerLayout) findViewById(R.id.my_drawer_layout);
-        drawerLayout.closeDrawer(GravityCompat.START);
-    }
-
-    // https://www.youtube.com/watch?v=5kmjCzQBieY & https://www.youtube.com/watch?v=-SUvA1fXaKw&ab_channel=SimplifiedCoding
+    // https://www.youtube.com/watch?v=wwStpiU4nJk&ab_channel=CodingWithMitch
     //handle what happens when selecting an item in navigation drawer.
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        displaySelectedScreen(id);
 
-        /*
-        //erstat evt. dette med case...
-        if (id == R.id.nav_settings) {
-
-            Toast.makeText(this,R.string.Settings, Toast.LENGTH_SHORT).show();
-            drawerLayout.closeDrawer(GravityCompat.START);
-
-            // open settings here
-
+        switch (item.getItemId()) {
+            case R.id.nav_settings:
+                Navigation.findNavController(this, R.id.fragment).navigate(R.id.settingsFragment);
+                break;
+            case R.id.nav_help:
+                Navigation.findNavController(this, R.id.fragment).navigate(R.id.helpFragment);
+                break;
+            case R.id.nav_Signout:
+                Navigation.findNavController(this, R.id.fragment).navigate(R.id.signinFragment);
+                break;
 
         }
-        if (id == R.id.nav_help) {
-            Toast.makeText(this,R.string.Help, Toast.LENGTH_SHORT).show();
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        if (id == R.id.nav_Signout){
-            Toast.makeText(this,R.string.SignOut, Toast.LENGTH_SHORT).show();
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }
-
-         */
-        //return false;
+        item.setChecked(true);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
-        fragmentContainer.setVisibility(View.VISIBLE);
-        settingsContainer.setVisibility(View.GONE);
-    }
 
 }

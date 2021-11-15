@@ -16,6 +16,7 @@
     <string name ="Settings">Settings</string>
     <string name ="Help">Help</string>
     <string name ="SignOut">Sign out </string>
+    <string name ="SignIn">Sign in </string>
     <string name="Min">min</string>
     <string name="morningEveningHeader">Number of toothbrushes morning and evening</string>
     <string name="tableHeader">Overview over tooth brushes</string>

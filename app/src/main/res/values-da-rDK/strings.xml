@@ -17,6 +17,7 @@
     <string name ="Settings">Indstillinger</string>
     <string name ="Help">Hjælp</string>
     <string name ="SignOut">Log ud </string>
+    <string name ="SignIn">Log in </string>
     <string name="Min">min</string>
     <string name="morningEveningHeader">Antal tandbørstninger fordelt på morgen og aften</string>
     <string name="tableHeader">Overblik over tandbørstninger</string>

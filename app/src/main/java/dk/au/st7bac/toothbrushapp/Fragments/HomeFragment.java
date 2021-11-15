@@ -72,16 +72,8 @@ public class HomeFragment extends Fragment {
                 updateUI(view);
             }
         });
-
-        // load settings
-        loadSettings();
-
     }
 
-    private void loadSettings() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String notification = sharedPreferences.getString("notifications", "");
-    }
 
     private void setupUI(View view) {
         // find UI elements

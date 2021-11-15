@@ -18,6 +18,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,7 +46,7 @@ import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
 import dk.au.st7bac.toothbrushapp.Services.NotificationService;
 
 // kilde til alarm manager: https://developer.android.com/training/scheduling/alarms#java
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     public DrawerLayout drawerLayout;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
     private UpdateDataCtrl updateDataCtrl;
+
+    private LinearLayout fragmentContainer;
     private LinearLayout settingsContainer;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -65,9 +68,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         updateDataCtrl = UpdateDataCtrl.getInstance();
 
         updateDataCtrl.initUpdateTbData(); //kaldes fra main
-
-        //start service
-        //startService();
 
         //bottom navigation
         bottomNavigation();
@@ -91,6 +91,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+10000,
                 AlarmManager.INTERVAL_DAY, pendingIntent);
 
+
+        fragmentContainer = findViewById(R.id.fragment_container);
+        settingsContainer = findViewById(R.id.settings_container);
     }
 
     public void bottomNavigation()
@@ -104,11 +107,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment, R.id.detailsFragment).build();
 
         //Initialize NavController
-        NavController navController = Navigation.findNavController(this,R.id.fragment);
+        NavController navController = Navigation.findNavController(this, R.id.fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(bottomNav, navController);
-
-
     }
 
     public void drawerNavigation()
@@ -130,8 +131,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
     }
 
 
@@ -143,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // drawer when the icon is clicked
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
 
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
@@ -169,6 +167,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
         if (fragment != null) {
+            fragmentContainer.setVisibility(View.GONE);
+            settingsContainer.setVisibility(View.VISIBLE);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.settings_container, fragment);
             ft.commit();
@@ -208,23 +208,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
-
-    //handle service
-    private void startService() {
-        Intent notificationServiceIntent = new Intent(this, NotificationService.class);
-        startService(notificationServiceIntent);
-    }
-
-
-    private void stopService() {
-        Intent notificationServiceIntent = new Intent(this, NotificationService.class);
-        stopService(notificationServiceIntent);
-    }
-
     @Override
-    protected void onDestroy() {
-        stopService();
-        super.onDestroy();
+    public void onBackPressed() {
+        fragmentContainer.setVisibility(View.VISIBLE);
+        settingsContainer.setVisibility(View.GONE);
     }
+
 }

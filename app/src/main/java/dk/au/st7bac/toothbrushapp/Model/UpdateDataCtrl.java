@@ -78,6 +78,9 @@ public class UpdateDataCtrl {
                 }
             }
         };
+
+        
+
     }
 
 
@@ -221,4 +224,26 @@ public class UpdateDataCtrl {
         higherEpochIntervalLimit = lastDateTimeInterval.atZone(zoneId).toEpochSecond();
 
     }
+
+    /*
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("notification")) { // lav keys public final static
+            Log.d("Controller", "Preference value update to " + sharedPreferences.getString(key, ""));
+        }
+    }
+
+     */
+
+    /*
+    SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (key.equals("notification")) {
+                Log.d("Controller", "Preference value update to " + sharedPreferences.getString(key, ""));
+            }
+        }
+    };
+
+     */
 }

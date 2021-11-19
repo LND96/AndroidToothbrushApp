@@ -18,6 +18,10 @@ public class DataCleaner {
         this.timeBetweenMeasurements = timeBetweenMeasurements;
     }
 
+    public void setTimeBetweenMeasurements(int timeBetweenMeasurements) {
+        this.timeBetweenMeasurements = timeBetweenMeasurements;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public List<TbData> cleanData(List<TbData> tbDataList) {
 

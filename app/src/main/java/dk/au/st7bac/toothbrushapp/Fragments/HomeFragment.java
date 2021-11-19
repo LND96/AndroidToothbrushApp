@@ -1,5 +1,6 @@
 package dk.au.st7bac.toothbrushapp.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,8 +72,8 @@ public class HomeFragment extends Fragment {
                 updateUI(view);
             }
         });
-
     }
+
 
     private void setupUI(View view) {
         // find UI elements

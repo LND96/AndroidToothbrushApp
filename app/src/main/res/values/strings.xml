@@ -22,6 +22,16 @@
     <string name="tableHeader">Overview over tooth brushes</string>
     <string name="NotificationHeader">Toothbrushing is missing</string>
     <string name="NotificationText">toothbrushing has been missed for 3 days in a row </string>
+    <string name="settingNotificationHeader">Notification</string>
+    <string name="settingEnableNotificationsKey" translatable="false">settingEnableNotificationsKey</string>
+    <string name="settingEnableNotifications">Enable notification</string>
+    <string name="settingMinAccpTimeKey" translatable="false">settingMinAccpTimeKey</string>
+    <string name="settingMinAccpTime">Minimum acceptable toothbrush time</string>
+    <string name="settingEnableNotificationsSummary">Enable to receive notifications regarding missing tooth brushes</string>
+    <string name="settingAdvanced">Advanced</string>
+    <string name="settingAdvancedKey" translatable="false">settingAdvancedKey</string>
+    <string name="settingSensorIdKey" translatable="false">settingSensorIdKey</string>
+    <string name="settingSensorId">Tooth brush sensor id</string>
 
 
     <!--toggle the open close button of the navigation drawer-->

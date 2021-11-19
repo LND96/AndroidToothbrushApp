@@ -1,15 +1,19 @@
 package dk.au.st7bac.toothbrushapp.Model;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceManager;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -29,7 +33,8 @@ import dk.au.st7bac.toothbrushapp.Repositories.DbRepo;
 import dk.au.st7bac.toothbrushapp.Services.NotificationHelper;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
-public class UpdateDataCtrl {
+// settings https://www.youtube.com/watch?v=B155JJwHB3c
+public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static UpdateDataCtrl updateDataCtrl;
 
@@ -51,6 +56,10 @@ public class UpdateDataCtrl {
 
     private String methodSender;
 
+    private SharedPreferences sharedPreferences;
+
+
+
     // singleton pattern
     public static UpdateDataCtrl getInstance() {
         if (updateDataCtrl == null) {
@@ -61,8 +70,9 @@ public class UpdateDataCtrl {
 
     // private constructor
     private UpdateDataCtrl() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
         SettingsReader reader = new SettingsReader();
-        settings = reader.getConfigSettings(ToothbrushApp.getAppContext());
+        settings = reader.getConfigSettings(ToothbrushApp.getAppContext(), sharedPreferences);
         dataProcessor = new Processor1(settings);
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
         executor = Executors.newSingleThreadExecutor();
@@ -71,8 +81,10 @@ public class UpdateDataCtrl {
         notificationHelper = new NotificationHelper(ToothbrushApp.getAppContext());
 
         addSettingsToDb(settings);
-    }
 
+        // register on shared preference change listener
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this); // skal den unregisteres igen?
+    }
 
     // method for returning updated tb data
     public LiveData<TbStatus> getTbStatusLiveData() {
@@ -87,7 +99,7 @@ public class UpdateDataCtrl {
 
     ////// Api repo //////
     private void getApiData() {
-        if (apiRepo == null) {
+        if (apiRepo == null) { // skal dette i constructoren?
             apiRepo = new ApiRepo(this, settings.getSensorId(), settings.getApiSince());
         } else {
             apiRepo.setApiLimit(settings.getApiLimit());
@@ -101,9 +113,6 @@ public class UpdateDataCtrl {
         // filter and clean data
         tbDataList = dataProcessor.processData(tbDataList); // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
 
-        //tbDataList = dataFilter.filterData(tbDataList);
-        //tbDataList = dataCleaner.cleanData(tbDataList);
-
         // add data to database
         addDataToDb(tbDataList);
 
@@ -114,12 +123,12 @@ public class UpdateDataCtrl {
 
         tbStatusLiveData.setValue(tbStatus);
 
-        if (methodSender.equals(Constants.FROM_ALERT_RECEIVER)){
+
+        boolean isNotificationEnabled = sharedPreferences.getBoolean(ToothbrushApp.getAppContext().getString(R.string.settingEnableNotificationsKey), true);
+
+        if (methodSender.equals(Constants.FROM_ALERT_RECEIVER) && isNotificationEnabled){
             checkForNotification(tbStatus);
         }
-
-
-
     }
 
     private void checkForNotification(TbStatus tbStatus) {
@@ -140,9 +149,6 @@ public class UpdateDataCtrl {
             notificationHelper.getManager().notify(1, nb.build());
 
         }
-
-
-
     }
 
 
@@ -166,6 +172,8 @@ public class UpdateDataCtrl {
         });
     }
 
+    // har vi brug for at hente alle tb data?
+    /*
     private List<TbData> getAllDbTbData() {
         Future<List<TbData>> tbDataList = executor.submit(new Callable<List<TbData>>() {
             @Override
@@ -182,6 +190,7 @@ public class UpdateDataCtrl {
 
         return null;
     }
+     */
 
     private List<TbData> getDbTbDataInInterval() {
         findEpochInterval();
@@ -220,5 +229,17 @@ public class UpdateDataCtrl {
         lowerEpochIntervalLimit = firstDateTimeInterval.toEpochSecond();
         higherEpochIntervalLimit = lastDateTimeInterval.atZone(zoneId).toEpochSecond();
 
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        // skal her bruges switch i stedet?
+        if (key.equals(ToothbrushApp.getAppContext().getString(R.string.settingSensorIdKey))) {
+            apiRepo.setApiSensorId(sharedPreferences.getString(key, ""));
+        } else {
+            dataProcessor.updateSettings(sharedPreferences, key);
+        }
+        // skal initUpdate kaldes når settings er opdateret?
+        initUpdateTbData(Constants.FROM_UPDATE_DATA_CTRL);
     }
 }

@@ -23,7 +23,12 @@
     <string name="tableHeader">Overblik over tandbørstninger</string>
     <string name="NotificationHeader">Manglende tandbørstning</string>
     <string name="NotificationText">Tandbørstning er udeblevet i 3 dage i streg</string>
-
+    <string name="settingNotificationHeader">Notifikation</string>
+    <string name="settingEnableNotifications">Tillad underretninger</string>
+    <string name="settingMinAccpTime">Minimum acceptabel varighed for en tandbørstning</string>
+    <string name="settingEnableNotificationsSummary">Slå til for at modtage underretninger angående manglende tandbørstninger</string>
+    <string name="settingAdvanced">Avanceret</string>
+    <string name="settingSensorId">Tandbørstesensor-id</string>
 
 
 </resources>

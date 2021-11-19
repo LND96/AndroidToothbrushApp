@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataCalculator {
-    private final int timeTbThreshold;
+    private int timeTbThreshold;
     private final int days;
     private final int tbEachDay;
     private final LocalTime morningToEveningTime;
@@ -36,6 +36,10 @@ public class DataCalculator {
         this.eveningToMorningTime = eveningToMorningTime;
         this.numTbThreshold = numTbThreshold;
         this.lastDayOfInterval = lastDayOfInterval;
+    }
+
+    public void setTimeTbThreshold(int timeTbThreshold) {
+        this.timeTbThreshold = timeTbThreshold;
     }
 
     public TbStatus processData(List<TbData> TbDataList)

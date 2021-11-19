@@ -1,10 +1,10 @@
 sensorId=c4d1574b-d1ce-43da-84df-f54fe5e09ba9
 apiSince=20210101
-apiLimit=10
+apiLimit=1000
 offset=6.0
-minMeasurementDuration=500
+minMeasurementDuration=10
 maxMeasurementDuration=600
-minAccpTbTime=90
+minAccpTbTime=300
 morningToEveningTime=14:00
 eveningToMorningTime=00:00
 tbEachDay=2

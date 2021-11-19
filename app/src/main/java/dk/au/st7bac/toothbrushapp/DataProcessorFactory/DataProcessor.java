@@ -1,5 +1,7 @@
 package dk.au.st7bac.toothbrushapp.DataProcessorFactory;
 
+import android.content.SharedPreferences;
+
 import java.util.List;
 
 import dk.au.st7bac.toothbrushapp.Model.Settings;
@@ -18,4 +20,6 @@ public abstract class DataProcessor {
     public abstract List<TbData> processData(List<TbData> tbDataList);
 
     public abstract TbStatus calculateTbStatus(List<TbData> tbDataList);
+
+    public abstract void updateSettings(SharedPreferences sharedPreferences, String key);
 }

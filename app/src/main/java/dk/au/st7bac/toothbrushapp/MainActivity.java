@@ -6,10 +6,13 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceManager;
 
 
 import android.app.AlarmManager;
@@ -21,8 +24,15 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -34,11 +44,17 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import dk.au.st7bac.toothbrushapp.Login.LoginActivity;
+import dk.au.st7bac.toothbrushapp.Fragments.DetailsFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.HelpFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.HomeFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.SignInFragment;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
 
 // kilde til alarm manager: https://developer.android.com/training/scheduling/alarms#java
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     public DrawerLayout drawerLayout;
@@ -49,9 +65,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private UpdateDataCtrl updateDataCtrl;
     private String sensorIDText;
 
-    //Constants:
-    public static final String SHARED_PREF = "SHARED_PREF";
-    public static final String SHARED_PREF_BOOL_START = "SHARED_PREF_BOOL_START";
+    private LinearLayout fragmentContainer;
+    private LinearLayout settingsContainer;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -62,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         updateDataCtrl = UpdateDataCtrl.getInstance();
 
-        updateDataCtrl.initUpdateTbData(Constants.FROM_MAIN_ACTIVITY); //kaldes fra main
 
         drawerLayout = findViewById(R.id.my_drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
@@ -74,11 +88,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //drawer navigation
         drawerNavigation();
 
-
         //alarm manager for update tb data on specific time
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 19);
+        //calendar.set(Calendar.HOUR_OF_DAY, 19);
         //calendar.set(Calendar.MINUTE, 00);
 
         alarmMgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
@@ -116,6 +129,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateDataCtrl.initUpdateTbData(Constants.FROM_MAIN_ACTIVITY); }
+
     public void bottomNavigation()
     {
 
@@ -127,11 +147,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment, R.id.detailsFragment).build();
 
         //Initialize NavController
-        NavController navController = Navigation.findNavController(this,R.id.fragment);
+        NavController navController = Navigation.findNavController(this, R.id.fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(bottomNav, navController);
-
-
     }
 
     public void drawerNavigation()

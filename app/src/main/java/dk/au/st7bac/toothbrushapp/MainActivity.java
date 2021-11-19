@@ -13,23 +13,27 @@ import androidx.navigation.ui.NavigationUI;
 
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.text.InputType;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import dk.au.st7bac.toothbrushapp.Login.LoginActivity;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
 
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
     private UpdateDataCtrl updateDataCtrl;
+    private String sensorIDText;
 
     //Constants:
     public static final String SHARED_PREF = "SHARED_PREF";
@@ -73,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //alarm manager for update tb data on specific time
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
         calendar.setTimeInMillis(System.currentTimeMillis());
-        //calendar.set(Calendar.HOUR_OF_DAY, 19);
+        calendar.set(Calendar.HOUR_OF_DAY, 19);
         //calendar.set(Calendar.MINUTE, 00);
 
         alarmMgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
@@ -83,6 +88,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+10000,
                 86400000, pendingIntent); // 86400000
+
+
+        //pupup window - https://www.youtube.com/watch?v=e3WfylNHHC4
+        AlertDialog.Builder dialogBox = new AlertDialog.Builder(MainActivity.this);
+        dialogBox.setTitle("Indtast Sensor ID");
+
+        final EditText sensorID = new EditText(MainActivity.this);
+        sensorID.setInputType(InputType.TYPE_CLASS_TEXT);
+        dialogBox.setView(sensorID);
+
+        dialogBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sensorIDText =sensorID.getText().toString();
+                if (sensorIDText.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Indtast Sensor ID", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(MainActivity.this, "Sensor ID er: " + sensorIDText, Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        dialogBox.show();
 
     }
 
@@ -146,6 +176,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.nav_Signout: {
+
+                //FirebaseAuth.getInstance().signOut();
+                //Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
                 if (isValidDestination(R.id.signinFragment)) {
                     Navigation.findNavController(this, R.id.fragment).navigate(R.id.signinFragment);
                 }

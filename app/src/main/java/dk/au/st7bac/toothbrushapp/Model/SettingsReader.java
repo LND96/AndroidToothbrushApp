@@ -25,7 +25,7 @@ public class SettingsReader {
     public Settings getConfigSettings(Context context, SharedPreferences sharedPreferences) {
 
         int minAccpTbTime = Integer.parseInt(sharedPreferences.getString(context.getString(R.string.settingMinAccpTimeKey), "90"));
-        String sensorId = sharedPreferences.getString(context.getString(R.string.settingSensorIdKey), "");
+        //String sensorId = sharedPreferences.getString(context.getString(R.string.settingSensorIdKey), "");
 
         Resources resources = context.getResources();
 
@@ -36,7 +36,7 @@ public class SettingsReader {
 
             // skal vi have defaultværdier?
             // hvad hvis der er bogstaver hvor vi vil have tal mm.?
-            //String sensorId = properties.getProperty("sensorId");
+            String sensorId = properties.getProperty("sensorId");
             String apiSince = properties.getProperty("apiSince");
             String apiLimit = properties.getProperty("apiLimit");
             double offset = Double.parseDouble(properties.getProperty("offset"));

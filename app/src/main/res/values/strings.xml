@@ -32,6 +32,9 @@
     <string name="settingAdvancedKey" translatable="false">settingAdvancedKey</string>
     <string name="settingSensorIdKey" translatable="false">settingSensorIdKey</string>
     <string name="settingSensorId">Tooth brush sensor id</string>
+    <string name="DialogSensorID">Enter sensor id</string>
+    <string name="DialogSensorID_2">Sensor-id is:</string>
+
 
 
     <!--toggle the open close button of the navigation drawer-->

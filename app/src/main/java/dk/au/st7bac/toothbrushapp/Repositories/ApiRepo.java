@@ -1,5 +1,10 @@
 package dk.au.st7bac.toothbrushapp.Repositories;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.text.InputType;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,6 +20,7 @@ import org.json.JSONObject;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import dk.au.st7bac.toothbrushapp.MainActivity;
 import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Model.TbData;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
@@ -34,6 +40,8 @@ public class ApiRepo {
     private String sensorId;
     private String apiSince;
     private String apiLimit;
+
+    private String sensorIDText;
 
     public ApiRepo(UpdateDataCtrl updateDataCtrl, String sensorId, String apiSince) {
         this.updateDataCtrl = updateDataCtrl;
@@ -65,13 +73,48 @@ public class ApiRepo {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) { // onResponse er synkroniseret til UI tråden, så vi må gerne opdatere UI her
+                /*
+                if (response.equals("[]")) {
+
+
+
+                    //pupup window - https://www.youtube.com/watch?v=e3WfylNHHC4
+                    AlertDialog.Builder dialogBox = new AlertDialog.Builder();
+                    dialogBox.setTitle("Indtast Sensor ID");
+
+                    final EditText sensorID = new EditText(ToothbrushApp.getAppContext());
+                    sensorID.setInputType(InputType.TYPE_CLASS_TEXT);
+                    dialogBox.setView(sensorID);
+
+                    dialogBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            sensorIDText =sensorID.getText().toString();
+                            if (sensorIDText.isEmpty()) {
+                                Toast.makeText(ToothbrushApp.getAppContext(), "Indtast Sensor ID", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(ToothbrushApp.getAppContext(), "Sensor ID er: " + sensorIDText, Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+                    dialogBox.show();
+                } else {
+
+                }
+
+                 */
                 parseJson(response);
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // Fejl kan ske pga. serverfejl, connectionfejl, mm, så her vil man gerne håndtere fejlene på en god måde og fortælle brugeren hvad fejlen er
                 Log.e(TAG, "Error getting data", error);
+
             }
         });
 

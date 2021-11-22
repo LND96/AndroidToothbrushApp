@@ -17,7 +17,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
+import dk.au.st7bac.toothbrushapp.Controllers.UpdateDataCtrl;
 
 import dk.au.st7bac.toothbrushapp.Model.TbStatus;
 import dk.au.st7bac.toothbrushapp.R;

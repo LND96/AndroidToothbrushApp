@@ -32,7 +32,15 @@
     <string name="settingAdvancedKey" translatable="false">settingAdvancedKey</string>
     <string name="settingSensorIdKey" translatable="false">settingSensorIdKey</string>
     <string name="settingSensorId">Tooth brush sensor id</string>
-
+    <string name="settingToothbrushTime">Toothbrush settings</string>
+    <string name="settingDaysWithoutTb">Number of days without tooth brushes before notification activates</string>
+    <string name="settingDaysWithoutTbKey" translatable="false">settingDaysWithoutTbKey</string>
+    <string name="settingMinAccpPercent">Minimum acceptable percentage of tooth brushes completed</string>
+    <string name="settingMinAccpPercentKey" translatable="false">settingMinAccpNumbTbKey</string>
+    <string name="settingTbEachDay">Ideal number of tooth brushes each day</string>
+    <string name="settingTbEachDayKey" translatable="false">settingTbEachDayKey</string>
+    <string name="settingNumIntervalDays">How many days do you want to look back on?</string>
+    <string name="settingNumIntervalDaysKey" translatable="false">settingNumIntervalDaysKey</string>
 
 
 

@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
+import dk.au.st7bac.toothbrushapp.Controllers.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Model.TbData;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
@@ -39,7 +39,6 @@ public class ApiRepo {
         this.updateDataCtrl = updateDataCtrl;
         this.sensorId = sensorId;
         this.apiSince = apiSince;
-        this.apiLimit = "1000";
     }
 
     public void setApiLimit(String apiLimit) {
@@ -71,6 +70,7 @@ public class ApiRepo {
             @Override
             public void onErrorResponse(VolleyError error) {
                 // Fejl kan ske pga. serverfejl, connectionfejl, mm, så her vil man gerne håndtere fejlene på en god måde og fortælle brugeren hvad fejlen er
+                // fejlbesked om at sensor id formentlig er forkert
                 Log.e(TAG, "Error getting data", error);
             }
         });

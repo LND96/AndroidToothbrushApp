@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataCalculator {
-    private int timeTbThreshold;
-    private final int days;
-    private final int tbEachDay;
-    private final LocalTime morningToEveningTime;
-    private final LocalTime eveningToMorningTime;
-    private final double numTbThreshold;
-    private final LocalDate lastDayOfInterval;
+    private int timeTbThreshold; // minimum time in secs that a tooth brushing should last to be accepted
+    private int days; // number of days in interval
+    private int tbEachDay; // ideal number of tooth brushes each day
+    private final LocalTime morningToEveningTime; // time of day where morning transitions to evening
+    private final LocalTime eveningToMorningTime; // time of day where evening transitions to morning
+    private double numTbThreshold; // threshold value for minimum number of tooth brushes compared to ideal number of tooth brushes
+    private final LocalDate lastDayOfInterval; // the last day of the time interval the calculations are made over
 
     private boolean[] morningAndEveningOK;
     private boolean[] morningAndEveningTimeOK;
@@ -24,7 +24,6 @@ public class DataCalculator {
 
     private int numMorningOk;
     private int numEveningOk;
-
 
     public DataCalculator(int timeTbThreshold, int days, int tbEachDay,
                           LocalTime morningToEveningTime, LocalTime eveningToMorningTime,
@@ -40,6 +39,18 @@ public class DataCalculator {
 
     public void setTimeTbThreshold(int timeTbThreshold) {
         this.timeTbThreshold = timeTbThreshold;
+    }
+
+    public void setNumTbThreshold(double numTbThreshold) {
+        this.numTbThreshold = numTbThreshold;
+    }
+
+    public void setTbEachDay (int tbEachDay) {
+        this.tbEachDay = tbEachDay;
+    }
+
+    public void setDays (int days) {
+        this.days = days;
     }
 
     public TbStatus processData(List<TbData> TbDataList)

@@ -1,14 +1,9 @@
 package dk.au.st7bac.toothbrushapp.ViewModels;
 
-import android.app.Application;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import javax.inject.Inject;
-
-import dagger.hilt.android.lifecycle.HiltViewModel;
-import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
+import dk.au.st7bac.toothbrushapp.Controllers.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Model.TbStatus;
 
 // Inspired by MAD spring 21 course: class demo "Code Demo / walkthrough : using Room (and SharedPreferences)"

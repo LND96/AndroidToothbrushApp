@@ -1,6 +1,7 @@
 sensorId=c4d1574b-d1ce-43da-84df-f54fe5e09ba9
 apiSince=20210101
-apiLimit=1000
+apiLimitFirstRun=10000
+apiLimit=100
 offset=6.0
 minMeasurementDuration=10
 maxMeasurementDuration=600
@@ -12,3 +13,4 @@ numTbThres=0.7
 timeBetweenMeasurements=10
 numIntervalDays=7
 lastDayInInterval=now
+dataProcessor=Processor1

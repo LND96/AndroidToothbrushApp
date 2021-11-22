@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import dk.au.st7bac.toothbrushapp.Constants;
-import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
+import dk.au.st7bac.toothbrushapp.Controllers.UpdateDataCtrl;
 
 
 //https://www.youtube.com/watch?v=yrpimdBRk5Q

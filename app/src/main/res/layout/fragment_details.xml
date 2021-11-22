@@ -125,7 +125,7 @@
         app:layout_constraintEnd_toStartOf="@+id/tableOverview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tableOverview"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintVertical_bias="0.87" />
 
     <TableLayout
         android:id="@+id/tableOverview"
@@ -133,7 +133,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
         android:scrollbars="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -231,7 +231,7 @@
         app:layout_constraintEnd_toStartOf="@+id/tableOverview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tableOverview"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.38" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

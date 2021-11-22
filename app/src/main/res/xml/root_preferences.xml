@@ -2,6 +2,52 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+
+    <PreferenceCategory
+        android:title="@string/settingToothbrushTime">
+
+        <ListPreference
+            android:key="@string/settingMinAccpTimeKey"
+            android:defaultValue="90"
+            android:dialogTitle="@string/settingMinAccpTime"
+            android:entries="@array/minAccpTimeEntries"
+            android:entryValues="@array/minAccpTimeValues"
+            app:useSimpleSummaryProvider="true"
+            android:title="@string/settingMinAccpTime"
+            app:singleLineTitle="false"/>
+
+        <ListPreference
+            android:key="@string/settingMinAccpPercentKey"
+            android:defaultValue="0.7"
+            android:dialogTitle="@string/settingMinAccpPercent"
+            android:entries="@array/minAccpPercentEntries"
+            android:entryValues="@array/minAccpPercentValues"
+            app:useSimpleSummaryProvider="true"
+            android:title="@string/settingMinAccpPercent"
+            app:singleLineTitle="false"/>
+
+        <ListPreference
+            android:defaultValue="2"
+            android:dialogTitle="@string/settingTbEachDay"
+            android:entries="@array/numTbEachDayEntries"
+            android:entryValues="@array/numTbEachDayValues"
+            android:key="@string/settingTbEachDayKey"
+            app:useSimpleSummaryProvider="true"
+            android:title="@string/settingTbEachDay"
+            app:singleLineTitle="false"/>
+
+        <ListPreference
+            android:defaultValue="7"
+            android:dialogTitle="@string/settingNumIntervalDays"
+            android:entries="@array/numIntervalDaysEntries"
+            android:entryValues="@array/numIntervalDaysValues"
+            android:key="@string/settingNumIntervalDaysKey"
+            app:useSimpleSummaryProvider="true"
+            android:title="@string/settingNumIntervalDays"
+            app:singleLineTitle="false"/>
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:title="@string/settingNotificationHeader"
         android:icon="@drawable/ic_baseline_notifications_24">
@@ -9,24 +55,29 @@
         <SwitchPreferenceCompat
             android:key="@string/settingEnableNotificationsKey"
             android:title="@string/settingEnableNotifications"
+            app:singleLineTitle="false"
             android:defaultValue="true"
             android:summary="@string/settingEnableNotificationsSummary"/>
 
         <ListPreference
-            android:defaultValue="90"
+            android:defaultValue="3"
             android:dependency="@string/settingEnableNotificationsKey"
-            android:dialogTitle="@string/settingMinAccpTime"
-            android:entries="@array/minAccpTimeEntries"
-            android:entryValues="@array/minAccpTimeValues"
-            android:key="@string/settingMinAccpTimeKey"
+            android:dialogTitle="@string/settingDaysWithoutTb"
+            android:entries="@array/daysBetweenTbEntries"
+            app:singleLineTitle="false"
+            android:entryValues="@array/daysBetweenTbValues"
+            android:key="@string/settingDaysWithoutTbKey"
             app:useSimpleSummaryProvider="true"
-            android:title="@string/settingMinAccpTime"/>
+            android:title="@string/settingDaysWithoutTb"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:key="@string/settingAdvancedKey"
-            android:title="@string/settingAdvanced"
-            app:initialExpandedChildrenCount="0">
+        android:key="@string/settingAdvancedKey"
+        android:title="@string/settingAdvanced"
+        android:icon="@drawable/ic_baseline_settings_24"
+        app:singleLineTitle="false"
+        app:initialExpandedChildrenCount="0">
 
         <EditTextPreference
             android:key="@string/settingSensorIdKey"

@@ -6,30 +6,21 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.preference.PreferenceManager;
 
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.util.Log;
 import android.view.MenuItem;
 
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -38,13 +29,8 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import dk.au.st7bac.toothbrushapp.Fragments.DetailsFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.HelpFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.HomeFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.SignInFragment;
-import dk.au.st7bac.toothbrushapp.Model.UpdateDataCtrl;
+import dk.au.st7bac.toothbrushapp.Controllers.SettingsCtrl;
+import dk.au.st7bac.toothbrushapp.Controllers.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
 
 // kilde til alarm manager: https://developer.android.com/training/scheduling/alarms#java
@@ -57,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
     private UpdateDataCtrl updateDataCtrl;
+    private SettingsCtrl settingsCtrl;
 
     private LinearLayout fragmentContainer;
     private LinearLayout settingsContainer;
@@ -67,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        settingsCtrl = SettingsCtrl.getInstance();
         updateDataCtrl = UpdateDataCtrl.getInstance();
 
 
@@ -92,8 +79,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int requestCode = 0;
         pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), requestCode, intent, 0);
 
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+10000,
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + 10000,
                 86400000, pendingIntent); // 86400000
+
+    }
 
     @Override
     protected void onResume() {
@@ -184,6 +173,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.fragment), drawerLayout);
     }
 
+    @Override
+    protected void onPause() {
 
-
+        super.onPause();
+    }
 }

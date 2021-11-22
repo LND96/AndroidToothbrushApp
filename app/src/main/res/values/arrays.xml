@@ -18,4 +18,68 @@
         <item>180</item>
     </string-array>
 
+    <string-array name="daysBetweenTbEntries">
+        <item>1 dag</item>
+        <item>2 dage</item>
+        <item>3 dage</item>
+        <item>5 dage</item>
+        <item>7 dage</item>
+        <item>10 dage</item>
+        <item>14 dage</item>
+    </string-array>
+
+    <string-array name="daysBetweenTbValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>7</item>
+        <item>10</item>
+        <item>14</item>
+    </string-array>
+
+    <string-array name="minAccpPercentEntries">
+        <item>50 %</item>
+        <item>60 %</item>
+        <item>70 %</item>
+        <item>80 %</item>
+        <item>90 % </item>
+        <item>100 %</item>
+    </string-array>
+
+    <string-array name="minAccpPercentValues">
+        <item>0.5</item>
+        <item>0.6</item>
+        <item>0.7</item>
+        <item>0.8</item>
+        <item>0.9</item>
+        <item>1.0</item>
+    </string-array>
+
+    <string-array name="numTbEachDayEntries">
+        <item>1 tandbørstning</item>
+        <item>2 tandbørstninger</item>
+        <item>3 tandbørstninger</item>
+    </string-array>
+
+    <string-array name="numTbEachDayValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="numIntervalDaysEntries">
+        <item>5 dage</item>
+        <item>7 dage</item>
+        <item>10 dage</item>
+        <item>14 dage</item>
+    </string-array>
+
+    <string-array name="numIntervalDaysValues">
+        <item>5</item>
+        <item>7</item>
+        <item>10</item>
+        <item>14</item>
+    </string-array>
+
 </resources>

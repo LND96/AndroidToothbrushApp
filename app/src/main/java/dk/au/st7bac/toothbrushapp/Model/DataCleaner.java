@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DataCleaner {
 
-    private int timeBetweenMeasurements;
+    private int timeBetweenMeasurements; // maximum time in minutes between two measurements for them to be counted as one
 
     public DataCleaner(int timeBetweenMeasurements) {
         this.timeBetweenMeasurements = timeBetweenMeasurements;

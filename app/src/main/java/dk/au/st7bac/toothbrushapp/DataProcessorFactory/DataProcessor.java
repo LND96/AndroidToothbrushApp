@@ -4,18 +4,18 @@ import android.content.SharedPreferences;
 
 import java.util.List;
 
-import dk.au.st7bac.toothbrushapp.Model.Settings;
+import dk.au.st7bac.toothbrushapp.Model.Configs;
 import dk.au.st7bac.toothbrushapp.Model.TbData;
 import dk.au.st7bac.toothbrushapp.Model.TbStatus;
 
 public abstract class DataProcessor {
 
-    protected DataProcessor(Settings settings)
+    protected DataProcessor(Configs settings)
     {
         createProcessElements(settings);
     }
 
-    protected abstract void createProcessElements(Settings settings);
+    protected abstract void createProcessElements(Configs settings);
 
     public abstract List<TbData> processData(List<TbData> tbDataList);
 

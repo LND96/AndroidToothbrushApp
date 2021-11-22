@@ -26,40 +26,4 @@ public class Converters {
             return date.toString();
         }
     }
-
-    @TypeConverter
-    public static LocalTime toLocalTime(String timeString) {
-        if (timeString == null) {
-            return null;
-        } else {
-            return LocalTime.parse(timeString);
-        }
-    }
-
-    @TypeConverter
-    public static String toTimeString(LocalTime time) {
-        if (time == null) {
-            return null;
-        } else {
-            return time.toString();
-        }
-    }
-
-    @TypeConverter
-    public static LocalDate toDate(String dateString) {
-        if (dateString == null) {
-            return null;
-        } else {
-            return LocalDate.parse(dateString);
-        }
-    }
-
-    @TypeConverter
-    public static String toDateString(LocalDate date) {
-        if (date == null) {
-            return null;
-        } else {
-            return date.toString();
-        }
-    }
 }

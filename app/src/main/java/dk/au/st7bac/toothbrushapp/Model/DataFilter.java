@@ -7,9 +7,9 @@ public class DataFilter {
 
     String prev_rawTelemetry_last26 = "";
     String curr_rawTelemetry_last26 = "";
-    private final double offset;
-    private final int minTime;
-    private final int maxTime;
+    private final double offset; // hardware offset
+    private final int minTime; // minimum time in secs that a measurement should last to be considered as a tooth brushing
+    private final int maxTime; // maximum time in secs that a measurement should last to be considered as a tooth brushing
 
     public DataFilter(double offset, int minTime, int maxTime) {
         this.offset = offset;

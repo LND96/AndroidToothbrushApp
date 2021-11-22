@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" >ToothbrushHelper</string>
+    <string name="app_name">ToothbrushHelper</string>
     <string name="txtDaysHeader">Toothbrushes completed the last</string>
     <string name="txtDays">days</string>
     <string name="txtTimeLastSevenDaysHeader">Average brushing time for completed toothbrushes</string>
@@ -11,12 +11,12 @@
     <string name="timeIcon">time icon</string>
     <string name="Morning">Morning</string>
     <string name="Evening">Evening</string>
-    <string name ="Home">Home</string>
-    <string name ="Detail">Details</string>
-    <string name ="Settings">Settings</string>
-    <string name ="Help">Help</string>
-    <string name ="SignOut">Sign out </string>
-    <string name ="SignIn">Sign in </string>
+    <string name="Home">Home</string>
+    <string name="Detail">Details</string>
+    <string name="Settings">Settings</string>
+    <string name="Help">Help</string>
+    <string name="SignOut">Sign out </string>
+    <string name="SignIn">Sign in </string>
     <string name="Min">min</string>
     <string name="morningEveningHeader">Number of toothbrushes morning and evening</string>
     <string name="tableHeader">Overview over tooth brushes</string>
@@ -42,12 +42,10 @@
     <string name="settingNumIntervalDays">How many days do you want to look back on?</string>
     <string name="settingNumIntervalDaysKey" translatable="false">settingNumIntervalDaysKey</string>
 
-
-
     <!--toggle the open close button of the navigation drawer-->
-    --<string name="nav_open" translatable="false">Open navigation drawer</string>
+    --
+    <string name="nav_open" translatable="false">Open navigation drawer</string>
     <string name="nav_close" translatable="false">Close navigation drawer</string>
-
 
 
 </resources>

@@ -6,29 +6,51 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceManager;
 
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import dk.au.st7bac.toothbrushapp.Login.LoginActivity;
+import dk.au.st7bac.toothbrushapp.Fragments.DetailsFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.HelpFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.HomeFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
+import dk.au.st7bac.toothbrushapp.Fragments.SignInFragment;
 import dk.au.st7bac.toothbrushapp.Controllers.SettingsCtrl;
 import dk.au.st7bac.toothbrushapp.Controllers.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
@@ -44,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private PendingIntent pendingIntent;
     private UpdateDataCtrl updateDataCtrl;
     private SettingsCtrl settingsCtrl;
+    private String sensorIDText;
 
     private LinearLayout fragmentContainer;
     private LinearLayout settingsContainer;
@@ -79,10 +102,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int requestCode = 0;
         pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), requestCode, intent, 0);
 
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + 10000,
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+10000,
                 86400000, pendingIntent); // 86400000
 
+
+
+
+        //pupup window - https://www.youtube.com/watch?v=e3WfylNHHC4
+        AlertDialog.Builder dialogBox = new AlertDialog.Builder(MainActivity.this);
+        dialogBox.setTitle("Indtast Sensor ID");
+
+        final EditText sensorID = new EditText(MainActivity.this);
+        sensorID.setInputType(InputType.TYPE_CLASS_TEXT);
+        dialogBox.setView(sensorID);
+
+        dialogBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sensorIDText =sensorID.getText().toString();
+                if (sensorIDText.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Indtast Sensor ID", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(MainActivity.this, "Sensor ID er: " + sensorIDText, Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        dialogBox.show();
+
     }
+
 
     @Override
     protected void onResume() {
@@ -149,6 +200,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.nav_Signout: {
+
+                //FirebaseAuth.getInstance().signOut();
+                //Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
                 if (isValidDestination(R.id.signinFragment)) {
                     Navigation.findNavController(this, R.id.fragment).navigate(R.id.signinFragment);
                 }

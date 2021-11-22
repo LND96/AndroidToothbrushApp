@@ -25,20 +25,16 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-//import com.google.firebase.auth.FirebaseAuth;
 
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -58,20 +54,16 @@ import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
 // kilde til alarm manager: https://developer.android.com/training/scheduling/alarms#java
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
     public DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    public ActionBarDrawerToggle actionBarDrawerToggle;
     private AlarmManager alarmMgr;
     private PendingIntent pendingIntent;
     private UpdateDataCtrl updateDataCtrl;
     private SettingsCtrl settingsCtrl;
     private String sensorIDText;
-
-    private LinearLayout fragmentContainer;
-    private LinearLayout settingsContainer;
-
     private SharedPreferences sharedPreferences;
+    private Object View;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -79,15 +71,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
-
-        if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
-            Log.d("Main", "Test " + sharedPreferences.getString(Constants.SETTING_TB_EACH_DAY_KEY, ""));
-        }
-
         settingsCtrl = SettingsCtrl.getInstance();
         updateDataCtrl = UpdateDataCtrl.getInstance();
-
 
         drawerLayout = findViewById(R.id.my_drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
@@ -95,11 +80,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //bottom navigation
         bottomNavigation();
 
-
         //drawer navigation
         drawerNavigation();
 
         //alarm manager for update tb data on specific time
+        alarmManager();
+
+        //Do this the first time the app is installed
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
+        if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
+
+            DialogBoxSensorID();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateDataCtrl.initUpdateTbData(Constants.FROM_MAIN_ACTIVITY);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        sharedPreferences.edit().putBoolean(Constants.FIRST_RUN, false).apply();
+    }
+
+    private void alarmManager() {
+
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
         calendar.setTimeInMillis(System.currentTimeMillis());
         //calendar.set(Calendar.HOUR_OF_DAY, 19);
@@ -112,44 +122,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+10000,
                 86400000, pendingIntent); // 86400000
+    }
 
-
-
+    private void DialogBoxSensorID() {
 
         //pupup window - https://www.youtube.com/watch?v=e3WfylNHHC4
-        AlertDialog.Builder dialogBox = new AlertDialog.Builder(MainActivity.this);
-        dialogBox.setTitle("Indtast Sensor ID"); // hardcoded tekst
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(ToothbrushApp.getAppContext().getString(R.string.DialogSensorID));
 
         final EditText sensorID = new EditText(MainActivity.this);
         sensorID.setInputType(InputType.TYPE_CLASS_TEXT);
-        dialogBox.setView(sensorID);
+        builder.setView(sensorID);
 
-        dialogBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                sensorIDText = sensorID.getText().toString();
+
+                sensorIDText =sensorID.getText().toString();
                 if (sensorIDText.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Indtast Sensor ID", Toast.LENGTH_SHORT).show(); // hardcoded tekst
+                    Toast.makeText(MainActivity.this, ToothbrushApp.getAppContext().getString(R.string.DialogSensorID), Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(MainActivity.this, "Sensor ID er: " + sensorIDText, Toast.LENGTH_SHORT).show(); // hardcoded tekst
-
+                    Toast.makeText(MainActivity.this, ToothbrushApp.getAppContext().getString(R.string.DialogSensorID_2) + sensorIDText, Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
-        dialogBox.show();
+        builder.show();
 
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        updateDataCtrl.initUpdateTbData(Constants.FROM_MAIN_ACTIVITY);
-    }
 
     public void bottomNavigation()
     {
@@ -238,9 +240,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.fragment), drawerLayout);
     }
 
-    @Override
-    protected void onPause() {
-
-        super.onPause();
-    }
 }

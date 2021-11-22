@@ -41,6 +41,10 @@
     <string name="settingTbEachDayKey" translatable="false">settingTbEachDayKey</string>
     <string name="settingNumIntervalDays">How many days do you want to look back on?</string>
     <string name="settingNumIntervalDaysKey" translatable="false">settingNumIntervalDaysKey</string>
+    <string name="DialogSensorID">Enter sensor id</string>
+    <string name="DialogSensorID_2">Sensor-id is:</string>
+
+
 
     <!--toggle the open close button of the navigation drawer-->
     --

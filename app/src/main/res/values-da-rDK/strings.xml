@@ -34,6 +34,8 @@
     <string name="settingMinAccpPercent">Minimum acceptabel procentdel af tandbørstninger gennemført</string>
     <string name="settingTbEachDay">Ønsket antal tandbørstninger hver dag</string>
     <string name="settingNumIntervalDays">Hvor mange dage ønsker du at kigge tilbage på?</string>
+    <string name="DialogSensorID">Indtast sensor-id</string>
+    <string name="DialogSensorID_2">Sensor-id er:</string>
 
 
 </resources>

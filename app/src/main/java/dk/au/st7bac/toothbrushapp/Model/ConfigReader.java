@@ -35,7 +35,7 @@ public class ConfigReader {
             String morningToEveningTime = properties.getProperty("morningToEveningTime");
             String eveningToMorningTime = properties.getProperty("eveningToMorningTime");
             int timeBetweenMeasurements = Integer.parseInt(properties.getProperty("timeBetweenMeasurements"));
-            String lastDayInInterval = properties.getProperty("lastDayInInterval");
+            String lastDayInInterval = properties.getProperty("lastDayInInterval"); // bliver denne nogensinde brugt?
             String dataProcessor = properties.getProperty("dataProcessor");
 
 

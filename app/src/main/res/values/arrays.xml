@@ -23,9 +23,6 @@
         <item>2 dage</item>
         <item>3 dage</item>
         <item>5 dage</item>
-        <item>7 dage</item>
-        <item>10 dage</item>
-        <item>14 dage</item>
     </string-array>
 
     <string-array name="daysBetweenTbValues">
@@ -33,9 +30,6 @@
         <item>2</item>
         <item>3</item>
         <item>5</item>
-        <item>7</item>
-        <item>10</item>
-        <item>14</item>
     </string-array>
 
     <string-array name="minAccpPercentEntries">

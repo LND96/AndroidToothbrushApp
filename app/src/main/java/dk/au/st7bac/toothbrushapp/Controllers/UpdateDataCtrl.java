@@ -1,6 +1,7 @@
 package dk.au.st7bac.toothbrushapp.Controllers;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.LiveData;
@@ -67,9 +68,9 @@ public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChang
         executor = Executors.newSingleThreadExecutor();
         tbStatusLiveData = new MutableLiveData<>();
 
-        tbEachDay = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_TB_EACH_DAY_KEY, ""));
+        tbEachDay = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_TB_EACH_DAY_KEY, "2"));
 
-        numTbMissing = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_DAYS_WITHOUT_TB_KEY, "")) * tbEachDay;
+        numTbMissing = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_DAYS_WITHOUT_TB_KEY, "3")) * tbEachDay;
 
         notificationHelper = new NotificationHelper(ToothbrushApp.getAppContext());
 
@@ -195,9 +196,9 @@ public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChang
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(Constants.SETTING_DAYS_WITHOUT_TB_KEY)) {
-            numTbMissing = Integer.parseInt(sharedPreferences.getString(key, "")) * tbEachDay;
+            numTbMissing = Integer.parseInt(sharedPreferences.getString(key, "3")) * tbEachDay;
         } else if (key.equals(Constants.SETTING_TB_EACH_DAY_KEY)) {
-            tbEachDay = Integer.parseInt(sharedPreferences.getString(key, ""));
+            tbEachDay = Integer.parseInt(sharedPreferences.getString(key, "2"));
         }
 
         initUpdateTbData(Constants.FROM_UPDATE_DATA_CTRL);

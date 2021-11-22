@@ -40,7 +40,7 @@ public class Configs {
         this.morningToEveningTime = LocalTime.parse(morningToEveningTime);
         this.eveningToMorningTime = LocalTime.parse(eveningToMorningTime);
         this.timeBetweenMeasurements = timeBetweenMeasurements;
-        if (lastDayInInterval.equals("now")) { // hvilke andre muligheder skal der være og hvordan skal det håndteres?
+        if (lastDayInInterval.equals("now")) { // hvilke andre muligheder skal der være og hvordan skal det håndteres? Bliver den nogensinde brugt?
             this.lastDayInInterval = LocalDate.now();
         }
         this.dataProcessor = dataProcessor;

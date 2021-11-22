@@ -47,7 +47,7 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
             dataProcessor = new Processor1(configs); // typen af processor kan også komme fra settings
         }
         updateDataCtrl = UpdateDataCtrl.getInstance();
-        apiRepo = new ApiRepo(updateDataCtrl, sharedPreferences.getString(Constants.SETTING_SENSOR_ID_KEY, ""), configs.getApiSince());
+        apiRepo = new ApiRepo(updateDataCtrl, sharedPreferences.getString(Constants.SETTING_SENSOR_ID_KEY, ""), configs.getApiSince()); // den tager default value
         if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
             apiRepo.setApiLimit(configs.getApiLimitFirstRun());
         } else {

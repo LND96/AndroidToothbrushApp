@@ -38,7 +38,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.auth.FirebaseAuth;
 
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -71,11 +71,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private LinearLayout fragmentContainer;
     private LinearLayout settingsContainer;
 
+    private SharedPreferences sharedPreferences;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
+
+        if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
+            Log.d("Main", "Test " + sharedPreferences.getString(Constants.SETTING_TB_EACH_DAY_KEY, ""));
+        }
 
         settingsCtrl = SettingsCtrl.getInstance();
         updateDataCtrl = UpdateDataCtrl.getInstance();
@@ -110,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //pupup window - https://www.youtube.com/watch?v=e3WfylNHHC4
         AlertDialog.Builder dialogBox = new AlertDialog.Builder(MainActivity.this);
-        dialogBox.setTitle("Indtast Sensor ID");
+        dialogBox.setTitle("Indtast Sensor ID"); // hardcoded tekst
 
         final EditText sensorID = new EditText(MainActivity.this);
         sensorID.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -119,12 +127,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialogBox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                sensorIDText =sensorID.getText().toString();
+                sensorIDText = sensorID.getText().toString();
                 if (sensorIDText.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Indtast Sensor ID", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Indtast Sensor ID", Toast.LENGTH_SHORT).show(); // hardcoded tekst
 
                 } else {
-                    Toast.makeText(MainActivity.this, "Sensor ID er: " + sensorIDText, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Sensor ID er: " + sensorIDText, Toast.LENGTH_SHORT).show(); // hardcoded tekst
+
                 }
 
             }

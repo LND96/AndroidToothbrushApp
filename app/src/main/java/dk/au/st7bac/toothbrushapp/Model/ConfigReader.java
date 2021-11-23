@@ -15,7 +15,7 @@ public class ConfigReader {
 
     private static final String TAG = "FileReader";
 
-    public Configs getConfigSettings(Context context, SharedPreferences sharedPreferences) {
+    public Configs getConfigSettings(Context context) {
 
         Resources resources = context.getResources();
 
@@ -24,8 +24,6 @@ public class ConfigReader {
             Properties properties = new Properties();
             properties.load(rawResource);
 
-            // skal vi have defaultværdier?
-            // hvad hvis der er bogstaver hvor vi vil have tal mm.?
             String apiSince = properties.getProperty("apiSince");
             String apiLimitFirstRun = properties.getProperty("apiLimitFirstRun");
             String apiLimit = properties.getProperty("apiLimit");
@@ -35,13 +33,19 @@ public class ConfigReader {
             String morningToEveningTime = properties.getProperty("morningToEveningTime");
             String eveningToMorningTime = properties.getProperty("eveningToMorningTime");
             int timeBetweenMeasurements = Integer.parseInt(properties.getProperty("timeBetweenMeasurements"));
-            String lastDayInInterval = properties.getProperty("lastDayInInterval"); // bliver denne nogensinde brugt?
+            String lastDayInInterval = properties.getProperty("lastDayInInterval");
             String dataProcessor = properties.getProperty("dataProcessor");
-
+            int tbEachDay = Integer.parseInt(properties.getProperty("tbEachDay"));
+            double numTbThres = Double.parseDouble(properties.getProperty("numTbThres"));
+            int numIntervalDays = Integer.parseInt(properties.getProperty("numIntervalDays"));
+            int minAccpTbTime = Integer.parseInt(properties.getProperty("minAccpTbTime"));
+            int daysWithoutTb = Integer.parseInt(properties.getProperty("daysWithoutTb"));
+            String sensorId = properties.getProperty("sensorId");
 
             return new Configs(apiSince, apiLimitFirstRun, apiLimit, offset,
                     minMeasurementDuration, maxMeasurementDuration, morningToEveningTime,
-                    eveningToMorningTime, timeBetweenMeasurements, lastDayInInterval, dataProcessor);
+                    eveningToMorningTime, timeBetweenMeasurements, lastDayInInterval, dataProcessor,
+                    tbEachDay, numTbThres, numIntervalDays, minAccpTbTime, daysWithoutTb, sensorId);
 
         } catch (Resources.NotFoundException e) {
             Log.e(TAG, "Unable to find the config file: " + e.getMessage());

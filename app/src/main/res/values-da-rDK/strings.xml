@@ -22,7 +22,7 @@
     <string name="morningEveningHeader">Antal tandbørstninger fordelt på morgen og aften</string>
     <string name="tableHeader">Overblik over tandbørstninger</string>
     <string name="NotificationHeader">Manglende tandbørstning</string>
-    <string name="NotificationText">Tandbørstning er udeblevet i 3 dage i streg</string>
+    <string name="NotificationText">Tandbørstning er udeblevet i 3 dage i træk</string>
     <string name="settingNotificationHeader">Notifikation</string>
     <string name="settingEnableNotifications">Tillad underretninger</string>
     <string name="settingMinAccpTime">Minimum acceptabel varighed for en tandbørstning</string>
@@ -36,6 +36,28 @@
     <string name="settingNumIntervalDays">Hvor mange dage ønsker du at kigge tilbage på?</string>
     <string name="DialogSensorID">Indtast sensor-id</string>
     <string name="DialogSensorID_2">Sensor-id er:</string>
+    <string name="entry30sec">30 sek</string>
+    <string name="entry1min">1 min</string>
+    <string name="entry1min30sec">1 min 30 sek</string>
+    <string name="entry2min">2 min</string>
+    <string name="entry2min30sec">2 min 30 sek</string>
+    <string name="entry3min">3 min</string>
+    <string name="entry1day">1 dag</string>
+    <string name="entry2days">2 dage</string>
+    <string name="entry3days">3 dage</string>
+    <string name="entry5days">5 dage</string>
+    <string name="entry7days">7 dage</string>
+    <string name="entry10days">10 dage</string>
+    <string name="entry14days">14 dage</string>
+    <string name="entry1Tb">1 tandbørstning</string>
+    <string name="entry2Tb">2 tandbørstninger</string>
+    <string name="entry3Tb">3 tandbørstninger</string>
+    <string name="entry50per">50 %</string>
+    <string name="entry60per">60 %</string>
+    <string name="entry70per">70 %</string>
+    <string name="entry80per">80 %</string>
+    <string name="entry90per">90 %</string>
+    <string name="entry100per">100 %</string>
 
 
 </resources>

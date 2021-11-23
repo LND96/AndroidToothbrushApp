@@ -80,7 +80,7 @@
         <EditTextPreference
             android:key="@string/settingSensorIdKey"
             android:title="@string/settingSensorId"
-            android:defaultValue="c4d1574b-d1ce-43da-84df-f54fe5e09ba9"
+            android:defaultValue="04939eaf-212f-4de1-96bd-6eca235096df"
             app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>

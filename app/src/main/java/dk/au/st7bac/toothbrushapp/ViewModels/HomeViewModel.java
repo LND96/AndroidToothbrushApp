@@ -19,6 +19,7 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<TbStatus> getTbStatusData()
     {
+
         return updateDataCtrl.getTbStatusLiveData();
     }
 

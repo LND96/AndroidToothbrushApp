@@ -22,7 +22,6 @@ import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static SettingsCtrl settingsCtrl;
-
     private SharedPreferences sharedPreferences;
     private Configs configs;
     private DataProcessor dataProcessor;
@@ -42,22 +41,42 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
     private SettingsCtrl() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
         ConfigReader reader = new ConfigReader();
-        configs = reader.getConfigSettings(ToothbrushApp.getAppContext(), sharedPreferences);
-        if (configs.getDataProcessor().equals("Processor1")) { // lav det til en switch. Tag højde for små bogstaver. default processor.
-            dataProcessor = new Processor1(configs); // typen af processor kan også komme fra settings
-        }
-        updateDataCtrl = UpdateDataCtrl.getInstance();
-        apiRepo = new ApiRepo(updateDataCtrl, sharedPreferences.getString(Constants.SETTING_SENSOR_ID_KEY, ""), configs.getApiSince()); // den tager default value
+        configs = reader.getConfigSettings(ToothbrushApp.getAppContext());
+
+
+        String apiLimit;
+        String sensorId;
+        String apiSince = configs.getApiSince();
+        int daysWithoutTb;
+        int tbEachDay;
+
         if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
-            apiRepo.setApiLimit(configs.getApiLimitFirstRun());
+            apiLimit = configs.getApiLimitFirstRun();
+            sensorId = configs.getSensorId();
+            daysWithoutTb = configs.getDaysWithoutTb();
+            tbEachDay = configs.getTbEachDay();
         } else {
-            apiRepo.setApiLimit(configs.getApiLimit());
+            apiLimit = configs.getApiLimit();
+            sensorId = sharedPreferences.getString(Constants.SETTING_SENSOR_ID_KEY, "");
+            daysWithoutTb = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_DAYS_WITHOUT_TB_KEY, ""));
+            tbEachDay = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_TB_EACH_DAY_KEY, ""));
         }
+
+        switch (configs.getDataProcessor().toLowerCase()) {
+            case "processor1":{
+                dataProcessor = new Processor1(configs);
+                break;
+            }
+        }
+
+        updateDataCtrl = UpdateDataCtrl.getInstance();
+        apiRepo = new ApiRepo(updateDataCtrl, sensorId, apiSince, apiLimit); // den tager default value
+        //apiRepo.setApiLimit(apiLimit);
         updateDataCtrl.setDataProcessor(dataProcessor);
         updateDataCtrl.setApiRepo(apiRepo);
+        updateDataCtrl.setNumTbMissing(daysWithoutTb * tbEachDay);
         findEpochInterval();
         updateDataCtrl.setEpochLimits(lowerEpochIntervalLimit, higherEpochIntervalLimit);
-
 
         // register on shared preference change listener
         sharedPreferences.registerOnSharedPreferenceChangeListener(this); // skal den unregisteres igen?
@@ -70,7 +89,8 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
         // find utc +0 zone id
         ZoneId utcZoneId = ZoneId.of("Greenwich");
 
-        int numIntervalDays = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_NUM_INTERVAL_DAYS_KEY, "7"));
+        // int numIntervalDays = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_NUM_INTERVAL_DAYS_KEY, "7"));
+        int numIntervalDays = configs.getNumIntervalDays();
 
         // find first day in interval at midnight
         ZonedDateTime firstDateTimeInterval = configs.getLastDayInInterval().minusDays(numIntervalDays).atStartOfDay().atZone(utcZoneId);
@@ -97,7 +117,12 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
                 key.equals(Constants.SETTING_NUM_INTERVAL_DAYS_KEY)) {
             dataProcessor.updateSettings(sharedPreferences, key);
             updateDataCtrl.setDataProcessor(dataProcessor);
+        } else if (key.equals(Constants.SETTING_TB_EACH_DAY_KEY) || key.equals(Constants.SETTING_DAYS_WITHOUT_TB_KEY)) {
+            int tbEachDay = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_TB_EACH_DAY_KEY, ""));
+            int numTbMissing = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_DAYS_WITHOUT_TB_KEY, "")) * tbEachDay;
+            updateDataCtrl.setNumTbMissing(numTbMissing);
         }
+
         updateDataCtrl.initUpdateTbData(Constants.FROM_SETTINGS_CTRL);
     }
 }

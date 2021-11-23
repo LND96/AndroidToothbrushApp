@@ -88,7 +88,9 @@ public class DataCalculator {
 
 
         //save all results in tbStatus object
-        return new TbStatus(dateStrings, morningAndEveningOK, morningAndEveningTimeOK, numTbCompleted, totalNumberTb, avgTbTime, isNumTbOK, isAVgTimeTbOK, numEveningOk, numMorningOk);
+        return new TbStatus(dateStrings, morningAndEveningOK, morningAndEveningTimeOK,
+                numTbCompleted, totalNumberTb, avgTbTime, isNumTbOK, isAVgTimeTbOK, numEveningOk,
+                numMorningOk, days);
 
     }
 

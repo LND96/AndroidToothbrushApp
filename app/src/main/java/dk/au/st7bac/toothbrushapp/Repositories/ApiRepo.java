@@ -43,10 +43,11 @@ public class ApiRepo {
 
     private String sensorIDText;
 
-    public ApiRepo(UpdateDataCtrl updateDataCtrl, String sensorId, String apiSince) {
+    public ApiRepo(UpdateDataCtrl updateDataCtrl, String sensorId, String apiSince, String apiLimit) {
         this.updateDataCtrl = updateDataCtrl;
         this.sensorId = sensorId;
         this.apiSince = apiSince;
+        this.apiLimit = apiLimit;
     }
 
     public void setApiLimit(String apiLimit) {

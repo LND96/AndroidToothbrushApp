@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">ToothbrushHelper</string>
-    <string name="txtDaysHeader">Toothbrushes completed the last</string>
+    <string name="txtDaysHeader">Toothbrushings completed the last</string>
     <string name="txtDays">days</string>
     <string name="txtTimeLastSevenDaysHeader">Average brushing time for completed toothbrushes</string>
     <string name="OutOf">out of</string>
-    <string name="toothBrushesCompleted">Toothbrushes completed:</string>
+    <string name="toothBrushesCompleted">Toothbrushings completed:</string>
     <string name="AvgToothbrushTime">Average toothbrushing time:</string>
     <string name="Sec">sec</string>
-    <string name="toothbrushIcon">tooth brush icon</string>
+    <string name="toothbrushIcon">toothbrush icon</string>
     <string name="timeIcon">time icon</string>
     <string name="Morning">Morning</string>
     <string name="Evening">Evening</string>
@@ -18,31 +18,53 @@
     <string name="SignOut">Sign out </string>
     <string name="SignIn">Sign in </string>
     <string name="Min">min</string>
-    <string name="morningEveningHeader">Number of toothbrushes morning and evening</string>
-    <string name="tableHeader">Overview over tooth brushes</string>
-    <string name="NotificationHeader">Toothbrushing is missing</string>
-    <string name="NotificationText">toothbrushing has been missed for 3 days in a row </string>
+    <string name="morningEveningHeader">Number of toothbrushings morning and evening</string>
+    <string name="tableHeader">Overview over toothbrushings</string>
+    <string name="NotificationHeader">Toothbrushing missing</string>
+    <string name="NotificationText">Toothbrushings have been missed for 3 days in a row</string>
     <string name="settingNotificationHeader">Notification</string>
     <string name="settingEnableNotificationsKey" translatable="false">settingEnableNotificationsKey</string>
     <string name="settingEnableNotifications">Enable notification</string>
     <string name="settingMinAccpTimeKey" translatable="false">settingMinAccpTimeKey</string>
-    <string name="settingMinAccpTime">Minimum acceptable toothbrush time</string>
-    <string name="settingEnableNotificationsSummary">Enable to receive notifications regarding missing tooth brushes</string>
+    <string name="settingMinAccpTime">Minimum acceptable toothbrushing time</string>
+    <string name="settingEnableNotificationsSummary">Enable to receive notifications regarding missing toothbrushings</string>
     <string name="settingAdvanced">Advanced</string>
     <string name="settingAdvancedKey" translatable="false">settingAdvancedKey</string>
     <string name="settingSensorIdKey" translatable="false">settingSensorIdKey</string>
-    <string name="settingSensorId">Tooth brush sensor id</string>
+    <string name="settingSensorId">Toothbrush sensor id</string>
     <string name="settingToothbrushTime">Toothbrush settings</string>
-    <string name="settingDaysWithoutTb">Number of days without tooth brushes before notification activates</string>
+    <string name="settingDaysWithoutTb">Number of days without toothbrushings before notification activates</string>
     <string name="settingDaysWithoutTbKey" translatable="false">settingDaysWithoutTbKey</string>
-    <string name="settingMinAccpPercent">Minimum acceptable percentage of tooth brushes completed</string>
+    <string name="settingMinAccpPercent">Minimum acceptable percentage of toothbrushings completed</string>
     <string name="settingMinAccpPercentKey" translatable="false">settingMinAccpNumbTbKey</string>
-    <string name="settingTbEachDay">Ideal number of tooth brushes each day</string>
+    <string name="settingTbEachDay">Ideal number of toothbrushings each day</string>
     <string name="settingTbEachDayKey" translatable="false">settingTbEachDayKey</string>
     <string name="settingNumIntervalDays">How many days do you want to look back on?</string>
     <string name="settingNumIntervalDaysKey" translatable="false">settingNumIntervalDaysKey</string>
     <string name="DialogSensorID">Enter sensor id</string>
     <string name="DialogSensorID_2">Sensor-id is:</string>
+    <string name="entry30sec">30 sec</string>
+    <string name="entry1min">1 min</string>
+    <string name="entry1min30sec">1 min 30 sec</string>
+    <string name="entry2min">2 min</string>
+    <string name="entry2min30sec">2 min 30 sec</string>
+    <string name="entry3min">3 min</string>
+    <string name="entry1day">1 day</string>
+    <string name="entry2days">2 days</string>
+    <string name="entry3days">3 days</string>
+    <string name="entry5days">5 days</string>
+    <string name="entry7days">7 days</string>
+    <string name="entry10days">10 days</string>
+    <string name="entry14days">14 days</string>
+    <string name="entry1Tb">1 brushing</string>
+    <string name="entry2Tb">2 brushings</string>
+    <string name="entry3Tb">3 brushings</string>
+    <string name="entry50per">50 %</string>
+    <string name="entry60per">60 %</string>
+    <string name="entry70per">70 %</string>
+    <string name="entry80per">80 %</string>
+    <string name="entry90per">90 %</string>
+    <string name="entry100per">100 %</string>
 
 
 

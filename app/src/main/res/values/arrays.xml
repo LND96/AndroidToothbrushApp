@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="minAccpTimeEntries">
-        <item>30 sek</item>
-        <item>1 min</item>
-        <item>1 min 30 sek</item>
-        <item>2 min</item>
-        <item>2 min 30 sek</item>
-        <item>3 min</item>
+        <item>@string/entry30sec</item>
+        <item>@string/entry1min</item>
+        <item>@string/entry1min30sec</item>
+        <item>@string/entry2min</item>
+        <item>@string/entry2min30sec</item>
+        <item>@string/entry3min</item>
     </string-array>
 
     <string-array name="minAccpTimeValues">
@@ -19,10 +19,10 @@
     </string-array>
 
     <string-array name="daysBetweenTbEntries">
-        <item>1 dag</item>
-        <item>2 dage</item>
-        <item>3 dage</item>
-        <item>5 dage</item>
+        <item>@string/entry1day</item>
+        <item>@string/entry2days</item>
+        <item>@string/entry3days</item>
+        <item>@string/entry5days</item>
     </string-array>
 
     <string-array name="daysBetweenTbValues">
@@ -33,12 +33,12 @@
     </string-array>
 
     <string-array name="minAccpPercentEntries">
-        <item>50 %</item>
-        <item>60 %</item>
-        <item>70 %</item>
-        <item>80 %</item>
-        <item>90 % </item>
-        <item>100 %</item>
+        <item>@string/entry50per</item>
+        <item>@string/entry60per</item>
+        <item>@string/entry70per</item>
+        <item>@string/entry80per</item>
+        <item>@string/entry90per</item>
+        <item>@string/entry100per</item>
     </string-array>
 
     <string-array name="minAccpPercentValues">
@@ -51,22 +51,18 @@
     </string-array>
 
     <string-array name="numTbEachDayEntries">
-        <item>1 tandbørstning</item>
-        <item>2 tandbørstninger</item>
-        <item>3 tandbørstninger</item>
+        <item>@string/entry2Tb</item>
     </string-array>
 
     <string-array name="numTbEachDayValues">
-        <item>1</item>
         <item>2</item>
-        <item>3</item>
     </string-array>
 
     <string-array name="numIntervalDaysEntries">
-        <item>5 dage</item>
-        <item>7 dage</item>
-        <item>10 dage</item>
-        <item>14 dage</item>
+        <item>@string/entry5days</item>
+        <item>@string/entry7days</item>
+        <item>@string/entry10days</item>
+        <item>@string/entry14days</item>
     </string-array>
 
     <string-array name="numIntervalDaysValues">

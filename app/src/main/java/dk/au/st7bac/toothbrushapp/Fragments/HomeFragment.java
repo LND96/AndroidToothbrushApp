@@ -36,6 +36,7 @@ public class HomeFragment extends Fragment {
     private int avgTbTime;
     private boolean isAvgNumTbOk;
     private boolean isAvgTimeOk;
+    private int numIntervalDays;
 
     // view model
     private HomeViewModel vm;
@@ -68,6 +69,7 @@ public class HomeFragment extends Fragment {
                 avgTbTime = tbStatus.getAvgTbTime();
                 isAvgNumTbOk = tbStatus.isAvgNumTbOk();
                 isAvgTimeOk = tbStatus.isAvgTimeOk();
+                numIntervalDays = tbStatus.getNumIntervalDays();
 
                 updateUI(view);
             }
@@ -89,7 +91,7 @@ public class HomeFragment extends Fragment {
     // updates UI with data
     private void updateUI(View view) { // denne må ikke kaldes før setupUI - hvordan tager vi højde for dette? Evt. med try catch rundt om i stedet
 
-        txtDays.setText(getString(R.string.txtDaysHeader) + " "+ (String.valueOf(totalNumTb/2) + " "+getString(R.string.txtDays)));
+        txtDays.setText(getString(R.string.txtDaysHeader) + " " + (String.valueOf(numIntervalDays) + " " + getString(R.string.txtDays)));
 
         // update text views
         txtTotalNumberToothbrushes.setText(String.valueOf(totalNumTb));

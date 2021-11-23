@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -89,9 +90,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Do this the first time the app is installed
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
         if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
-
             DialogBoxSensorID();
         }
+
     }
 
     @Override
@@ -103,9 +104,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onPause() {
-        super.onPause();
-
         sharedPreferences.edit().putBoolean(Constants.FIRST_RUN, false).apply();
+        super.onPause();
     }
 
     private void alarmManager() {
@@ -144,12 +144,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 } else {
                     Toast.makeText(MainActivity.this, ToothbrushApp.getAppContext().getString(R.string.DialogSensorID_2) + sensorIDText, Toast.LENGTH_SHORT).show();
+                    //SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    //editor.putString(Constants.SETTING_SENSOR_ID_KEY, sensorIDText);
+
+                    //editor.apply();
                 }
             }
         });
 
         builder.show();
-
     }
 
 
@@ -239,5 +243,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.fragment), drawerLayout);
     }
+
+
+
 
 }

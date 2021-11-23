@@ -11,10 +11,11 @@ public class TbStatus {
     private boolean isAvgTimeOk;
     private int numEveningOk;
     private int numMorningOk;
+    private int numIntervalDays;
 
     public TbStatus(String[] headerStrings, boolean[] isTbDone, boolean[] isTimeOk,
                     int numTbCompleted, int totalNumTb, int avgTbTime, boolean isAvgNumTbOk,
-                    boolean isAvgTimeOk, int numEveningOk, int numMorningOk) {
+                    boolean isAvgTimeOk, int numEveningOk, int numMorningOk, int numIntervalDays) {
         this.headerStrings = headerStrings;
         this.isTbDone = isTbDone;
         this.isTimeOk = isTimeOk;
@@ -25,6 +26,7 @@ public class TbStatus {
         this.isAvgTimeOk = isAvgTimeOk;
         this.numEveningOk = numEveningOk;
         this.numMorningOk = numMorningOk;
+        this.numIntervalDays = numIntervalDays;
     }
 
     public String[] getHeaderStrings() {
@@ -105,5 +107,13 @@ public class TbStatus {
 
     public void setNumMorningOk(int numMorningOk) {
         this.numMorningOk = numMorningOk;
+    }
+
+    public int getNumIntervalDays() {
+        return numIntervalDays;
+    }
+
+    public void setNumIntervalDays(int numIntervalDays) {
+        this.numIntervalDays = numIntervalDays;
     }
 }

@@ -30,16 +30,28 @@ public class Processor1 extends DataProcessor {
     @Override
     protected void createProcessElements(Configs configs) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
-        int minAccpTbTime = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_MIN_ACCP_TIME_KEY, "90"));
-        int numIntervalDays = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_NUM_INTERVAL_DAYS_KEY, "2"));
-        int tbEachDay = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_TB_EACH_DAY_KEY, "2"));
-        double numTbThres = Double.parseDouble(sharedPreferences.getString(Constants.SETTING_MIN_ACCP_PERCENT_KEY, "0.7"));
+        int minAccpTbTime;
+        int numIntervalDays;
+        int tbEachDay;
+        double numTbThres;
+
+        if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
+            minAccpTbTime = configs.getMinAccpTbTime();
+            numIntervalDays = configs.getNumIntervalDays();
+            tbEachDay = configs.getTbEachDay();
+            numTbThres = configs.getNumTbThres();
+        } else {
+            minAccpTbTime = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_MIN_ACCP_TIME_KEY, ""));
+            numIntervalDays = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_NUM_INTERVAL_DAYS_KEY, ""));
+            tbEachDay = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_TB_EACH_DAY_KEY, ""));
+            numTbThres = Double.parseDouble(sharedPreferences.getString(Constants.SETTING_MIN_ACCP_PERCENT_KEY, ""));
+        }
 
         dataFilter = new DataFilter(configs.getOffset(), configs.getMinMeasurementDuration(),
                 configs.getMaxMeasurementDuration());
         dataCleaner = new DataCleaner(configs.getTimeBetweenMeasurements());
-        dataCalculator = new DataCalculator(minAccpTbTime, numIntervalDays, tbEachDay,
-                configs.getMorningToEveningTime(), configs.getEveningToMorningTime(),
+        dataCalculator = new DataCalculator(minAccpTbTime, numIntervalDays,
+                tbEachDay, configs.getMorningToEveningTime(), configs.getEveningToMorningTime(),
                 numTbThres, configs.getLastDayInInterval());
     }
 
@@ -60,8 +72,7 @@ public class Processor1 extends DataProcessor {
         if (key.equals(Constants.SETTING_MIN_ACCP_TIME_KEY)) {
             dataCalculator.setTimeTbThreshold(Integer.parseInt(sharedPreferences.getString(key, "")));
         } else if (key.equals(Constants.SETTING_MIN_ACCP_PERCENT_KEY)) {
-            double newSetting = Double.parseDouble(sharedPreferences.getString(key, ""));
-            dataCalculator.setNumTbThreshold(newSetting);
+            dataCalculator.setNumTbThreshold(Double.parseDouble(sharedPreferences.getString(key, "")));
         } else if (key.equals(Constants.SETTING_TB_EACH_DAY_KEY)) {
             dataCalculator.setTbEachDay(Integer.parseInt(sharedPreferences.getString(key, "")));
         } else if (key.equals(Constants.SETTING_NUM_INTERVAL_DAYS_KEY)) {

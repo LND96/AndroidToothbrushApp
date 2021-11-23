@@ -68,10 +68,6 @@ public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChang
         executor = Executors.newSingleThreadExecutor();
         tbStatusLiveData = new MutableLiveData<>();
 
-        tbEachDay = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_TB_EACH_DAY_KEY, "2"));
-
-        numTbMissing = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_DAYS_WITHOUT_TB_KEY, "3")) * tbEachDay;
-
         notificationHelper = new NotificationHelper(ToothbrushApp.getAppContext());
 
         // register on shared preference change listener
@@ -86,9 +82,9 @@ public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChang
         this.apiRepo = apiRepo;
     }
 
-    //public void setApiRepoSettings(String apiSensorId) {
-    //    apiRepo.setApiSensorId(apiSensorId);
-    //}
+    public void setNumTbMissing(int numTbMissing) {
+        this.numTbMissing = numTbMissing;
+    }
 
     public void setEpochLimits(long lowerEpochIntervalLimit, long higherEpochIntervalLimit) {
         this.lowerEpochIntervalLimit = lowerEpochIntervalLimit;
@@ -108,12 +104,6 @@ public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChang
 
     ////// Api repo //////
     private void getApiData() {
-        //if (apiRepo == null) { // skal dette i constructoren?
-        //    String sensorID = sharedPreferences.getString(ToothbrushApp.getAppContext().getString(R.string.settingSensorIdKey), "c4d1574b-d1ce-43da-84df-f54fe5e09ba9"); // henter ikke id... defValue er et quick fix
-        //    apiRepo = new ApiRepo(this, sensorID, settings.getApiSince()); // skal sensor id osv. komme fra shared prefs eller settingsobjekt?
-        //} else {
-        //    apiRepo.setApiLimit(settings.getApiLimit());
-        //}
 
         apiRepo.getTbData();
     }
@@ -147,7 +137,7 @@ public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChang
 
         boolean notificationShouldFire = true;
         boolean[] isTimeOk =  tbStatus.getIsTimeOk();
-        for (int i = 0; i < numTbMissing; i ++) // her kan opstå en fejl hvis der kun hentes data for 7 dage men man vil have notifikationer for f.eks. 10 dages manglende tandbørstninger
+        for (int i = 0; i < numTbMissing; i ++)
         {
             if (isTimeOk[i]) {
                 notificationShouldFire = false;
@@ -193,14 +183,21 @@ public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChang
         return null;
     }
 
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        /*
         if (key.equals(Constants.SETTING_DAYS_WITHOUT_TB_KEY)) {
-            numTbMissing = Integer.parseInt(sharedPreferences.getString(key, "3")) * tbEachDay;
+            numTbMissing = Integer.parseInt(sharedPreferences.getString(key, "")) * tbEachDay;
         } else if (key.equals(Constants.SETTING_TB_EACH_DAY_KEY)) {
-            tbEachDay = Integer.parseInt(sharedPreferences.getString(key, "2"));
+            tbEachDay = Integer.parseInt(sharedPreferences.getString(key, ""));
         }
 
         initUpdateTbData(Constants.FROM_UPDATE_DATA_CTRL);
+
+         */
     }
+
+
+
 }

@@ -52,7 +52,7 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
         // if first run get settings from configuration file, else get settings from shared preferences
         if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
             apiLimit = configs.getApiLimitFirstRun();
-            sensorId = configs.getSensorId();
+            sensorId = sharedPreferences.getString(Constants.SETTING_SENSOR_ID_KEY, "");
             daysWithoutTb = configs.getDaysWithoutTb();
             tbEachDay = configs.getTbEachDay();
         } else {

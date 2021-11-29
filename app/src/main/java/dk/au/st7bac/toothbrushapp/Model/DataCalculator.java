@@ -58,7 +58,6 @@ public class DataCalculator {
         // create list for days of week
         dateStrings = new String[days];
 
-
         // create list of dates in interval
         List<LocalDate> dateList = createDateList(days);
 
@@ -86,12 +85,10 @@ public class DataCalculator {
         // calculate if average tb time is ok
         boolean isAVgTimeTbOK = isAvgTimeTbOK(avgTbTime);
 
-
         //save all results in tbStatus object
         return new TbStatus(dateStrings, morningAndEveningOK, morningAndEveningTimeOK,
                 numTbCompleted, totalNumberTb, avgTbTime, isNumTbOK, isAVgTimeTbOK, numEveningOk,
                 numMorningOk, days);
-
     }
 
     //Calculate #tb (check #true in monrningAndEveningOK)

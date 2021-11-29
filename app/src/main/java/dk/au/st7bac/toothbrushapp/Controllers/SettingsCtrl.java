@@ -1,36 +1,36 @@
+
 package dk.au.st7bac.toothbrushapp.Controllers;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-
 import androidx.preference.PreferenceManager;
-
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-
 import dk.au.st7bac.toothbrushapp.Constants;
 import dk.au.st7bac.toothbrushapp.DataProcessorFactory.DataProcessor;
 import dk.au.st7bac.toothbrushapp.DataProcessorFactory.Processor1;
 import dk.au.st7bac.toothbrushapp.Model.Configs;
 import dk.au.st7bac.toothbrushapp.Model.ConfigReader;
-import dk.au.st7bac.toothbrushapp.R;
 import dk.au.st7bac.toothbrushapp.Repositories.ApiRepo;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
 public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static SettingsCtrl settingsCtrl;
-    private SharedPreferences sharedPreferences;
-    private Configs configs;
+    private final Configs configs;
     private DataProcessor dataProcessor;
-    private UpdateDataCtrl updateDataCtrl;
-    private ApiRepo apiRepo;
+    private final UpdateDataCtrl updateDataCtrl;
+    private final ApiRepo apiRepo;
     private long lowerEpochIntervalLimit;
     private long higherEpochIntervalLimit;
+    private String apiLimit;
+    private String sensorId;
+    private String apiSince;
+    private int daysWithoutTb;
+    private int tbEachDay;
 
-    // singleton pattern
+    // public singleton constructor
     public static SettingsCtrl getInstance() {
         if (settingsCtrl == null) {
             settingsCtrl = new SettingsCtrl();
@@ -38,18 +38,18 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
         return settingsCtrl;
     }
 
+    // private constructor
     private SettingsCtrl() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
+        // get shared preferences and configurations
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(ToothbrushApp.getAppContext());
         ConfigReader reader = new ConfigReader();
         configs = reader.getConfigSettings(ToothbrushApp.getAppContext());
 
+        // Local variables
+        apiSince = configs.getApiSince();
 
-        String apiLimit;
-        String sensorId;
-        String apiSince = configs.getApiSince();
-        int daysWithoutTb;
-        int tbEachDay;
-
+        // if first run get settings from configuration file, else get settings from shared preferences
         if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
             apiLimit = configs.getApiLimitFirstRun();
             sensorId = configs.getSensorId();
@@ -58,8 +58,10 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
         } else {
             apiLimit = configs.getApiLimit();
             sensorId = sharedPreferences.getString(Constants.SETTING_SENSOR_ID_KEY, "");
-            daysWithoutTb = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_DAYS_WITHOUT_TB_KEY, ""));
-            tbEachDay = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_TB_EACH_DAY_KEY, ""));
+            daysWithoutTb = Integer.parseInt(sharedPreferences
+                    .getString(Constants.SETTING_DAYS_WITHOUT_TB_KEY, ""));
+            tbEachDay = Integer.parseInt(sharedPreferences
+                    .getString(Constants.SETTING_TB_EACH_DAY_KEY, ""));
         }
 
         switch (configs.getDataProcessor().toLowerCase()) {
@@ -69,9 +71,10 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
             }
         }
 
+        apiSince = configs.getApiSince();
+
         updateDataCtrl = UpdateDataCtrl.getInstance();
-        apiRepo = new ApiRepo(updateDataCtrl, sensorId, apiSince, apiLimit); // den tager default value
-        //apiRepo.setApiLimit(apiLimit);
+        apiRepo = new ApiRepo(updateDataCtrl, sensorId, apiSince, apiLimit);
         updateDataCtrl.setDataProcessor(dataProcessor);
         updateDataCtrl.setApiRepo(apiRepo);
         updateDataCtrl.setNumTbMissing(daysWithoutTb * tbEachDay);

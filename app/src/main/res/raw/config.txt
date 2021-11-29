@@ -1,5 +1,5 @@
 apiSince=20210101
-apiLimitFirstRun=10000
+apiLimitFirstRun=1000
 apiLimit=100
 offset=6.0
 minMeasurementDuration=10
@@ -14,4 +14,3 @@ numTbThres=0.7
 numIntervalDays=7
 minAccpTbTime=90
 daysWithoutTb=3
-sensorId=04939eaf-212f-4de1-96bd-6eca235096df

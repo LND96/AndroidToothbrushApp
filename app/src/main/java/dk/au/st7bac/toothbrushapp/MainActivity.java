@@ -52,7 +52,7 @@ import dk.au.st7bac.toothbrushapp.Controllers.SettingsCtrl;
 import dk.au.st7bac.toothbrushapp.Controllers.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
 
-// kilde til alarm manager: https://developer.android.com/training/scheduling/alarms#java
+// Inspiration for alarm manager: https://developer.android.com/training/scheduling/alarms#java
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public DrawerLayout drawerLayout;
@@ -112,8 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
         calendar.setTimeInMillis(System.currentTimeMillis());
-        //calendar.set(Calendar.HOUR_OF_DAY, 19);
-        //calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
 
         alarmMgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getApplicationContext(), AlertReceiver.class);

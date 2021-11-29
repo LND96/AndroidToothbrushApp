@@ -27,7 +27,8 @@ import dk.au.st7bac.toothbrushapp.R;
 public class HomeFragment extends Fragment {
 
     // ui widgets
-    private TextView txtNumberToothbrushesCompletedResult, txtTotalNumberToothbrushes, txtAvgMinutesResult, txtAvgSecsResult, txtDays;
+    private TextView txtNumberToothbrushesCompletedResult, txtTotalNumberToothbrushes,
+            txtAvgMinutesResult, txtAvgSecsResult, txtDays;
     private ImageView imgNumberToothbrushesResult, imgAvgTimeResult;
 
     // data
@@ -46,11 +47,10 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         // inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // set up user interface
+        // set up ui
         setupUI(view);
 
         return view;
@@ -71,14 +71,14 @@ public class HomeFragment extends Fragment {
                 isAvgTimeOk = tbStatus.isAvgTimeOk();
                 numIntervalDays = tbStatus.getNumIntervalDays();
 
-                updateUI(view);
+                updateUI();
             }
         });
     }
 
 
     private void setupUI(View view) {
-        // find UI elements
+        // find ui elements
         txtNumberToothbrushesCompletedResult = view.findViewById(R.id.txtNumberToothbrushesCompletedResult);
         txtTotalNumberToothbrushes = view.findViewById(R.id.txtTotalNumberToothbrushes);
         txtAvgMinutesResult = view.findViewById(R.id.txtAvgMinutesResult);
@@ -88,20 +88,19 @@ public class HomeFragment extends Fragment {
         txtDays = view.findViewById(R.id.txtDaysHeader);
     }
 
-    // updates UI with data
-    private void updateUI(View view) { // denne må ikke kaldes før setupUI - hvordan tager vi højde for dette? Evt. med try catch rundt om i stedet
-
-        txtDays.setText(getString(R.string.txtDaysHeader) + " " + (String.valueOf(numIntervalDays) + " " + getString(R.string.txtDays)));
-
-        // update text views
-        txtTotalNumberToothbrushes.setText(String.valueOf(totalNumTb));
-        txtNumberToothbrushesCompletedResult.setText(String.valueOf(numTbCompleted));
-        // https://www.codegrepper.com/code-examples/java/java+seconds+to+hours+minutes+seconds
+    // updates ui with data
+    private void updateUI() {
+        // convert secs to mins and secs
+        // (inspiration: https://www.codegrepper.com/code-examples/java/java+seconds+to+hours+minutes+seconds)
         int sec = avgTbTime % 60;
         int min = (avgTbTime / 60) % 60;
+
+        // update text views
+        txtDays.setText(getString(R.string.txtDaysHeader) + " " + numIntervalDays + " " + getString(R.string.txtDays));
+        txtTotalNumberToothbrushes.setText(String.valueOf(totalNumTb));
+        txtNumberToothbrushesCompletedResult.setText(String.valueOf(numTbCompleted));
         txtAvgMinutesResult.setText(String.valueOf(min));
         txtAvgSecsResult.setText(String.valueOf(sec));
-
 
         // update images
         if (isAvgNumTbOk){

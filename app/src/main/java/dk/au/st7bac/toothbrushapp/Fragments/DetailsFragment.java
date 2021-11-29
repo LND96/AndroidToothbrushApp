@@ -13,11 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import dk.au.st7bac.toothbrushapp.Controllers.UpdateDataCtrl;
 
 import dk.au.st7bac.toothbrushapp.Model.TbStatus;
 import dk.au.st7bac.toothbrushapp.R;
@@ -28,11 +25,13 @@ public class DetailsFragment extends Fragment {
     // ui widgets
     private TextView txtMorningTbCompleted, txtEveningTbCompleted, txtTotalNumMorning, txtTotalNumEvening;
     private TableRow rowHeader, rowMorningBrush, rowMorningTime, rowEveningBrush, rowEveningTime;
-    private TableLayout tableOverview;
 
-
-    private int imgPadding = 15;
-    private int iconPadding = 3;
+    // variables
+    private final int imgPadding = 15;
+    private final int iconPadding = 3;
+    private final int tbIconHeight = 80;
+    private final int timeIconHeight = 60;
+    private final int okIconHeight = 80;
 
     // data
     private String[] headerStrings;
@@ -45,22 +44,18 @@ public class DetailsFragment extends Fragment {
     // view model
     private HomeViewModel vm;
 
-
-    private UpdateDataCtrl updateDataCtrl;
-
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         // inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_details, container, false);
 
-        updateDataCtrl = UpdateDataCtrl.getInstance();
+        // set up ui
+        setupUI(view);
 
         return view;
-
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -77,47 +72,40 @@ public class DetailsFragment extends Fragment {
                 numEvening = tbStatus.getNumEveningOk();
                 totalNumTb = tbStatus.getTotalNumTb();
 
-                updateUI(view);
+                updateUI();
             }
         });
     }
 
-
-    // updates UI with data
-    private void updateUI(View view) { // denne må ikke kaldes før setupUI - hvordan tager vi højde for dette? Evt. med try catch rundt om i stedet
-
-        // update table
-        updateTable(view);
-
-        //update morning and evening view
-        updateMorningEvening(view);
-    }
-
-    private void updateMorningEvening(View view) {
+    private void setupUI(View view) {
+        // find ui elements
         txtTotalNumMorning = view.findViewById(R.id.txtNumMorningTb);
         txtTotalNumEvening = view.findViewById(R.id.txtNumEveningTb);
         txtMorningTbCompleted = view.findViewById(R.id.txtNumMorningTbCompleted);
         txtEveningTbCompleted = view.findViewById(R.id.txtNumEveningTbCompleted);
-
-        // update text views
-        txtTotalNumMorning.setText(String.valueOf(totalNumTb/2));
-        txtMorningTbCompleted.setText(String.valueOf(numMorning));
-
-        txtTotalNumEvening.setText(String.valueOf(totalNumTb/2));
-        txtEveningTbCompleted.setText(String.valueOf(numEvening));
-
-
-    }
-
-
-    // adds data to table
-    private void updateTable(View view) {
         rowHeader = view.findViewById(R.id.rowHeader);
         rowMorningBrush = view.findViewById(R.id.rowMorningBrush);
         rowMorningTime = view.findViewById(R.id.rowMorningTime);
         rowEveningBrush = view.findViewById(R.id.rowEveningBrush);
         rowEveningTime = view.findViewById(R.id.rowEveningTime);
+    }
 
+    // updates UI with data
+    private void updateUI() {
+        updateMorningEveningTexts();
+        updateTable();
+    }
+
+    // updates ui elements regarding morning and evening tb status
+    private void updateMorningEveningTexts() {
+        txtTotalNumMorning.setText(String.valueOf(totalNumTb/2));
+        txtMorningTbCompleted.setText(String.valueOf(numMorning));
+        txtTotalNumEvening.setText(String.valueOf(totalNumTb/2));
+        txtEveningTbCompleted.setText(String.valueOf(numEvening));
+    }
+
+    // adds data to table
+    private void updateTable() {
         // remove previous views from rows
         rowHeader.removeAllViews();
         rowMorningBrush.removeAllViews();
@@ -125,40 +113,45 @@ public class DetailsFragment extends Fragment {
         rowEveningBrush.removeAllViews();
         rowEveningTime.removeAllViews();
 
+        // add icons to first column in each row
         addImageToRow(rowHeader, R.drawable.empty_icon, 20, iconPadding);
-        addImageToRow(rowMorningBrush, R.drawable.toothbrush_icon, 80, iconPadding);
-        addImageToRow(rowMorningTime, R.drawable.time_icon, 60, iconPadding);
-        addImageToRow(rowEveningBrush, R.drawable.toothbrush_icon, 80, iconPadding);
-        addImageToRow(rowEveningTime, R.drawable.time_icon, 60, iconPadding);
+        addImageToRow(rowMorningBrush, R.drawable.toothbrush_icon, tbIconHeight, iconPadding);
+        addImageToRow(rowMorningTime, R.drawable.time_icon, timeIconHeight, iconPadding);
+        addImageToRow(rowEveningBrush, R.drawable.toothbrush_icon, tbIconHeight, iconPadding);
+        addImageToRow(rowEveningTime, R.drawable.time_icon, timeIconHeight, iconPadding);
 
+        // add text for table header
         for (String headerString : headerStrings) {
-            TextView textView = new TextView(getActivity()); // create TextView
-            textView.setText(headerString); // set text in TextView to the i'th string
+            // create text view and add text resource
+            TextView textView = new TextView(getActivity());
+            textView.setText(headerString);
             textView.setGravity(Gravity.CENTER);
-            textView.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1)); // make cells equal size
-            rowHeader.addView(textView); // add TextView to row
+            textView.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1));
+
+            // add text view to row
+            rowHeader.addView(textView);
         }
 
+        // add images to table body
         for (int i = 0; i < isTbDone.length; i++) {
-            int tbResId;
-            int timeResId;
+            int tbResId; // variable for tb icon resource id
+            int timeResId; // variable for time icon resource id
+            TableRow tbRow; // variable for morning or evening tb row
+            TableRow timeRow; // variable for morning or evening time row
 
-            // set correct image in regards to tooth brush completion
+            // set correct image in regards to tb completion
             if (isTbDone[i]) {
                 tbResId = R.drawable.ok_icon;
             } else {
                 tbResId = R.drawable.not_ok_icon;
             }
 
-            // set correct image in regards to time
+            // set correct image in regards to tb time
             if (isTimeOk[i]) {
                 timeResId = R.drawable.ok_icon;
             } else {
                 timeResId = R.drawable.not_ok_icon;
             }
-
-            TableRow tbRow;
-            TableRow timeRow;
 
             // decide if the images should be added to morning or evening row
             if (i % 2 == 0) {
@@ -169,19 +162,21 @@ public class DetailsFragment extends Fragment {
                 timeRow = rowEveningTime;
             }
 
-            // add images to rows via method
-            addImageToRow(tbRow, tbResId, 80, imgPadding);
-            addImageToRow(timeRow, timeResId, 80, imgPadding);
+            // add images to rows
+            addImageToRow(tbRow, tbResId, okIconHeight, imgPadding);
+            addImageToRow(timeRow, timeResId, okIconHeight, imgPadding);
         }
     }
 
     // adds images to table row
     private void addImageToRow(TableRow row, int resId, int imgHeight, int imgPadding) {
-        ImageView imageView = new ImageView(getActivity()); // create ImageView
-        imageView.setLayoutParams(new TableRow.LayoutParams(0, imgHeight, 1)); // make cells equal size
-        imageView.setPadding(imgPadding, imgPadding, imgPadding, imgPadding); // set padding around image
-        imageView.setImageResource(resId); // set resource id
+        // create image view and add image resource
+        ImageView imageView = new ImageView(getActivity());
+        imageView.setLayoutParams(new TableRow.LayoutParams(0, imgHeight, 1));
+        imageView.setPadding(imgPadding, imgPadding, imgPadding, imgPadding);
+        imageView.setImageResource(resId);
 
-        row.addView(imageView); // add ImageView to row
+        // add image view to row
+        row.addView(imageView);
     }
 }

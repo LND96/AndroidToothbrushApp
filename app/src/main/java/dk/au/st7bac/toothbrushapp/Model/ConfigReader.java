@@ -10,13 +10,13 @@ import java.io.InputStream;
 import java.util.Properties;
 import dk.au.st7bac.toothbrushapp.R;
 
-// https://stackoverflow.com/questions/5140539/android-configuration-file
+// inspiration for configuration reader: https://stackoverflow.com/questions/5140539/android-configuration-file
 public class ConfigReader {
+    // TODO: skal nogle ting sættes fra shared prefs?
 
     private static final String TAG = "FileReader";
 
     public Configs getConfigSettings(Context context) {
-
         Resources resources = context.getResources();
 
         try {

@@ -12,6 +12,7 @@ import java.util.List;
 
 @Dao
 public interface TbDao {
+    // TODO: skal vi fjerne databasemetoder vi ikke bruger
 
     // get all data
     @Query("SELECT * FROM tbdata")

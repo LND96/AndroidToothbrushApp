@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-// kilde: https://stackoverflow.com/questions/54927913/room-localdatetime-typeconverter
+// inspiration for converters: https://stackoverflow.com/questions/54927913/room-localdatetime-typeconverter
 public class Converters {
 
     @TypeConverter

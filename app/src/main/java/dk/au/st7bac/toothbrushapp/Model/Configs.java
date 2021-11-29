@@ -4,24 +4,24 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Configs {
+    // TODO: skal nogle ting sættes fra shared prefs? skal det så fjernes herfra?
     private final String apiSince; // get api data since this date
     private final String apiLimitFirstRun; // number of data packages that should be retrieved at an api call first time the code is run
     private String apiLimit; // number of data packages that should be retrieved at an api after the first time the code is run
-    private final double offset; // hardware offset
-    private final int minMeasurementDuration; // minimum time in secs that a measurement should last to be considered as a tooth brushing
-    private final int maxMeasurementDuration; // maximum time in secs that a measurement should last to be considered as a tooth brushing
-    private final LocalTime morningToEveningTime; // time of day where morning transitions to evening
-    private final LocalTime eveningToMorningTime; // time of day where evening transitions to morning
+    private final double offset; // hardware offset in secs for each tb measurement
+    private final int minMeasurementDuration; // minimum time in secs that a measurement should last to be considered as a tb
+    private final int maxMeasurementDuration; // maximum time in secs that a measurement should last to be considered as a tb
+    private final LocalTime morningToEveningTime; // time of day where morning transitions into evening
+    private final LocalTime eveningToMorningTime; // time of day where evening transitions into morning
     private final int timeBetweenMeasurements; // maximum time in minutes between two measurements for them to be counted as one
-    private LocalDate lastDayInInterval; // the last day of the time interval the calculations are made over
+    private LocalDate lastDayInInterval; // the last day of the interval that the calculations are made over
     private final String dataProcessor; // type of dataProcessor
-    private final int tbEachDay; // ideal number of tooth brushes each day
-    private final double numTbThres; // threshold value for minimum number of tooth brushes compared to ideal number of tooth brushes
+    private final int tbEachDay; // ideal number of tb's each day
+    private final double numTbThres; // threshold value for minimum number of tb's compared to ideal number of tb's
     private final int numIntervalDays; // number of days in interval
-    private final int minAccpTbTime; // minimum time in secs that a tooth brushing should last to be accepted
+    private final int minAccpTbTime; // minimum time in secs that a tb should last to be accepted
     private final int daysWithoutTb; // accepted number of days without tb before notification is activated
     private final String sensorId; // sensor id
-
 
     public Configs(String apiSince, String apiLimitFirstRun, String apiLimit, double offset,
                    int minMeasurementDuration, int maxMeasurementDuration,
@@ -49,11 +49,11 @@ public class Configs {
         this.daysWithoutTb = daysWithoutTb;
         this.sensorId = sensorId;
 
+        // switch case allows another end day of interval if wanted in the future
         switch (lastDayInInterval.toLowerCase()) {
             case ("now"):
                 this.lastDayInInterval = LocalDate.now();
         }
-
     }
 
     public String getApiSince() {

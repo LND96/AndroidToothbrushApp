@@ -10,6 +10,7 @@ import dk.au.st7bac.toothbrushapp.Model.TbStatus;
 
 public abstract class DataProcessor {
 
+    // GoF Factory Method
     protected DataProcessor(Configs settings)
     {
         createProcessElements(settings);

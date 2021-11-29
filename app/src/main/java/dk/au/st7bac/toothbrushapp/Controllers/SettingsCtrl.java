@@ -111,7 +111,6 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
         // depending on what changed, settings are updated
         if (key.equals(Constants.SETTING_SENSOR_ID_KEY)) {
             apiRepo.setApiSensorId(sharedPreferences.getString(key, ""));

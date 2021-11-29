@@ -23,26 +23,11 @@ public class StartActivity extends AppCompatActivity {
     private EditText sensorIdEditText;
 
 
-    private SettingsFragment settingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
-        if (savedInstanceState == null) {
-            settingsFragment = new SettingsFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.fragment, settingsFragment, "SETTINGS_FRAG").hide(settingsFragment)
-                    .commit();
-        } else {
-            settingsFragment = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("SETTINGS_FRAG");
-            if (settingsFragment == null) {
-                settingsFragment = new SettingsFragment();
-            }
-        }
-
 
         //Do this the first time the app is installed
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
@@ -63,7 +48,7 @@ public class StartActivity extends AppCompatActivity {
 
                 String sensorId = sensorIdEditText.getText().toString();
                 if (sensorId.isEmpty()) {
-                    Toast.makeText(StartActivity.this, "Er tom", Toast.LENGTH_SHORT).show(); //hardcoadet værdi!
+                    Toast.makeText(StartActivity.this, "Er tom", Toast.LENGTH_SHORT).show(); //TODO: hardcoadet værdi!
                 }
                 else {
 

@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SharedPreferences sharedPreferences;
     private Object View;
 
+    private SettingsFragment settingsFragment;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -80,6 +82,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
 
+        if (savedInstanceState == null) {
+            settingsFragment = new SettingsFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragment, settingsFragment, "SETTINGS_FRAG")
+                    .hide(settingsFragment)
+                    .commit();
+        } else {
+            settingsFragment = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("SETTINGS_FRAG");
+            if (settingsFragment == null) {
+                settingsFragment = new SettingsFragment();
+            }
+        }
 
     }
 
@@ -136,7 +151,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout);//setup drawer layout with navigation controller
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
     //https://www.youtube.com/watch?v=MTpVJwFROZE&list=RDCMUCoNZZLhPuuRteu02rh7bzsw&start_radio=1&rv=MTpVJwFROZE&t=596

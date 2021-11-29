@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -84,7 +85,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
 
+
     }
+
 
     @Override
     protected void onResume() {

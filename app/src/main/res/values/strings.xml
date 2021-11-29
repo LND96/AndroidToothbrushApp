@@ -67,7 +67,6 @@
     <string name="entry100per">100 %</string>
 
 
-
     <!--toggle the open close button of the navigation drawer-->
     --
     <string name="nav_open" translatable="false">Open navigation drawer</string>

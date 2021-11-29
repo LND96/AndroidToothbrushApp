@@ -2,12 +2,10 @@ package dk.au.st7bac.toothbrushapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -25,29 +23,19 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import android.widget.LinearLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.Set;
 import java.util.TimeZone;
 
-import dk.au.st7bac.toothbrushapp.Login.LoginActivity;
-import dk.au.st7bac.toothbrushapp.Fragments.DetailsFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.HelpFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.HomeFragment;
 import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
-import dk.au.st7bac.toothbrushapp.Fragments.SignInFragment;
 import dk.au.st7bac.toothbrushapp.Controllers.SettingsCtrl;
 import dk.au.st7bac.toothbrushapp.Controllers.UpdateDataCtrl;
 import dk.au.st7bac.toothbrushapp.Services.AlertReceiver;
@@ -87,11 +75,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //alarm manager for update tb data on specific time
         alarmManager();
 
-        //Do this the first time the app is installed
+        SettingsFragment settingsFragment = new SettingsFragment();
+
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .add(R.id.fragment, settingsFragment, null).hide(settingsFragment)
+                .commit();
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
-        if (sharedPreferences.getBoolean(Constants.FIRST_RUN, true)) {
-            DialogBoxSensorID();
-        }
 
     }
 
@@ -104,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onPause() {
+
         sharedPreferences.edit().putBoolean(Constants.FIRST_RUN, false).apply();
         super.onPause();
     }
@@ -122,38 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+10000,
                 86400000, pendingIntent); // 86400000
-    }
-
-    private void DialogBoxSensorID() {
-
-        //pupup window - https://www.youtube.com/watch?v=e3WfylNHHC4
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(ToothbrushApp.getAppContext().getString(R.string.DialogSensorID));
-
-        final EditText sensorID = new EditText(MainActivity.this);
-        sensorID.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(sensorID);
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                sensorIDText =sensorID.getText().toString();
-                if (sensorIDText.isEmpty()) {
-                    Toast.makeText(MainActivity.this, ToothbrushApp.getAppContext().getString(R.string.DialogSensorID), Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(MainActivity.this, ToothbrushApp.getAppContext().getString(R.string.DialogSensorID_2) + sensorIDText, Toast.LENGTH_SHORT).show();
-                    //SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                    //editor.putString(Constants.SETTING_SENSOR_ID_KEY, sensorIDText);
-
-                    //editor.apply();
-                }
-            }
-        });
-
-        builder.show();
     }
 
 
@@ -243,8 +203,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.fragment), drawerLayout);
     }
-
-
-
 
 }

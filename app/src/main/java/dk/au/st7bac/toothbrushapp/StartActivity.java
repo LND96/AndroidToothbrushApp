@@ -30,6 +30,7 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        /*
         if (savedInstanceState == null) {
             settingsFragment = new SettingsFragment();
             getSupportFragmentManager().beginTransaction()
@@ -42,6 +43,8 @@ public class StartActivity extends AppCompatActivity {
                 settingsFragment = new SettingsFragment();
             }
         }
+
+         */
 
 
         //Do this the first time the app is installed
@@ -76,4 +79,6 @@ public class StartActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

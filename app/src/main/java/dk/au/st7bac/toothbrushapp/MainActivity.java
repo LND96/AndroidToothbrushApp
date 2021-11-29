@@ -75,12 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //alarm manager for update tb data on specific time
         alarmManager();
 
-        SettingsFragment settingsFragment = new SettingsFragment();
 
-        getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .add(R.id.fragment, settingsFragment, null).hide(settingsFragment)
-                .commit();
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
 

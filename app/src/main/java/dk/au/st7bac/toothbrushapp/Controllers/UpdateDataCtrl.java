@@ -1,7 +1,6 @@
 package dk.au.st7bac.toothbrushapp.Controllers;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.LiveData;
@@ -25,35 +24,24 @@ import dk.au.st7bac.toothbrushapp.Repositories.DbRepo;
 import dk.au.st7bac.toothbrushapp.Services.NotificationHelper;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
-// settings https://www.youtube.com/watch?v=B155JJwHB3c
-public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChangeListener {
+// TODO: KILDE TIL DATABASE METODER
+public class UpdateDataCtrl {
 
     public static UpdateDataCtrl updateDataCtrl;
-
     private DataProcessor dataProcessor;
-
-    private MutableLiveData<TbStatus> tbStatusLiveData;
-
     private ApiRepo apiRepo;
     private final DbRepo dbRepo;
-
+    private final NotificationHelper notificationHelper;
+    private final ExecutorService executor;
+    private final SharedPreferences sharedPreferences;
+    private final MutableLiveData<TbStatus> tbStatusLiveData;
     private long lowerEpochIntervalLimit;
     private long higherEpochIntervalLimit;
-
-    private final ExecutorService executor; // for asynch processing
-
-    private NotificationHelper notificationHelper;
-
     private String methodSender;
-
-    private SharedPreferences sharedPreferences;
-
     private int numTbMissing;
 
-    private int tbEachDay;
 
-
-    // singleton pattern
+    // public singleton constructor
     public static UpdateDataCtrl getInstance() {
         if (updateDataCtrl == null) {
             updateDataCtrl = new UpdateDataCtrl();
@@ -65,13 +53,9 @@ public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChang
     private UpdateDataCtrl() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
-        executor = Executors.newSingleThreadExecutor();
+        executor = Executors.newSingleThreadExecutor(); // executor for asynchronous processing
         tbStatusLiveData = new MutableLiveData<>();
-
         notificationHelper = new NotificationHelper(ToothbrushApp.getAppContext());
-
-        // register on shared preference change listener
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this); // skal den unregisteres igen?
     }
 
     public void setDataProcessor(DataProcessor dataProcessor) {
@@ -91,71 +75,77 @@ public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChang
         this.higherEpochIntervalLimit = higherEpochIntervalLimit;
     }
 
-    // method for returning updated tb data
+    // return updated tb data
     public LiveData<TbStatus> getTbStatusLiveData() {
         return tbStatusLiveData;
     }
 
+    // initialize update of tb data
     public void initUpdateTbData(String methodSender) {
+        // string to keep track of who called this method
         this.methodSender = methodSender;
 
+        // get data from api
         getApiData();
     }
 
-    ////// Api repo //////
-    private void getApiData() {
-
-        apiRepo.getTbData();
-    }
-
-    //
+    // process and update tb data
     public void updateTbData(List<TbData> tbDataList) {
         // filter and clean data
-        tbDataList = dataProcessor.processData(tbDataList); // bemærk at elementer i tbDataList nu har modsat rækkefølge, så det ældste datapunkt ligger først i listen på indeksplads 0
+        tbDataList = dataProcessor.processData(tbDataList);
 
-        // add data to database
+        // add current data to database
         addDataToDb(tbDataList);
 
-        // get data from database
-        tbDataList = getDbTbDataInInterval();
+        // get data in given interval from database
+        tbDataList = getDbTbDataInInterval(lowerEpochIntervalLimit, higherEpochIntervalLimit);
 
+        // calculate tb status
         TbStatus tbStatus = dataProcessor.calculateTbStatus(tbDataList);
 
+        // update live data
         tbStatusLiveData.setValue(tbStatus);
 
-
-        boolean isNotificationEnabled = sharedPreferences.getBoolean(Constants.SETTING_ENABLE_NOTIFICATIONS_KEY, true);
-
-        if (methodSender.equals(Constants.FROM_ALERT_RECEIVER) && isNotificationEnabled){
-            checkForNotification(tbStatus);
-        }
+        // check if notification should be fired
+        checkForNotification(tbStatus);
     }
 
     private void checkForNotification(TbStatus tbStatus) {
 
-        //skal vi tjekke på både tiden og om der er børstet? - to notifikationer
+        boolean isNotificationEnabled = sharedPreferences
+                .getBoolean(Constants.SETTING_ENABLE_NOTIFICATIONS_KEY, true);
 
-        boolean notificationShouldFire = true;
-        boolean[] isTimeOk =  tbStatus.getIsTimeOk();
-        for (int i = 0; i < numTbMissing; i ++)
-        {
-            if (isTimeOk[i]) {
-                notificationShouldFire = false;
-                break;
+        // first check if notification is enabled and method sender is alert receiver
+        if (methodSender.equals(Constants.FROM_ALERT_RECEIVER) && isNotificationEnabled){
+            boolean fireNotification = true;
+            boolean[] isTimeOk =  tbStatus.getIsTimeOk();
+
+            // if a value in isTimeOk is true, then notification should not fire
+            for (int i = 0; i < numTbMissing; i ++)
+            {
+                if (isTimeOk[i]) {
+                    fireNotification = false;
+                    break;
+                }
             }
-        }
 
-        if (notificationShouldFire) {
-            NotificationCompat.Builder nb = notificationHelper.getChannelNotification(
-                    ToothbrushApp.getAppContext().getString(R.string.NotificationHeader),
-                    ToothbrushApp.getAppContext().getString(R.string.NotificationText)); // hardcoded med 3 dage...
-            notificationHelper.getManager().notify(1, nb.build());
+            // create notification with notification helper if notification should fire
+            if (fireNotification) {
+                NotificationCompat.Builder nb = notificationHelper.getChannelNotification(
+                        ToothbrushApp.getAppContext().getString(R.string.NotificationHeader),
+                        ToothbrushApp.getAppContext().getString(R.string.NotificationText)); // TODO: hardcoded med 3 dage...
+                notificationHelper.getManager().notify(1, nb.build());
+            }
         }
     }
 
+    ////// API REPO //////
+    private void getApiData() {
+        apiRepo.getTbData();
+    }
 
-    ////// Db repo //////
 
+    ////// DB REPO //////
     private void addDataToDb(List<TbData> tbDataList) {
         executor.execute(new Runnable() {
             @Override
@@ -165,7 +155,7 @@ public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChang
         });
     }
 
-    private List<TbData> getDbTbDataInInterval() {
+    private List<TbData> getDbTbDataInInterval(Long lowerEpochIntervalLimit, Long higherEpochIntervalLimit) {
         Future<List<TbData>> tbDataList = executor.submit(new Callable<List<TbData>>() {
 
             @Override
@@ -182,22 +172,4 @@ public class UpdateDataCtrl implements SharedPreferences.OnSharedPreferenceChang
 
         return null;
     }
-
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        /*
-        if (key.equals(Constants.SETTING_DAYS_WITHOUT_TB_KEY)) {
-            numTbMissing = Integer.parseInt(sharedPreferences.getString(key, "")) * tbEachDay;
-        } else if (key.equals(Constants.SETTING_TB_EACH_DAY_KEY)) {
-            tbEachDay = Integer.parseInt(sharedPreferences.getString(key, ""));
-        }
-
-        initUpdateTbData(Constants.FROM_UPDATE_DATA_CTRL);
-
-         */
-    }
-
-
-
 }

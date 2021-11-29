@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import dk.au.st7bac.toothbrushapp.Fragments.SettingsFragment;
 import dk.au.st7bac.toothbrushapp.Login.LoginActivity;
 import dk.au.st7bac.toothbrushapp.Login.RegisterActivity;
 
@@ -21,10 +22,26 @@ public class StartActivity extends AppCompatActivity {
     private Button startActivityButton;
     private EditText sensorIdEditText;
 
+
+    private SettingsFragment settingsFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        if (savedInstanceState == null) {
+            settingsFragment = new SettingsFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragment, settingsFragment, "SETTINGS_FRAG").hide(settingsFragment)
+                    .commit();
+        } else {
+            settingsFragment = (SettingsFragment) getSupportFragmentManager().findFragmentByTag("SETTINGS_FRAG");
+            if (settingsFragment == null) {
+                settingsFragment = new SettingsFragment();
+            }
+        }
 
 
         //Do this the first time the app is installed

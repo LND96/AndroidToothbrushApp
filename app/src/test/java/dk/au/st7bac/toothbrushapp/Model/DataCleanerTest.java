@@ -11,6 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// inspiration for testing private methods: https://stackoverflow.com/questions/34571/how-do-i-test-a-class-that-has-private-methods-fields-or-inner-classes
 class DataCleanerTest {
 
     DataCleaner uut;
@@ -21,7 +22,6 @@ class DataCleanerTest {
     }
 
     // Test setDateTime()
-    // kilde til at teste private metoder: https://stackoverflow.com/questions/34571/how-do-i-test-a-class-that-has-private-methods-fields-or-inner-classes
     @Test
     void setDateTime_EpochConverted_ReturnCorrectEpoch() throws NoSuchMethodException,
             InvocationTargetException, IllegalAccessException {

@@ -3,7 +3,7 @@ package dk.au.st7bac.toothbrushapp;
 import android.app.Application;
 import android.content.Context;
 
-// source of inspiration: class demo: "Demo: Multiple fragments in UI using ViewModels and a Repository class - bonus: background service, singleton pattern example and overriding Application object to get app Context"
+// inspiration: SWMAD-01 Mobile Application Development, lecture 7, spring 2021
 public class ToothbrushApp extends Application {
 
     private static ToothbrushApp instance;
@@ -17,6 +17,4 @@ public class ToothbrushApp extends Application {
     public static Context getAppContext() {
         return instance.getApplicationContext();
     }
-
-    public AppContainer appContainer = new AppContainer();
 }

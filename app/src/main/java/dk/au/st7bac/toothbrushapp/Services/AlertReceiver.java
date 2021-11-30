@@ -7,20 +7,12 @@ import android.content.Intent;
 import dk.au.st7bac.toothbrushapp.Constants;
 import dk.au.st7bac.toothbrushapp.Controllers.UpdateDataCtrl;
 
-
-//https://www.youtube.com/watch?v=yrpimdBRk5Q
+// inspiration for alarm manager and alert receiver: https://www.youtube.com/watch?v=yrpimdBRk5Q
 public class AlertReceiver extends BroadcastReceiver {
 
-    private UpdateDataCtrl updateDataCtrl;
     @Override
     public void onReceive(Context context, Intent intent) {
-
-
-        updateDataCtrl = UpdateDataCtrl.getInstance();
-
+        UpdateDataCtrl updateDataCtrl = UpdateDataCtrl.getInstance();
         updateDataCtrl.initUpdateTbData(Constants.FROM_ALERT_RECEIVER);
-
-
-
     }
 }

@@ -1,6 +1,7 @@
 apiSince=20210101
 apiLimitFirstRun=1000
 apiLimit=100
+baseUrl=https://dmjljzkaec.execute-api.eu-west-1.amazonaws.com/default/tbapi/v1/system/tm/
 offset=6.0
 minMeasurementDuration=10
 maxMeasurementDuration=600

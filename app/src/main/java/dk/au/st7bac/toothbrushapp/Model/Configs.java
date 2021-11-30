@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Configs {
-    // TODO: skal nogle ting sættes fra shared prefs? skal det så fjernes herfra?
     private final String apiSince; // get api data since this date
     private final String apiLimitFirstRun; // number of data packages that should be retrieved at an api call first time the code is run
     private String apiLimit; // number of data packages that should be retrieved at an api after the first time the code is run
+    private String baseUrl; // base of URL for collection data from API
     private final double offset; // hardware offset in secs for each tb measurement
     private final int minMeasurementDuration; // minimum time in secs that a measurement should last to be considered as a tb
     private final int maxMeasurementDuration; // maximum time in secs that a measurement should last to be considered as a tb
@@ -21,17 +21,17 @@ public class Configs {
     private final int numIntervalDays; // number of days in interval
     private final int minAccpTbTime; // minimum time in secs that a tb should last to be accepted
     private final int daysWithoutTb; // accepted number of days without tb before notification is activated
-    private final String sensorId; // sensor id
 
-    public Configs(String apiSince, String apiLimitFirstRun, String apiLimit, double offset,
-                   int minMeasurementDuration, int maxMeasurementDuration,
+    public Configs(String apiSince, String apiLimitFirstRun, String apiLimit, String baseUrl,
+                   double offset, int minMeasurementDuration, int maxMeasurementDuration,
                    String morningToEveningTime, String eveningToMorningTime,
                    int timeBetweenMeasurements, String lastDayInInterval, String dataProcessor,
                    int tbEachDay, double numTbThres, int numIntervalDays, int minAccpTbTime,
-                   int daysWithoutTb, String sensorId) {
+                   int daysWithoutTb) {
         this.apiSince = apiSince;
         this.apiLimitFirstRun = apiLimitFirstRun;
         this.apiLimit = apiLimit;
+        this.baseUrl = baseUrl;
         if (this.apiLimit.equals("0")) {
             this.apiLimit = "1";
         }
@@ -47,7 +47,6 @@ public class Configs {
         this.numIntervalDays = numIntervalDays;
         this.minAccpTbTime = minAccpTbTime;
         this.daysWithoutTb = daysWithoutTb;
-        this.sensorId = sensorId;
 
         // switch case allows another end day of interval if wanted in the future
         switch (lastDayInInterval.toLowerCase()) {
@@ -62,6 +61,10 @@ public class Configs {
 
     public String getApiLimit() {
         return apiLimit;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
     }
 
     public double getOffset() {
@@ -118,9 +121,5 @@ public class Configs {
 
     public int getDaysWithoutTb() {
         return daysWithoutTb;
-    }
-
-    public String getSensorId() {
-        return sensorId;
     }
 }

@@ -22,7 +22,12 @@
     <string name="morningEveningHeader">Antal tandbørstninger fordelt på morgen og aften</string>
     <string name="tableHeader">Overblik over tandbørstninger</string>
     <string name="NotificationHeader">Manglende tandbørstning</string>
-    <string name="NotificationText">Tandbørstning er udeblevet i 3 dage i træk</string>
+    <string name="NotificationText">Tandbørstning er udeblevet flere dage i træk</string>
+    <string name="UserSensorID">Indtast sensor-id</string>
+    <string name="Next">Næste</string>
+    <string name="sensorIdEmpty">Angiv venligst et sensor-id</string>
+
+    <!-- strings for settings (text and keys) -->
     <string name="settingNotificationHeader">Notifikation</string>
     <string name="settingEnableNotifications">Tillad underretninger</string>
     <string name="settingMinAccpTime">Minimum acceptabel varighed for en tandbørstning</string>
@@ -34,7 +39,8 @@
     <string name="settingMinAccpPercent">Minimum acceptabel procentdel af tandbørstninger gennemført</string>
     <string name="settingTbEachDay">Ønsket antal tandbørstninger hver dag</string>
     <string name="settingNumIntervalDays">Hvor mange dage ønsker du at kigge tilbage på?</string>
-    <string name="UserSensorID">Indtast sensor-id</string>
+
+    <!-- entries for string arrays -->
     <string name="entry30sec">30 sek</string>
     <string name="entry1min">1 min</string>
     <string name="entry1min30sec">1 min 30 sek</string>
@@ -57,7 +63,4 @@
     <string name="entry80per">80 %</string>
     <string name="entry90per">90 %</string>
     <string name="entry100per">100 %</string>
-    <string name="Next">Næste</string>
-
-
 </resources>

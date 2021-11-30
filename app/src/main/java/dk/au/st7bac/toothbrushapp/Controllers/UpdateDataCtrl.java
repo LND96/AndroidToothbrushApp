@@ -24,7 +24,7 @@ import dk.au.st7bac.toothbrushapp.Repositories.DbRepo;
 import dk.au.st7bac.toothbrushapp.Services.NotificationHelper;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
-// TODO: KILDE TIL DATABASE METODER
+// inspiration for database methods: SWMAD-01 Mobile Application Development, lecture 4, spring 2021
 public class UpdateDataCtrl {
 
     public static UpdateDataCtrl updateDataCtrl;
@@ -53,7 +53,7 @@ public class UpdateDataCtrl {
     private UpdateDataCtrl() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
         dbRepo = DbRepo.getDbRepo(ToothbrushApp.getAppContext());
-        executor = Executors.newSingleThreadExecutor(); // executor for asynchronous processing
+        executor = Executors.newSingleThreadExecutor(); // executor for asynchronous processing in order not to block the ui thread
         tbStatusLiveData = new MutableLiveData<>();
         notificationHelper = new NotificationHelper(ToothbrushApp.getAppContext());
     }
@@ -133,19 +133,18 @@ public class UpdateDataCtrl {
             if (fireNotification) {
                 NotificationCompat.Builder nb = notificationHelper.getChannelNotification(
                         ToothbrushApp.getAppContext().getString(R.string.NotificationHeader),
-                        ToothbrushApp.getAppContext().getString(R.string.NotificationText)); // TODO: hardcoded med 3 dage...
+                        ToothbrushApp.getAppContext().getString(R.string.NotificationText));
                 notificationHelper.getManager().notify(1, nb.build());
             }
         }
     }
 
-    ////// API REPO //////
+    // initialize data collection from api
     private void getApiData() {
         apiRepo.getTbData();
     }
 
-
-    ////// DB REPO //////
+    // methods for accessing database through dbRepo
     private void addDataToDb(List<TbData> tbDataList) {
         executor.execute(new Runnable() {
             @Override

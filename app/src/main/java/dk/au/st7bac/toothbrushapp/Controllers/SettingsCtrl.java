@@ -43,6 +43,7 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
         configs = reader.getConfigSettings(ToothbrushApp.getAppContext());
 
         // local variables
+        String baseUrl = configs.getBaseUrl();
         String apiSince = configs.getApiSince();
         String apiLimit;
         String sensorId;
@@ -74,7 +75,7 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
 
         // create objects
         updateDataCtrl = UpdateDataCtrl.getInstance();
-        apiRepo = new ApiRepo(updateDataCtrl, sensorId, apiSince, apiLimit);
+        apiRepo = new ApiRepo(updateDataCtrl, sensorId, apiSince, apiLimit, baseUrl);
         updateDataCtrl.setDataProcessor(dataProcessor);
         updateDataCtrl.setApiRepo(apiRepo);
         updateDataCtrl.setNumTbMissing(daysWithoutTb * tbEachDay);
@@ -85,7 +86,8 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
-    private void findEpochInterval() { // TODO: skal denne metode evt. lægges ud i en klasse?
+    // finds epoch values for interval
+    private void findEpochInterval() {
         // find system zone id
         ZoneId zoneId = ZoneId.systemDefault();
 
@@ -93,8 +95,6 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
         ZoneId utcZoneId = ZoneId.of("Greenwich");
 
         // get number of days in interval
-        // SKAL DET HER VÆRE CONFIGS ELLER SHARED PREFS!!
-        // int numIntervalDays = Integer.parseInt(sharedPreferences.getString(Constants.SETTING_NUM_INTERVAL_DAYS_KEY, "7"));
         int numIntervalDays = configs.getNumIntervalDays();
 
         // find first day in interval at midnight
@@ -106,7 +106,6 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
         // save results
         lowerEpochIntervalLimit = firstDateTimeInterval.toEpochSecond();
         higherEpochIntervalLimit = lastDateTimeInterval.atZone(zoneId).toEpochSecond();
-
     }
 
     @Override

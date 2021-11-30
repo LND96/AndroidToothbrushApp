@@ -11,32 +11,26 @@ import dk.au.st7bac.toothbrushapp.Model.Converters;
 import dk.au.st7bac.toothbrushapp.Model.TbDao;
 import dk.au.st7bac.toothbrushapp.Model.TbData;
 
-// Kilde: MAD lektion 4 demovideo
+// inspiration for database: SWMAD-01 Mobile Application Development, lecture 4, spring 2021
+// inspiration for singleton initialization: https://en.wikipedia.org/wiki/Singleton_pattern and https://en.wikipedia.org/wiki/Double-checked_locking
 @Database(entities = {TbData.class}, version = 8)
 @TypeConverters({Converters.class})
 public abstract class DbRepo extends RoomDatabase {
-    // Skal vi gøre noget med extending SQLiteOpenHelper som bliver beskrevet i video L4_2 omkring 2 min inde? Eller er det noget man gør hvis man ikke bruger room?
-    // Overvej at rykke noget til en service så databasen kan opdateres selvom brugeren har quittet appen
-    // Måske skal hele databehandling ske i en service så det kan køre når appen er lukket
-    // Bruger singleton fordi databasen er et dyrt objekt at oprette, så vi vil være sikre på at vi kun har det ene
-    // Vores DAO er et interface. Vi skriver ikke selv implementeringen af interfacet, for det klarer ROOM for os
-    // I video L4_3 omkring 7 min inde fortælles om DB, Livedata og viewmodel
-    // brug asynkrone metoder når databasen tilgås så vi ikke blokerer ui-tråden
 
-    public abstract TbDao tbDao(); // mandatory dao getter
-    private static DbRepo instance; // singleton instance
+    public abstract TbDao tbDao();
+    private static DbRepo instance;
 
-    // singleton pattern
+    // thread-safe implementation of singleton pattern with lazy initialization
     public static DbRepo getDbRepo (final Context context) {
+        // check if DpRepo is initialized (without obtaining the lock)
         if (instance == null) {
-            synchronized (DbRepo.class) { // synchronized action??
+            // synchronize access to database and obtain the lock
+            synchronized (DbRepo.class) {
+                // check again if DpRepo has already been initialized if another thread acquired the lock first
                 if (instance == null) {
-                    // using the database builder with context, DbRepo and filename of database
-                    // provided to build database
+                    // initialize DpRepo
                     instance = Room.databaseBuilder(context.getApplicationContext(),
-                            DbRepo.class, "tb_database")
-                            .fallbackToDestructiveMigration() // DETTE SKAL FJERNES I SIDSTE ENDE! fallbackToDestructiveMigration means if the version numbers is increased and the app is redeployed, all tables are cleared and the database is build from scratch.
-                            .build();
+                            DbRepo.class, "tb_database").build();
                 }
             }
         }

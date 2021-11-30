@@ -10,26 +10,24 @@ import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
 
+import dk.au.st7bac.toothbrushapp.Constants;
 import dk.au.st7bac.toothbrushapp.MainActivity;
 import dk.au.st7bac.toothbrushapp.R;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
-
-//https://www.youtube.com/watch?v=ub4_f6ksxL0
+// inspiration for NotificationHelper: https://www.youtube.com/watch?v=ub4_f6ksxL0 and https://www.youtube.com/watch?v=j6kQ9gikU-A&ab_channel=Academind
 public class NotificationHelper extends ContextWrapper {
-    public static final String channelID = "channelID";
-    public static final String channelName = "Alarm"; //ændre navnet + tilføj til string
 
     private NotificationManager manager;
 
     public NotificationHelper(Context base) {
         super(base);
-
         createChannel();
     }
 
     private void createChannel() {
-        NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel channel = new NotificationChannel(Constants.CHANNEL_ID,
+                Constants.CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
 
         channel.enableLights(true);
         channel.enableVibration(true);
@@ -46,16 +44,18 @@ public class NotificationHelper extends ContextWrapper {
         return manager;
     }
 
+    // fires notification
     public NotificationCompat.Builder getChannelNotification(String title, String Message) {
-        //Need a pending intent for the activity - go to activity when click on notification - https://www.youtube.com/watch?v=j6kQ9gikU-A&ab_channel=Academind
+        // open activity when notification is clicked
         Intent resultIntent = new Intent(ToothbrushApp.getAppContext(), MainActivity.class);
-        PendingIntent resultPentingIntent = PendingIntent.getActivity(ToothbrushApp.getAppContext(), 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT); //Flag: if the intent is already existing, it will update it with new information.
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(ToothbrushApp.getAppContext(),
+                1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        return new NotificationCompat.Builder(getApplicationContext(), channelID)
+        return new NotificationCompat.Builder(getApplicationContext(), Constants.CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(Message)
                 .setSmallIcon(R.drawable.toothbrush_icon)
-                .setAutoCancel(true) //when clik on notification and open the activity, the notification is disapear
-                .setContentIntent(resultPentingIntent);
+                .setAutoCancel(true) // when notification is clicked and activity opens, the notification should disappear
+                .setContentIntent(resultPendingIntent);
     }
 }

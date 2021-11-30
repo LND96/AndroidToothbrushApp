@@ -8,31 +8,24 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import java.util.Date;
+import org.jetbrains.annotations.NotNull;
 
 @Entity
 public class TbData {
 
-    // Der er lavet public gettere og settere for alle parametre, men overvej om set skal være private!
-
-    //private int id; // er der andet der kan bruges som id?
-
-    private String sysId;
-    private int tbVal;
-    private double tbSecs;
-
-    @TypeConverters(Converters.class)
-    private LocalDateTime dateTime;
-
     @PrimaryKey
     @NonNull
-    private String rawTelemetry;
-
-
-    private int tbHb;
+    private final String rawTelemetry;
+    private final String sysId;
+    private final int tbVal;
+    private double tbSecs;
+    @TypeConverters(Converters.class)
+    private LocalDateTime dateTime;
+    private final int tbHb;
     private int epoch;
 
-    public TbData(String sysId, int tbVal, double tbSecs, String rawTelemetry, int tbHb, LocalDateTime dateTime, int epoch) {
+    public TbData(String sysId, int tbVal, double tbSecs, @NotNull String rawTelemetry, int tbHb,
+                  LocalDateTime dateTime, int epoch) {
         this.sysId = sysId;
         this.tbVal = tbVal;
         this.tbSecs = tbSecs;
@@ -55,13 +48,11 @@ public class TbData {
     }
 
     public void setTbSecs(double tbSecs) {
-        if (tbSecs >= 0.0) {
-            this.tbSecs = tbSecs;
-        } else {
-            this.tbSecs = 0.0;
-        }
+        // Math.max returns the greater of the two values: https://www.tutorialspoint.com/java/lang/math_max_int.htm
+        this.tbSecs = Math.max(tbSecs, 0.0);
     }
 
+    @NotNull
     public String getRawTelemetry() {
         return rawTelemetry;
     }
@@ -85,5 +76,4 @@ public class TbData {
     public void setEpoch(int epoch) {
         this.epoch = epoch;
     }
-
 }

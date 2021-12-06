@@ -10,6 +10,8 @@ import java.time.ZonedDateTime;
 import dk.au.st7bac.toothbrushapp.Constants;
 import dk.au.st7bac.toothbrushapp.DataProcessorFactory.DataProcessor;
 import dk.au.st7bac.toothbrushapp.DataProcessorFactory.Processor1;
+import dk.au.st7bac.toothbrushapp.Interfaces.IApiRepo;
+import dk.au.st7bac.toothbrushapp.Interfaces.IConfigReader;
 import dk.au.st7bac.toothbrushapp.Model.Configs;
 import dk.au.st7bac.toothbrushapp.Model.ConfigReader;
 import dk.au.st7bac.toothbrushapp.Repositories.ApiRepo;
@@ -22,7 +24,7 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
     private final Configs configs;
     private DataProcessor dataProcessor;
     private final UpdateDataCtrl updateDataCtrl;
-    private final ApiRepo apiRepo;
+    private final IApiRepo apiRepo;
     private long lowerEpochIntervalLimit;
     private long higherEpochIntervalLimit;
 
@@ -39,7 +41,7 @@ public class SettingsCtrl implements SharedPreferences.OnSharedPreferenceChangeL
         // get shared preferences and configurations
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(ToothbrushApp.getAppContext());
-        ConfigReader reader = new ConfigReader();
+        IConfigReader reader = new ConfigReader();
         configs = reader.getConfigSettings(ToothbrushApp.getAppContext());
 
         // local variables

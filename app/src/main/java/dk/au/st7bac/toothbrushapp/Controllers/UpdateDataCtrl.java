@@ -16,6 +16,8 @@ import java.util.concurrent.Future;
 
 import dk.au.st7bac.toothbrushapp.Constants;
 import dk.au.st7bac.toothbrushapp.DataProcessorFactory.DataProcessor;
+import dk.au.st7bac.toothbrushapp.Interfaces.IApiRepo;
+import dk.au.st7bac.toothbrushapp.Interfaces.INotificationHelper;
 import dk.au.st7bac.toothbrushapp.Model.TbData;
 import dk.au.st7bac.toothbrushapp.Model.TbStatus;
 import dk.au.st7bac.toothbrushapp.R;
@@ -29,9 +31,9 @@ public class UpdateDataCtrl {
 
     public static UpdateDataCtrl updateDataCtrl;
     private DataProcessor dataProcessor;
-    private ApiRepo apiRepo;
+    private IApiRepo apiRepo;
     private final DbRepo dbRepo;
-    private final NotificationHelper notificationHelper;
+    private final INotificationHelper notificationHelper;
     private final ExecutorService executor;
     private final SharedPreferences sharedPreferences;
     private final MutableLiveData<TbStatus> tbStatusLiveData;
@@ -62,7 +64,7 @@ public class UpdateDataCtrl {
         this.dataProcessor = dataProcessor;
     }
 
-    public void setApiRepo(ApiRepo apiRepo) {
+    public void setApiRepo(IApiRepo apiRepo) {
         this.apiRepo = apiRepo;
     }
 

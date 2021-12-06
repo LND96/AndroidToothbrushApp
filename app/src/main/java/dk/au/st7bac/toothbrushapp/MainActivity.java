@@ -181,8 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onPause() {
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ToothbrushApp.getAppContext());
         sharedPreferences.edit().putBoolean(Constants.FIRST_RUN, false).apply();
         super.onPause();
     }

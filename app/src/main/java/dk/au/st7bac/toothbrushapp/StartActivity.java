@@ -40,8 +40,7 @@ public class StartActivity extends AppCompatActivity {
                     if (sensorId.isEmpty()) {
                         Toast.makeText(StartActivity.this, R.string.sensorIdEmpty,
                                 Toast.LENGTH_LONG).show();
-                    }
-                    else {
+                    } else {
                         sharedPreferences.edit().putString(Constants.SETTING_SENSOR_ID_KEY,
                                 sensorId).apply();
                         startMainActivity();

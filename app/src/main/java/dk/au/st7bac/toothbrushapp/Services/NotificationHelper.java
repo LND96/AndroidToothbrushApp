@@ -11,12 +11,13 @@ import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 
 import dk.au.st7bac.toothbrushapp.Constants;
+import dk.au.st7bac.toothbrushapp.Interfaces.INotificationHelper;
 import dk.au.st7bac.toothbrushapp.MainActivity;
 import dk.au.st7bac.toothbrushapp.R;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
 // inspiration for NotificationHelper: https://www.youtube.com/watch?v=ub4_f6ksxL0 and https://www.youtube.com/watch?v=j6kQ9gikU-A&ab_channel=Academind
-public class NotificationHelper extends ContextWrapper {
+public class NotificationHelper extends ContextWrapper implements INotificationHelper {
 
     private NotificationManager manager;
 

@@ -7,7 +7,7 @@ public class Configs {
     private final String apiSince; // get api data since this date
     private final String apiLimitFirstRun; // number of data packages that should be retrieved at an api call first time the code is run
     private String apiLimit; // number of data packages that should be retrieved at an api after the first time the code is run
-    private String baseUrl; // base of URL for collection data from API
+    private final String baseUrl; // base of URL for collection data from API
     private final double offset; // hardware offset in secs for each tb measurement
     private final int minMeasurementDuration; // minimum time in secs that a measurement should last to be considered as a tb
     private final int maxMeasurementDuration; // maximum time in secs that a measurement should last to be considered as a tb

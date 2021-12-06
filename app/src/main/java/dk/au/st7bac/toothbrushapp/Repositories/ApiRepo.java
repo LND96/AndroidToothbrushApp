@@ -17,11 +17,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import dk.au.st7bac.toothbrushapp.Controllers.UpdateDataCtrl;
+import dk.au.st7bac.toothbrushapp.Interfaces.IApiRepo;
 import dk.au.st7bac.toothbrushapp.Model.TbData;
 import dk.au.st7bac.toothbrushapp.ToothbrushApp;
 
 // inspiration for ApiRepo: SWMAD-01 Mobile Application Development, lecture 6, spring 2021
-public class ApiRepo {
+public class ApiRepo implements IApiRepo {
 
     private static final String TAG = "WebApiService";
     private RequestQueue queue;

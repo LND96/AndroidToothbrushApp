@@ -8,10 +8,12 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import dk.au.st7bac.toothbrushapp.Interfaces.IConfigReader;
 import dk.au.st7bac.toothbrushapp.R;
 
 // inspiration for configuration reader: https://stackoverflow.com/questions/5140539/android-configuration-file
-public class ConfigReader {
+public class ConfigReader implements IConfigReader {
     private static final String TAG = "FileReader";
 
     public Configs getConfigSettings(Context context) {

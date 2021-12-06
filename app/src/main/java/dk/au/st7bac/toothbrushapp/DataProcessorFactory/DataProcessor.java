@@ -11,12 +11,12 @@ import dk.au.st7bac.toothbrushapp.Model.TbStatus;
 public abstract class DataProcessor {
 
     // GoF Factory Method
-    protected DataProcessor(Configs settings)
+    protected DataProcessor(Configs configs)
     {
-        createProcessElements(settings);
+        createProcessElements(configs);
     }
 
-    protected abstract void createProcessElements(Configs settings);
+    protected abstract void createProcessElements(Configs configs);
 
     public abstract List<TbData> processData(List<TbData> tbDataList);
 
